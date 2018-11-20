@@ -1,0 +1,385 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "cNA86rgkT+q+doVi5tX3OsXHsOs=",
+			"path": "gitee.com/johng/gf/g",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "YcSaTYWwjIciMf2vrIMKFAEdNzU=",
+			"path": "gitee.com/johng/gf/g/container/garray",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "ysV33rayarTCpC7etTJFDSItMvY=",
+			"path": "gitee.com/johng/gf/g/container/glist",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "1OL/QYllWnK8iHlZiDvbZ/6hIUw=",
+			"path": "gitee.com/johng/gf/g/container/gmap",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "iBa0szl30HY0pS7EexQy4ZPtuoA=",
+			"path": "gitee.com/johng/gf/g/container/gpool",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "aG6Fkp9kPPmpeV9bHSnlZrkrqrc=",
+			"path": "gitee.com/johng/gf/g/container/gqueue",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "7stTuxXV8tTk/hTCLLUpKsVzylU=",
+			"path": "gitee.com/johng/gf/g/container/gring",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "YU8+CooUTJK4U+2b+u8ipyMcsDk=",
+			"path": "gitee.com/johng/gf/g/container/gset",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "nm8ZnhkUgAuxVNRKv0pTEZr38XQ=",
+			"path": "gitee.com/johng/gf/g/container/gtype",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "SJqK95ow5MKqgyuE9/HIgO257ac=",
+			"path": "gitee.com/johng/gf/g/container/gvar",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "u1DrSL6hSQkTLUqBsQHeRN5Bu38=",
+			"path": "gitee.com/johng/gf/g/container/internal/rwmutex",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "4FDTOrIKDaeaZfN2JK5GdvLhjm0=",
+			"path": "gitee.com/johng/gf/g/database/gdb",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "m9CF5H6X17vLCRBnLsZ0csuC1DI=",
+			"path": "gitee.com/johng/gf/g/database/gredis",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "ZIo0U6DBcD4iAsbM4h+lJSWjZWo=",
+			"path": "gitee.com/johng/gf/g/encoding/gbase64",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "MFyCotcD48nm1SF05TcxsGj1uZ4=",
+			"path": "gitee.com/johng/gf/g/encoding/gbinary",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "UB1u/DH6VtAbaEZ7sE/K2I7QPKc=",
+			"path": "gitee.com/johng/gf/g/encoding/ghash",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "uaYxME2GXx594qUrbDRQ7Qxbk6I=",
+			"path": "gitee.com/johng/gf/g/encoding/ghtml",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "Ig79gcq50tuZ42fwZx4x6tm9wMo=",
+			"path": "gitee.com/johng/gf/g/encoding/gjson",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "Czes6kFxAKMwujLvR6/RuYFyxsg=",
+			"path": "gitee.com/johng/gf/g/encoding/gjson/internal/rwmutex",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "FCyAlQn97n0GkABU/gh2WEon0LM=",
+			"path": "gitee.com/johng/gf/g/encoding/gparser",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "sdgu3BmTpS9Eb3Zh6LLp/3jGkDM=",
+			"path": "gitee.com/johng/gf/g/encoding/gtoml",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "z3G06MhLHVusYlqwe27xnED2RjI=",
+			"path": "gitee.com/johng/gf/g/encoding/gurl",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "mun/UGMOmloS2WQBhPDbL+DbHf4=",
+			"path": "gitee.com/johng/gf/g/encoding/gxml",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "pz7+wmBmkAaPxAFhuBEOtvDcVX8=",
+			"path": "gitee.com/johng/gf/g/encoding/gyaml",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "90+UHIvG7u+Hlq9hL5uw+hoC06Q=",
+			"path": "gitee.com/johng/gf/g/frame/gins",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "i4ggVVg+zi2h5hAV1vRti00g+pM=",
+			"path": "gitee.com/johng/gf/g/frame/gmvc",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "gz3+ftMXFtdxV+9UkPBYdvzKI3k=",
+			"path": "gitee.com/johng/gf/g/net/ghttp",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "3Lw9rsv9aXWWPG+w43WcznUk2Jc=",
+			"path": "gitee.com/johng/gf/g/net/gtcp",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "StlAld3zbmwnQHtyRRBDe0ryNIc=",
+			"path": "gitee.com/johng/gf/g/net/gudp",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "YvDJ3tXFHK0tTbkg6OZCIata+vA=",
+			"path": "gitee.com/johng/gf/g/os/gcache",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "yj1x0AFQsu6C+F8FBPZ82TTbpe8=",
+			"path": "gitee.com/johng/gf/g/os/gcfg",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "xegDMVDQFDXK2MWv1i7Yciw/o1g=",
+			"path": "gitee.com/johng/gf/g/os/gcmd",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "qHbVle6lnr7A2nDMAJHo+MkleoU=",
+			"path": "gitee.com/johng/gf/g/os/genv",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "ngYewgUcMLqubWIqwfbOS2mxcZw=",
+			"path": "gitee.com/johng/gf/g/os/gfcache",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "MQd2OPmPpFbZEYQmE9HAC1Tsv8U=",
+			"path": "gitee.com/johng/gf/g/os/gfile",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "11cjQy8mKxhv5ztf7VrHN2YqsSI=",
+			"path": "gitee.com/johng/gf/g/os/gfpool",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "M6AFl+fVJ3CBSDJDrfy+FiiMOS4=",
+			"path": "gitee.com/johng/gf/g/os/gfsnotify",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "A+dbnBsIQlfFTQJH0wzmIN1p+5w=",
+			"path": "gitee.com/johng/gf/g/os/glog",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "znaxRlDmYrJLvqWAMMDV+w8a1Pk=",
+			"path": "gitee.com/johng/gf/g/os/gmlock",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "MnTtwid6h+iPkxm09m76ZVj9dNw=",
+			"path": "gitee.com/johng/gf/g/os/gproc",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "2y9hJ1tOlBVHam0etRkar8CTnHs=",
+			"path": "gitee.com/johng/gf/g/os/gspath",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "BFutSKgykYN2taS4b1sJ84gHOsk=",
+			"path": "gitee.com/johng/gf/g/os/gtime",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "HreQ0Nm2rljhV3VoAuDh/IYDsOw=",
+			"path": "gitee.com/johng/gf/g/os/gview",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "V7QCDRrS8FWzTNwfD8/e0uH5+n4=",
+			"path": "gitee.com/johng/gf/g/util/gconv",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "zyRg27kYjqQfPmKC7GdldGFnGP8=",
+			"path": "gitee.com/johng/gf/g/util/grand",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "2+FwlMvVYkgyvrYYAaw8P/NsyIs=",
+			"path": "gitee.com/johng/gf/g/util/gregex",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "86dhIj9KELJ4150ZF3+vzXO5Hd8=",
+			"path": "gitee.com/johng/gf/g/util/gstr",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "sLGnzZVLUg5ayG1WILolyKK1+S0=",
+			"path": "gitee.com/johng/gf/g/util/gutil",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "6o/vS5WoiCe63OPTacgZT/yTqw8=",
+			"path": "gitee.com/johng/gf/third/github.com/BurntSushi/toml",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "Cz8fV0Jo22yPc977yW0BqcP2qt4=",
+			"path": "gitee.com/johng/gf/third/github.com/axgle/mahonia",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "2LPWAcTcqh0apchHlM1T/Bv/CaE=",
+			"path": "gitee.com/johng/gf/third/github.com/clbanning/mxj",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "lvK6/JcDXc4cg8/0a4tRb61lITI=",
+			"path": "gitee.com/johng/gf/third/github.com/fatih/structs",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "DXJwBDxRCDgH2hbEOPe9EUk2GoA=",
+			"path": "gitee.com/johng/gf/third/github.com/fsnotify/fsnotify",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "9+eaHv7wbWyH+IiwIhVowC7miiI=",
+			"path": "gitee.com/johng/gf/third/github.com/ghodss/yaml",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "8H2TntPQl7yghs598MNOoQgmGsk=",
+			"path": "gitee.com/johng/gf/third/github.com/go-sql-driver/mysql",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "aXAj0aYq7R9HleVahjwpDt/godw=",
+			"path": "gitee.com/johng/gf/third/github.com/gomodule/redigo/internal",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "2F4OUvlcxyPikgjXWXGxrYcdZl0=",
+			"path": "gitee.com/johng/gf/third/github.com/gomodule/redigo/redis",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "rGr+vowdRxCj/fSs/aeX44l65gY=",
+			"path": "gitee.com/johng/gf/third/github.com/gorilla/websocket",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "aA4Qtl/nAQ+1+b6B75ZqesBFI9E=",
+			"path": "gitee.com/johng/gf/third/github.com/grokify/html-strip-tags-go",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "yt4LtS6bcIM/Lwt8KA3dZUHdhik=",
+			"path": "gitee.com/johng/gf/third/github.com/mattn/go-runewidth",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "Kv4mFIRbYx87lz/TitdbP8IXOsU=",
+			"path": "gitee.com/johng/gf/third/github.com/olekukonko/tablewriter",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "gFeFVzxAPji2z8BJWKExhZarK9E=",
+			"path": "gitee.com/johng/gf/third/golang.org/x/sys/unix",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
+			"checksumSHA1": "W3TpSo2qEyvq5pPA55EjDnALMi0=",
+			"path": "gitee.com/johng/gf/third/gopkg.in/yaml.v2",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		}
+	],
+	"rootPath": "auditIntegralSys"
+}
