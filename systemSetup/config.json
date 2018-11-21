@@ -6,7 +6,7 @@
         "port": "3310",
         "user": "root",
         "pass": "root",
-        "name": "auditintegral",
+        "name": "audit_integral",
         "type": "mysql",
         "role": "master"
       },
@@ -15,7 +15,7 @@
         "port": "3311",
         "user": "root",
         "pass": "root",
-        "name": "auditintegral",
+        "name": "audit_integral",
         "type": "mysql",
         "role": "slave"
       }

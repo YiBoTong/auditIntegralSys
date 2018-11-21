@@ -61,7 +61,6 @@ func (c *Dictionaries) List() {
 			})
 		}
 	}
-
 	if err != nil {
 		log.Instance().Error(err)
 	}
@@ -121,22 +120,95 @@ func (c *Dictionaries) Add() {
 }
 
 func (c *Dictionaries) Get() {
+	typeId := c.Request.GetQueryInt("id")
+	dictionaries := []entity.Dictionary{}
+	dictionaryType, err := db.GetDictionaryType(typeId)
+	if err == nil {
+		var listData []map[string]interface{}
+		listData, err = db.GetDictionaries(typeId)
+		for _, v := range listData {
+			dictionaries = append(dictionaries, entity.Dictionary{
+				Id:       gconv.Int(v["id"]),
+				TypeId:   gconv.Int(v["type_id"]),
+				Key:      gconv.String(v["key"]),
+				Value:    gconv.String(v["value"]),
+				Order:    gconv.Int(v["order"]),
+				Describe: gconv.String(v["describe"]),
+			})
+		}
+	}
+	if err != nil {
+		log.Instance().Error(err)
+	}
+	success := err == nil && dictionaryType.Id > 0
 	c.Response.WriteJson(app.Response{
-		Data:   "get",
-		Status: app.Status{},
+		Data: entity.DictionaryTypeRes{
+			DictionaryType: dictionaryType,
+			Dictionaries:   dictionaries,
+		},
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   config.GetTodoResMsg(config.GetStr, !success),
+		},
 	})
 }
 
 func (c *Dictionaries) Edit() {
+	reqData := c.Request.GetJson()
+	typeId := reqData.GetInt("id")
+	reqDictionaries := reqData.GetJson("dictionaries")
+
+	dictionaries := []g.Map{}
+	dictionaryType := g.Map{
+		"type_id":     reqData.GetInt("typeId"),
+		"key":         reqData.GetString("key"),
+		"title":       reqData.GetString("title"),
+		"is_use":      reqData.GetBool("isUse"),
+		"update_time": util.GetLocalNowTimeStr(),
+		"describe":    reqData.GetString("describe"),
+	}
+
+	rows, err := db.UpdateDictionaryType(typeId, dictionaryType)
+	if err == nil && rows > 0 {
+		for i := 0; i < len(reqDictionaries.ToArray()); i++ {
+			dictionaries = append(dictionaries, g.Map{
+				"type_id":  typeId,
+				"key":      reqDictionaries.GetString(gconv.String(i) + ".key"),
+				"value":    reqDictionaries.GetString(gconv.String(i) + ".value"),
+				"order":    reqDictionaries.GetInt(gconv.String(i) + ".order"),
+				"describe": reqDictionaries.GetString(gconv.String(i) + ".describe"),
+			})
+		}
+		_, err = db.AddDictionaries(dictionaries)
+	}
+	if err != nil {
+		log.Instance().Error(err)
+	}
+	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
-		Data:   "edit",
-		Status: app.Status{},
+		Data: typeId,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   config.GetTodoResMsg(config.EditStr, !success),
+		},
 	})
 }
 
 func (c *Dictionaries) Delete() {
+	typeId := c.Request.GetQueryInt("id")
+	rows, err := db.DelDictionaryType(typeId)
+	if err != nil {
+		log.Instance().Error(err)
+	}
+	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
-		Data:   "delete",
-		Status: app.Status{},
+		Data: typeId,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   config.GetTodoResMsg(config.DelStr, !success),
+		},
 	})
 }

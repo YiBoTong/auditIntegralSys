@@ -35,6 +35,12 @@ type AddDictionaryType struct {
 	Describe   string `db:"describe" json:"describe" field:"describe" gvalid:"describe" @string|max-length:250#描述最多输入250个字符`
 }
 
+// 单个字典集
+type DictionaryTypeRes struct {
+	DictionaryType
+	Dictionaries []Dictionary `json:"dictionaries"`
+}
+
 // 字典
 type Dictionary struct {
 	Id       int    `db:"id" json:"id" field:"id"`

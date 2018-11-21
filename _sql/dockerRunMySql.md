@@ -45,3 +45,13 @@
   ```docker
   
   ```
+  
+ ## 分析 Docker 空间分布
+ Docker 的内置 CLI 指令docker system df，可用于查询镜像（Images）、容器（Containers）和本地卷（Local Volumes）等空间使用大户的空间占用情况。 
+ ```docker
+docker system df
+```
+## 查看空间占用细节
+```docker
+docker system df -v
+```
