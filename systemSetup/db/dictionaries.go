@@ -10,7 +10,7 @@ import (
 
 func GetDictionaryTypeCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.DictionaryTypeTbName).Where("`delete`=?", 0)
+	sql := db.Table(config.DictionaryTypeTbName).Where("'delete'=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -20,18 +20,18 @@ func GetDictionaryTypeCount(where g.Map) (int, error) {
 
 func GetDictionaryTypes(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.DictionaryTypeTbName + " d").LeftJoin(config.UserTbName+" u", "d.user_id=u.id").Fields("d.*,u.user_name").Where("'d.delete'=?", 0)
+	sql := db.Table(config.DictionaryTypeTbName + " d").LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id").Fields("d.*,u.user_name").Where("d.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
-	r, err := sql.Limit(offset, limit).OrderBy("id desc").Select()
+	r, err := sql.Limit(offset, limit).OrderBy("d.id desc").Select()
 	return r.ToList(), err
 }
 
 func GetDictionaryType(id int) (entity.DictionaryType, error) {
 	var dictionaryType entity.DictionaryType
 	db := g.DB()
-	r, err := db.Table(config.DictionaryTypeTbName + " d").LeftJoin(config.UserTbName+" u", "d.user_id=u.id").Fields("d.*,u.user_name").Where("d.id=?", id).And("d.delete=?", 0).One()
+	r, err := db.Table(config.DictionaryTypeTbName + " d").LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id").Fields("d.*,u.user_name").Where("d.id=?", id).And("d.delete=?", 0).One()
 	r.ToStruct(&dictionaryType)
 	return dictionaryType, err
 }
