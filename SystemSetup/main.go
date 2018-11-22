@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	apiPath = "/api/SystemSetup/"
+	apiPath = "/api/systemSetup/"
 )
 
 func main() {
@@ -18,6 +18,7 @@ func main() {
 	s := g.Server(config.SystemSetupNameSpace)
 	s.BindController(apiPath+"dictionaries", new(handler.Dictionaries))
 	s.BindController(apiPath+"login", new(handler.Login))
+	s.BindController(apiPath+"log", new(handler.Log))
 	s.BindHandler("/*", router.Index)
 	s.SetLogPath(config.LogPath)
 	s.SetAccessLogEnabled(true)

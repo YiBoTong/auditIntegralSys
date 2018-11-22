@@ -5,4 +5,5 @@ const (
 	DictionaryTbName     = "dictionary"      // 字典类型表名
 	UserTbName           = "users"           // 人员表名
 	LoginTbName          = "login"           // 登录表名
+	LogTbName            = "logs"            // 日志表名
 )
