@@ -89,6 +89,7 @@ func (c *Dictionaries) Add() {
 		"key":         reqData.GetString("key"),
 		"title":       reqData.GetString("title"),
 		"is_use":      reqData.GetBool("isUse"),
+		"user_id":     reqData.GetInt("userId"),
 		"update_time": util.GetLocalNowTimeStr(),
 		"describe":    reqData.GetString("describe"),
 	}
@@ -159,12 +160,15 @@ func (c *Dictionaries) Edit() {
 	typeId := reqData.GetInt("id")
 	reqDictionaries := reqData.GetJson("dictionaries")
 
-	dictionaries := []g.Map{}
+	addDictionaries := []g.Map{}
+	updateDictionaries := []g.Map{}
+	updateDictionaryIds := []int{}
 	dictionaryType := g.Map{
 		"type_id":     reqData.GetInt("typeId"),
 		"key":         reqData.GetString("key"),
 		"title":       reqData.GetString("title"),
 		"is_use":      reqData.GetBool("isUse"),
+		"user_id":     reqData.GetInt("userId"),
 		"update_time": util.GetLocalNowTimeStr(),
 		"describe":    reqData.GetString("describe"),
 	}
@@ -172,15 +176,28 @@ func (c *Dictionaries) Edit() {
 	rows, err := db.UpdateDictionaryType(typeId, dictionaryType)
 	if err == nil && rows > 0 {
 		for i := 0; i < len(reqDictionaries.ToArray()); i++ {
-			dictionaries = append(dictionaries, g.Map{
-				"type_id":  typeId,
-				"key":      reqDictionaries.GetString(gconv.String(i) + ".key"),
-				"value":    reqDictionaries.GetString(gconv.String(i) + ".value"),
-				"order":    reqDictionaries.GetInt(gconv.String(i) + ".order"),
-				"describe": reqDictionaries.GetString(gconv.String(i) + ".describe"),
-			})
+			id := reqDictionaries.GetInt(gconv.String(i) + ".id")
+			if (id > 1) {
+				updateDictionaries = append(updateDictionaries, g.Map{
+					"id":       id,
+					"type_id":  typeId,
+					"key":      reqDictionaries.GetString(gconv.String(i) + ".key"),
+					"value":    reqDictionaries.GetString(gconv.String(i) + ".value"),
+					"order":    reqDictionaries.GetInt(gconv.String(i) + ".order"),
+					"describe": reqDictionaries.GetString(gconv.String(i) + ".describe"),
+				})
+				updateDictionaryIds = append(updateDictionaryIds, id)
+			} else {
+				addDictionaries = append(addDictionaries, g.Map{
+					"type_id":  typeId,
+					"key":      reqDictionaries.GetString(gconv.String(i) + ".key"),
+					"value":    reqDictionaries.GetString(gconv.String(i) + ".value"),
+					"order":    reqDictionaries.GetInt(gconv.String(i) + ".order"),
+					"describe": reqDictionaries.GetString(gconv.String(i) + ".describe"),
+				})
+			}
 		}
-		_, err = db.AddDictionaries(dictionaries)
+		_, err = db.UpdateDictionaries(typeId, addDictionaries, updateDictionaries, updateDictionaryIds)
 	}
 	if err != nil {
 		log.Instance().Error(err)
