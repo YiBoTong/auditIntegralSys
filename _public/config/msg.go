@@ -9,6 +9,9 @@ const (
 	SuccessStr     = "成功"
 	ErrorStr       = "失败"
 	ParameterError = "，参数错误"
+	UserCode       = "员工号"
+	Had            = "已存在"
+	NoHad          = "不存在"
 )
 
 // 获取操作提示

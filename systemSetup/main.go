@@ -17,6 +17,7 @@ func main() {
 	log.Init()
 	s := g.Server(config.SystemSetupNameSpace)
 	s.BindController(apiPath+"dictionaries", new(handler.Dictionaries))
+	s.BindController(apiPath+"login", new(handler.Login))
 	s.BindHandler("/*", router.Index)
 	s.SetLogPath(config.LogPath)
 	s.SetAccessLogEnabled(true)
