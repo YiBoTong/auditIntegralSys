@@ -1,12 +1,12 @@
 package handler
 
 import (
+	"auditIntegralSys/SystemSetup/db/dictionaries"
+	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
 	"auditIntegralSys/_public/util"
-	"auditIntegralSys/SystemSetup/db/dictionaries"
-	"auditIntegralSys/SystemSetup/entity"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -209,6 +209,24 @@ func (c *Dictionaries) Edit() {
 			Code:  0,
 			Error: !success,
 			Msg:   config.GetTodoResMsg(config.EditStr, !success),
+		},
+	})
+}
+
+func (c *Dictionaries) IsUse() {
+	typeId := c.Request.GetQueryInt("id")
+	isUse := c.Request.GetQueryBool("isUse")
+	rows, err := db_dictionaries.UpdateDictionaryType(typeId, g.Map{"is_use": gconv.Int(isUse)})
+	if err != nil {
+		log.Instance().Error(err)
+	}
+	success := err == nil && rows > 0
+	c.Response.WriteJson(app.Response{
+		Data: typeId,
+		Status: app.Status{
+			Code:  0,
+			Error: success,
+			Msg:   config.GetTodoResMsg(config.ChangeState, success),
 		},
 	})
 }

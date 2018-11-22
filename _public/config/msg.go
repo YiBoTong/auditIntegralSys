@@ -12,6 +12,7 @@ const (
 	UserCode       = "员工号"
 	Had            = "已存在"
 	NoHad          = "不存在"
+	ChangeState    = "状态变更"
 )
 
 // 获取操作提示
