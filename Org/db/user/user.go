@@ -2,7 +2,7 @@ package db_user
 
 import (
 	"auditIntegralSys/_public/config"
-	"auditIntegralSys/systemSetup/entity"
+	"auditIntegralSys/SystemSetup/entity"
 	"gitee.com/johng/gf/g"
 )
 

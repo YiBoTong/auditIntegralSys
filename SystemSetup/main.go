@@ -3,13 +3,13 @@
 import (
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
-	"auditIntegralSys/systemSetup/handler"
-	"auditIntegralSys/systemSetup/router"
+	"auditIntegralSys/SystemSetup/handler"
+	"auditIntegralSys/SystemSetup/router"
 	"gitee.com/johng/gf/g"
 )
 
 const (
-	apiPath = "/api/systemSetup/"
+	apiPath = "/api/SystemSetup/"
 )
 
 func main() {

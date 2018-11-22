@@ -2,7 +2,7 @@ package db_dictionaries
 
 import (
 	"auditIntegralSys/_public/config"
-	"auditIntegralSys/systemSetup/entity"
+	"auditIntegralSys/SystemSetup/entity"
 	"database/sql/driver"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"

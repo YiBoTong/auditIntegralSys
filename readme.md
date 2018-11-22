@@ -5,6 +5,11 @@
 cd systemSetup
 go run main.go
 ```
+## org服务
+```cmd
+cd org
+go run main.go
+```
 ## 编译
 ```cmd
 cd systemSetup
