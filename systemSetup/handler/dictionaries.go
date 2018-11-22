@@ -5,7 +5,7 @@ import (
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
 	"auditIntegralSys/_public/util"
-	"auditIntegralSys/systemSetup/db"
+	"auditIntegralSys/systemSetup/db/dictionaries"
 	"auditIntegralSys/systemSetup/entity"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
@@ -29,7 +29,7 @@ func (c *Dictionaries) List() {
 	key := search.GetString("key")
 	userId := search.GetInt("userId")
 
-	searchMap := g.Map{}
+	var searchMap g.Map
 
 	if title != "" {
 		searchMap["title"] = title
@@ -43,10 +43,10 @@ func (c *Dictionaries) List() {
 		searchMap["user_id"] = userId
 	}
 
-	count, err := db.GetDictionaryTypeCount(searchMap)
+	count, err := db_dictionaries.GetDictionaryTypeCount(searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db.GetDictionaryTypes(offset, size, searchMap)
+		listData, err = db_dictionaries.GetDictionaryTypes(offset, size, searchMap)
 		for _, v := range listData {
 			rspData = append(rspData, entity.DictionaryType{
 				Id:         gconv.Int(v["id"]),
@@ -83,18 +83,18 @@ func (c *Dictionaries) Add() {
 	reqData := c.Request.GetJson()
 	reqDictionaries := reqData.GetJson("dictionaries")
 
-	dictionaries := []g.Map{}
+	var dictionaries []g.Map
 	dictionaryType := g.Map{
 		"type_id":     reqData.GetInt("typeId"),
 		"key":         reqData.GetString("key"),
 		"title":       reqData.GetString("title"),
-		"is_use":      reqData.GetBool("isUse"),
+		"is_use":      gconv.Int(reqData.GetBool("isUse")),
 		"user_id":     reqData.GetInt("userId"),
 		"update_time": util.GetLocalNowTimeStr(),
 		"describe":    reqData.GetString("describe"),
 	}
 
-	id, err := db.AddDictionaryType(dictionaryType)
+	id, err := db_dictionaries.AddDictionaryType(dictionaryType)
 	if err == nil {
 		for i := 0; i < len(reqDictionaries.ToArray()); i++ {
 			dictionaries = append(dictionaries, g.Map{
@@ -105,7 +105,7 @@ func (c *Dictionaries) Add() {
 				"describe": reqDictionaries.GetString(gconv.String(i) + ".describe"),
 			})
 		}
-		_, err = db.AddDictionaries(dictionaries)
+		_, err = db_dictionaries.AddDictionaries(dictionaries)
 	}
 	if err != nil {
 		log.Instance().Error(err)
@@ -122,11 +122,11 @@ func (c *Dictionaries) Add() {
 
 func (c *Dictionaries) Get() {
 	typeId := c.Request.GetQueryInt("id")
-	dictionaries := []entity.Dictionary{}
-	dictionaryType, err := db.GetDictionaryType(typeId)
+	var dictionaries = []entity.Dictionary{}
+	dictionaryType, err := db_dictionaries.GetDictionaryType(typeId)
 	if err == nil {
 		var listData []map[string]interface{}
-		listData, err = db.GetDictionaries(typeId)
+		listData, err = db_dictionaries.GetDictionaries(typeId)
 		for _, v := range listData {
 			dictionaries = append(dictionaries, entity.Dictionary{
 				Id:       gconv.Int(v["id"]),
@@ -160,24 +160,24 @@ func (c *Dictionaries) Edit() {
 	typeId := reqData.GetInt("id")
 	reqDictionaries := reqData.GetJson("dictionaries")
 
-	addDictionaries := []g.Map{}
-	updateDictionaries := []g.Map{}
-	updateDictionaryIds := []int{}
+	var addDictionaries []g.Map
+	var updateDictionaries []g.Map
+	var updateDictionaryIds []int
 	dictionaryType := g.Map{
 		"type_id":     reqData.GetInt("typeId"),
 		"key":         reqData.GetString("key"),
 		"title":       reqData.GetString("title"),
-		"is_use":      reqData.GetBool("isUse"),
+		"is_use":      gconv.Int(reqData.GetBool("isUse")),
 		"user_id":     reqData.GetInt("userId"),
 		"update_time": util.GetLocalNowTimeStr(),
 		"describe":    reqData.GetString("describe"),
 	}
 
-	rows, err := db.UpdateDictionaryType(typeId, dictionaryType)
+	rows, err := db_dictionaries.UpdateDictionaryType(typeId, dictionaryType)
 	if err == nil && rows > 0 {
 		for i := 0; i < len(reqDictionaries.ToArray()); i++ {
 			id := reqDictionaries.GetInt(gconv.String(i) + ".id")
-			if (id > 1) {
+			if id > 1 {
 				updateDictionaries = append(updateDictionaries, g.Map{
 					"id":       id,
 					"type_id":  typeId,
@@ -197,7 +197,7 @@ func (c *Dictionaries) Edit() {
 				})
 			}
 		}
-		_, err = db.UpdateDictionaries(typeId, addDictionaries, updateDictionaries, updateDictionaryIds)
+		_, err = db_dictionaries.UpdateDictionaries(typeId, addDictionaries, updateDictionaries, updateDictionaryIds)
 	}
 	if err != nil {
 		log.Instance().Error(err)
@@ -215,7 +215,7 @@ func (c *Dictionaries) Edit() {
 
 func (c *Dictionaries) Delete() {
 	typeId := c.Request.GetQueryInt("id")
-	rows, err := db.DelDictionaryType(typeId)
+	rows, err := db_dictionaries.DelDictionaryType(typeId)
 	if err != nil {
 		log.Instance().Error(err)
 	}

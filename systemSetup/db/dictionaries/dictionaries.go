@@ -1,4 +1,4 @@
-package db
+package db_dictionaries
 
 import (
 	"auditIntegralSys/_public/config"
@@ -10,7 +10,7 @@ import (
 
 func GetDictionaryTypeCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.DictionaryTypeTbName).Where("'delete'=?", 0)
+	sql := db.Table(config.DictionaryTypeTbName).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -32,7 +32,7 @@ func GetDictionaryType(id int) (entity.DictionaryType, error) {
 	var dictionaryType entity.DictionaryType
 	db := g.DB()
 	r, err := db.Table(config.DictionaryTypeTbName + " d").LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id").Fields("d.*,u.user_name").Where("d.id=?", id).And("d.delete=?", 0).One()
-	r.ToStruct(&dictionaryType)
+	_ = r.ToStruct(&dictionaryType)
 	return dictionaryType, err
 }
 
@@ -96,9 +96,9 @@ func UpdateDictionaries(typeId int, add []g.Map, update []g.Map, updateIds []int
 		_, err = updateDictionaries(ctx, update)
 	}
 	if err == nil {
-		ctx.Commit()
+		err = ctx.Commit()
 	} else {
-		ctx.Rollback()
+		err = ctx.Rollback()
 	}
 	return err == nil, err
 }
