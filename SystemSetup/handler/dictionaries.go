@@ -66,7 +66,7 @@ func (c *Dictionaries) List() {
 		}
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Dictionaries List]: %v", err)
 	}
 	c.Response.WriteJson(app.ListResponse{
 		Data: rspData,
@@ -116,7 +116,7 @@ func (c *Dictionaries) Add() {
 		}
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Dictionaries Add]: %v", err)
 	}
 	c.Response.WriteJson(app.Response{
 		Data: id,
@@ -147,7 +147,7 @@ func (c *Dictionaries) Get() {
 		}
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Dictionaries Get]: %v", err)
 	}
 	success := err == nil && dictionaryType.Id > 0
 	c.Response.WriteJson(app.Response{
@@ -209,7 +209,7 @@ func (c *Dictionaries) Edit() {
 		_, err = db_dictionaries.UpdateDictionaries(typeId, addDictionaries, updateDictionaries, updateDictionaryIds)
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Dictionaries Edit]: %v", err)
 	}
 	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
@@ -227,7 +227,7 @@ func (c *Dictionaries) IsUse() {
 	isUse := c.Request.GetQueryBool("isUse")
 	rows, err := db_dictionaries.UpdateDictionaryType(typeId, g.Map{"is_use": gconv.Int(isUse)})
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Dictionaries IsUse]: %v", err)
 	}
 	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
@@ -244,7 +244,7 @@ func (c *Dictionaries) Delete() {
 	typeId := c.Request.GetQueryInt("id")
 	rows, err := db_dictionaries.DelDictionaryType(typeId)
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Dictionaries Delete]: %v", err)
 	}
 	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{

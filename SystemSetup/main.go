@@ -14,7 +14,7 @@ const (
 
 func main() {
 	g.Config().SetFileName("config.json")
-	log.Init()
+	log.Init(config.SystemSetupNameSpace)
 	s := g.Server(config.SystemSetupNameSpace)
 	s.BindController(apiPath+"/dictionaries", new(handler.Dictionaries))
 	s.BindController(apiPath+"/login", new(handler.Login))

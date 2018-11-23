@@ -54,7 +54,7 @@ func (l *Log) List() {
 		}
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Log List]: %v", err)
 	}
 	l.Response.WriteJson(app.ListResponse{
 		Data: rspData,
@@ -75,7 +75,7 @@ func (l *Log) Delete() {
 	logId := l.Request.GetQueryInt("id")
 	rows, err := db_log.DelLog(logId)
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorf("[Log Delete]: %v", err)
 	}
 	success := err == nil && rows > 0
 	l.Response.WriteJson(app.Response{
