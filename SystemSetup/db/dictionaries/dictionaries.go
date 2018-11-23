@@ -1,8 +1,8 @@
 package db_dictionaries
 
 import (
-	"auditIntegralSys/_public/config"
 	"auditIntegralSys/SystemSetup/entity"
+	"auditIntegralSys/_public/config"
 	"database/sql/driver"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
@@ -86,13 +86,13 @@ func GetDictionaries(typeId int) ([]map[string]interface{}, error) {
 func UpdateDictionaries(typeId int, add []g.Map, update []g.Map, updateIds []int) (bool, error) {
 	db := g.DB()
 	ctx, err := db.Begin()
-	if err == nil {
+	if err == nil && len(updateIds) > 0 {
 		_, err = delDictionaries(ctx, typeId, updateIds)
 	}
-	if err == nil {
+	if err == nil && len(add) > 0 {
 		_, err = addDictionaries(ctx, add)
 	}
-	if err == nil {
+	if err == nil && len(update) > 0 {
 		_, err = updateDictionaries(ctx, update)
 	}
 	if err == nil {
