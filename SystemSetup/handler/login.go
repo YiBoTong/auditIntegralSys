@@ -1,13 +1,13 @@
 package handler
 
 import (
+	"auditIntegralSys/Org/db/user"
+	"auditIntegralSys/SystemSetup/db/login"
+	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
 	"auditIntegralSys/_public/util"
-	"auditIntegralSys/Org/db/user"
-	"auditIntegralSys/SystemSetup/db/login"
-	"auditIntegralSys/SystemSetup/entity"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
