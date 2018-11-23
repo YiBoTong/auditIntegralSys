@@ -5,7 +5,6 @@ import (
 	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
-	"auditIntegralSys/_public/log"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -53,9 +52,7 @@ func (l *Log) List() {
 			})
 		}
 	}
-	if err != nil {
-		log.Instance().Error(err)
-	}
+
 	l.Response.WriteJson(app.ListResponse{
 		Data: rspData,
 		Status: app.Status{
@@ -74,9 +71,7 @@ func (l *Log) List() {
 func (l *Log) Delete() {
 	logId := l.Request.GetQueryInt("id")
 	rows, err := db_log.DelLog(logId)
-	if err != nil {
-		log.Instance().Error(err)
-	}
+
 	success := err == nil && rows > 0
 	l.Response.WriteJson(app.Response{
 		Data: logId,
