@@ -99,8 +99,9 @@ func (c *Dictionaries) Add() {
 	}
 
 	id, err := db_dictionaries.AddDictionaryType(dictionaryType)
-	if err == nil {
-		for i := 0; i < len(reqDictionaries.ToArray()); i++ {
+	dictionaryLen := len(reqDictionaries.ToArray())
+	if err == nil && dictionaryLen > 0 {
+		for i := 0; i < dictionaryLen; i++ {
 			dictionaries = append(dictionaries, g.Map{
 				"type_id":  id,
 				"key":      reqDictionaries.GetString(gconv.String(i) + ".key"),
@@ -178,8 +179,9 @@ func (c *Dictionaries) Edit() {
 	}
 
 	rows, err := db_dictionaries.UpdateDictionaryType(typeId, dictionaryType)
-	if err == nil && rows > 0 {
-		for i := 0; i < len(reqDictionaries.ToArray()); i++ {
+	dictionaryLen := len(reqDictionaries.ToArray())
+	if err == nil && rows > 0 && dictionaryLen > 0 {
+		for i := 0; i < dictionaryLen; i++ {
 			id := reqDictionaries.GetInt(gconv.String(i) + ".id")
 			if id > 1 {
 				updateDictionaries = append(updateDictionaries, g.Map{
