@@ -1,12 +1,13 @@
 package handler
 
 import (
+	"auditIntegralSys/_public/app"
+	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/util"
 	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/SystemSetup/db/login"
 	"auditIntegralSys/SystemSetup/entity"
-	"auditIntegralSys/_public/app"
-	"auditIntegralSys/_public/config"
-	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -63,7 +64,9 @@ func (l *Login) List() {
 			})
 		}
 	}
-	
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	l.Response.WriteJson(app.ListResponse{
 		Data: rspData,
 		Status: app.Status{
@@ -117,7 +120,9 @@ func (l *Login) Add() {
 	} else {
 		msg = config.UserCode + config.NoHad
 	}
-	
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, err != nil)
 	}
@@ -136,7 +141,9 @@ func (l *Login) Edit() {
 	userCode := reqData.GetInt("userCode")
 	isUse :=  reqData.GetBool("isUse")
 	rows, err := db_login.UpdateLogin(g.Map{"is_use": gconv.Int(isUse)}, userCode, 0)
-	
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	success := err == nil && rows > 0
 	l.Response.WriteJson(app.Response{
 		Data: userCode,
@@ -151,7 +158,9 @@ func (l *Login) Edit() {
 func (l *Login) Delete() {
 	userCode := l.Request.GetQueryInt("userCode")
 	rows, err := db_login.DelLogin(userCode)
-	
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	success := err == nil && rows > 0
 	l.Response.WriteJson(app.Response{
 		Data: userCode,

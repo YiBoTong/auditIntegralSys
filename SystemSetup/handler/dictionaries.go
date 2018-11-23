@@ -5,6 +5,7 @@ import (
 	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/log"
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
@@ -64,7 +65,9 @@ func (c *Dictionaries) List() {
 			})
 		}
 	}
-
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	c.Response.WriteJson(app.ListResponse{
 		Data: rspData,
 		Status: app.Status{
@@ -112,7 +115,9 @@ func (c *Dictionaries) Add() {
 			_, _ = db_dictionaries.DelDictionaryType(id)
 		}
 	}
-
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	c.Response.WriteJson(app.Response{
 		Data: id,
 		Status: app.Status{
@@ -141,7 +146,9 @@ func (c *Dictionaries) Get() {
 			})
 		}
 	}
-
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	success := err == nil && dictionaryType.Id > 0
 	c.Response.WriteJson(app.Response{
 		Data: entity.DictionaryTypeRes{
@@ -201,7 +208,9 @@ func (c *Dictionaries) Edit() {
 		}
 		_, err = db_dictionaries.UpdateDictionaries(typeId, addDictionaries, updateDictionaries, updateDictionaryIds)
 	}
-
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
 		Data: typeId,
@@ -217,7 +226,9 @@ func (c *Dictionaries) IsUse() {
 	typeId := c.Request.GetQueryInt("id")
 	isUse := c.Request.GetQueryBool("isUse")
 	rows, err := db_dictionaries.UpdateDictionaryType(typeId, g.Map{"is_use": gconv.Int(isUse)})
-
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
 		Data: typeId,
@@ -232,7 +243,9 @@ func (c *Dictionaries) IsUse() {
 func (c *Dictionaries) Delete() {
 	typeId := c.Request.GetQueryInt("id")
 	rows, err := db_dictionaries.DelDictionaryType(typeId)
-
+	if err != nil {
+		log.Instance().Error(err)
+	}
 	success := err == nil && rows > 0
 	c.Response.WriteJson(app.Response{
 		Data: typeId,
