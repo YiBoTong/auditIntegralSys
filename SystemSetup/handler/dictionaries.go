@@ -186,7 +186,7 @@ func (c *Dictionaries) Edit() {
 	if err == nil && rows > 0 && dictionaryLen > 0 {
 		for i := 0; i < dictionaryLen; i++ {
 			id := reqDictionaries.GetInt(gconv.String(i) + ".id")
-			if id > 1 {
+			if id > 0 {
 				updateDictionaries = append(updateDictionaries, g.Map{
 					"id":       id,
 					"type_id":  typeId,
