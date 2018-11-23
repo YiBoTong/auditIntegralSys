@@ -1,0 +1,25 @@
+{
+  "database": {
+    "default": [
+      {
+        "host": "127.0.0.1",
+        "port": "3310",
+        "user": "root",
+        "pass": "root",
+        "name": "audit_integral",
+        "type": "mysql",
+        "role": "master"
+      },
+      {
+        "host": "127.0.0.1",
+        "port": "3311",
+        "user": "root",
+        "pass": "root",
+        "name": "audit_integral",
+        "type": "mysql",
+        "role": "slave"
+      }
+    ]
+  },
+  "appPort": 8091
+}

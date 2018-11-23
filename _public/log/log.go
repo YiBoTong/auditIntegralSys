@@ -7,9 +7,9 @@ import (
 
 var log *glog.Logger
 
-func Init() {
+func Init(nameSpace string) {
 	log = glog.New()
-	log.SetPath(config.LogPath)
+	log.SetPath(config.LogPath + "/" + nameSpace)
 }
 
 func Instance() *glog.Logger {
