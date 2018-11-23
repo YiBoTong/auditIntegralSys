@@ -111,6 +111,9 @@ func (c *Dictionaries) Add() {
 			})
 		}
 		_, err = db_dictionaries.AddDictionaries(dictionaries)
+		if err != nil {
+			_, _ = db_dictionaries.DelDictionaryType(id)
+		}
 	}
 	if err != nil {
 		log.Instance().Error(err)
