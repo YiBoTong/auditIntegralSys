@@ -27,7 +27,7 @@ func (l *Log) List() {
 	key := search.GetString("key")
 	userId := search.GetInt("userId")
 
-	var searchMap g.Map
+	searchMap := g.Map{}
 
 	if key != "" {
 		searchMap["'key'"] = key
