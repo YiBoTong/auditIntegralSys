@@ -36,3 +36,13 @@ func DelLog(logId int) (int, error) {
 	}
 	return int(rows), err
 }
+
+func AddLog(log g.Map) (int, error) {
+	db := g.DB()
+	var lastId int64 = 0
+	r, err := db.Table(config.LogTbName).Data(log).Insert()
+	if err == nil {
+		lastId, err = r.LastInsertId()
+	}
+	return int(lastId), err
+}
