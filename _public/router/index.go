@@ -10,7 +10,7 @@ func Index(r *ghttp.Request) {
 		Data: "API running",
 		Status: app.Status{
 			Code:  0,
-			Error: false,
+			Error: true,
 			Msg:   "URL参数不正确",
 		},
 	})
