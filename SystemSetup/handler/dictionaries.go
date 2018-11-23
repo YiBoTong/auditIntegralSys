@@ -29,24 +29,28 @@ func (c *Dictionaries) List() {
 	key := search.GetString("key")
 	userId := search.GetInt("userId")
 
-	var searchMap g.Map
+	searchMap := g.Map{}
+	listSearchMap := g.Map{}
 
 	if title != "" {
 		searchMap["title"] = title
+		listSearchMap["d.title"] = title
 	}
 
 	if key != "" {
 		searchMap["'key'"] = key
+		listSearchMap["d.key"] = key
 	}
 
 	if userId != 0 {
 		searchMap["user_id"] = userId
+		listSearchMap["d.user_id"] = userId
 	}
 
 	count, err := db_dictionaries.GetDictionaryTypeCount(searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_dictionaries.GetDictionaryTypes(offset, size, searchMap)
+		listData, err = db_dictionaries.GetDictionaryTypes(offset, size, listSearchMap)
 		for _, v := range listData {
 			rspData = append(rspData, entity.DictionaryType{
 				Id:         gconv.Int(v["id"]),

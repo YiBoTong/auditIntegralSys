@@ -20,5 +20,6 @@
         "role": "slave"
       }
     ]
-  }
+  },
+  "appPort": 8090
 }
