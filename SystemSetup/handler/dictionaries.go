@@ -38,7 +38,7 @@ func (c *Dictionaries) List() {
 	}
 
 	if key != "" {
-		searchMap["'key'"] = key
+		searchMap["`key`"] = key
 		listSearchMap["d.key"] = key
 	}
 

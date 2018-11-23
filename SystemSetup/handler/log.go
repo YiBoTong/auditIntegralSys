@@ -30,7 +30,7 @@ func (l *Log) List() {
 	searchMap := g.Map{}
 
 	if key != "" {
-		searchMap["'key'"] = key
+		searchMap["`key`"] = key
 	}
 
 	if userId != 0 {
