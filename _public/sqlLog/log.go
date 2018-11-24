@@ -3,8 +3,9 @@ package SqlLog
 import (
 	"auditIntegralSys/SystemSetup/db/log"
 	"auditIntegralSys/_public/util"
+
 	"gitee.com/johng/gf/g"
-	"gitee.com/johng/gf/g/net/ghttp"
+	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
 )
 
@@ -74,12 +75,12 @@ func (l *SqlLog) clear() *SqlLog {
 	}
 }
 
-func Init(controller *ghttp.Request) *SqlLog{
+func Init(controller *gmvc.Controller) *SqlLog {
 	return &SqlLog{
 		key:     "user",
 		user_id: 1,
-		//method:  controller.Request.Method,
-		//ip:      controller.Request.GetClientIp(),
+		method:  controller.Request.Method,
+		ip:      controller.Request.GetClientIp(),
 	}
 }
 

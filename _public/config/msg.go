@@ -1,6 +1,8 @@
 package config
 
 const (
+	DepartmentMsgStr = "部门"
+
 	ListStr        = "获取列表"
 	DelStr         = "删除"
 	GetStr         = "获取"
