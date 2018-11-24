@@ -256,7 +256,7 @@ CREATE TABLE `login` (
 
 /*Data for the table `login` */
 
-insert  into `login`(`login_id`,`user_code`,`password`,`is_use`,`change_pd_time`,`login_num`,`login_time`,`author_id`,`delete`) values (3,10001,'c42e1e2e06144c57ee5035a48e9b1a43',1,'0000-00-00 00:00:00',0,'0000-00-00 00:00:00',2,0),(4,10002,'78dc8bbc86eb472b3db1d0b025714ec1',0,'0000-00-00 00:00:00',0,'0000-00-00 00:00:00',2,0);
+insert  into `login`(`login_id`,`user_code`,`password`,`is_use`,`change_pd_time`,`login_num`,`login_time`,`author_id`,`delete`) values (3,10001,'c42e1e2e06144c57ee5035a48e9b1a43',1,'0000-00-00 00:00:00',0,'0000-00-00 00:00:00',2,0),(4,10002,'78dc8bbc86eb472b3db1d0b025714ec1',1,'0000-00-00 00:00:00',0,'0000-00-00 00:00:00',2,0);
 
 /*Table structure for table `logs` */
 
@@ -274,11 +274,11 @@ CREATE TABLE `logs` (
   `ip` char(15) DEFAULT NULL COMMENT 'IP地址',
   `delete` tinyint(1) DEFAULT '0' COMMENT '删除（0未删1删除）',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 /*Data for the table `logs` */
 
-insert  into `logs`(`id`,`key`,`user_id`,`msg`,`method`,`data`,`time`,`server`,`ip`,`delete`) values (1,'test',1,'测试',NULL,'无','2018-11-22 16:45:46',NULL,NULL,0),(2,'test1',2,'测试2',NULL,'删除日志','2018-11-22 16:52:51',NULL,NULL,0),(3,'',0,'','POST','','2018-11-23 18:26:04','','',0),(4,'',0,'','POST','','2018-11-23 18:27:38','','',0),(5,'user',1,'','POST','','2018-11-23 18:51:24','','192.168.1.20',0);
+insert  into `logs`(`id`,`key`,`user_id`,`msg`,`method`,`data`,`time`,`server`,`ip`,`delete`) values (1,'test',1,'测试',NULL,'无','2018-11-22 16:45:46',NULL,NULL,0),(2,'test1',2,'测试2',NULL,'删除日志','2018-11-22 16:52:51',NULL,NULL,0),(3,'',0,'','POST','','2018-11-23 18:26:04','','',0),(4,'',0,'','POST','','2018-11-23 18:27:38','','',0),(5,'user',1,'','POST','','2018-11-23 18:51:24','','192.168.1.20',0),(6,'',0,'','','{}','2018-11-24 10:07:55','','',0);
 
 /*Table structure for table `manuscript` */
 

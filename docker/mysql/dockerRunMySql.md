@@ -25,6 +25,9 @@
 4.检查镜像运行状态
   ```docker
   docker ps
+  # 只查看运行的容器
+  docker ps -a
+  # 查看所有容器
   ```
 5.删除容器
   ```docker
@@ -43,7 +46,7 @@
   ```
   - 导入容器（import）
   ```docker
-  
+  docker load -i xxx.tar
   ```
   
  ## 分析 Docker 空间分布

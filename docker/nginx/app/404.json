@@ -1,0 +1,8 @@
+{
+  "data": "API does not exist.",
+  "status": {
+    "code": 0,
+    "error": true,
+    "msg": "API不存在"
+  }
+}

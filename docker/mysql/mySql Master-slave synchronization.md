@@ -16,7 +16,7 @@ systemctl restart mysql
 ```
 ### 创建主从同步的mysql user
 ```cmd
-root@newbie-unknown85882:~# mysql
+root@newbie-unknown85882:~# mysql -hlocalhost -uroot -pmima
 Welcome to the MySQL monitor.  Commands end with ; or \g.
 Your MySQL connection id is 2
 Server version: 5.7.21-log MySQL Community Server (GPL)
@@ -29,13 +29,17 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> create user 'slave'@'10.83.3.103' identified by 'slavemima';
+mysql> create user 'slave'@'%' identified by 'slavemima';
 Query OK, 0 rows affected (0.01 sec)
 #创建slave用户，并指定该用户只能在10.83.3.103上登录。
 
-mysql> grant replication slave on *.* to 'slave'@'10.83.3.103';
+mysql> grant replication slave on *.* to 'slave'@'%';
 Query OK, 0 rows affected (0.01 sec)
 #为slave赋予replication slave权限。
+
+mysql> flush privileges;
+Query OK, 0 rows affected (0.01 sec)
+# 刷新用户权限
 ```
 ### 为MySQL加读锁
 为了使主库与从库的数据保持一致，先为MySQL加入读锁，使其变为只读。
@@ -66,6 +70,10 @@ backend1.py  cloudinit-Linux.sh  dbdump.sql    sarfile      模板  图片  下�
 ```cmd
 mysql> unlock tables;
 Query OK, 0 rows affected (0.00 sec)
+```
+退出mysql
+```
+quit
 ```
 将dbdump.sql文件复制到slave
 

@@ -1,0 +1,8 @@
+{
+  "data": "Service update",
+  "status": {
+    "code": 0,
+    "error": true,
+    "msg": "服务正在更新，请稍等..."
+  }
+}
