@@ -155,13 +155,13 @@ func (d *Department) Add() {
 
 func (d *Department) Get() {
 	departmentId := d.Request.GetQueryInt("id")
-	userList := []entity.User{}
+	userList := []entity.DepUser{}
 	department, err := db_department.GetDepartment(departmentId)
 	if err == nil && department.Id > 0 {
 		var listData []map[string]interface{}
 		listData, err = db_department.GetDepartmentUser(departmentId)
 		for _, v := range listData {
-			userList = append(userList, entity.User{
+			userList = append(userList, entity.DepUser{
 				Id:       gconv.Int(v["id"]),
 				UserId:   gconv.Int(v["user_id"]),
 				UserName: gconv.String(v["user_name"]),

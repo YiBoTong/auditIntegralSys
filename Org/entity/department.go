@@ -31,10 +31,10 @@ type AddDepartment struct {
 
 type DepartmentRes struct {
 	Department
-	UserList []User `db:"user_list" json:"userList" field:"user_list"`
+	UserList []DepUser `db:"user_list" json:"userList" field:"user_list"`
 }
 
-type User struct {
+type DepUser struct {
 	Id       int    `db:"id" json:"id" field:"id"`
 	UserId   int    `db:"user_id" json:"userId" field:"user_id"`
 	UserName string `db:"user_name" json:"userName" field:"user_name"`

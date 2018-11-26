@@ -20,6 +20,13 @@ func GetDepartmentsByParentId(parentId int, search g.Map) ([]map[string]interfac
 	return r.ToList(), err
 }
 
+func HasDepartment(departmentId int) (bool, error) {
+	db := g.DB()
+	sql := db.Table(config.DepartmentTbName).Where("`delete`=?", 0).And("id=?", departmentId)
+	count, err := sql.Count()
+	return count > 0, err
+}
+
 func AddDepartment(department g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
