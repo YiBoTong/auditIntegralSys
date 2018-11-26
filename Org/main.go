@@ -19,6 +19,7 @@ func main() {
 	s := g.Server(config.OrgNameSpace)
 	s.BindController(apiPath+"/department", new(handler.Department))
 	s.BindController(apiPath+"/user", new(handler.User))
+	s.BindController(apiPath+"/notice", new(handler.Notice))
 	s.BindHandler("/*", router.Index)
 	s.BindStatusHandlerByMap(map[int]ghttp.HandlerFunc{
 		500: router.Status_500,

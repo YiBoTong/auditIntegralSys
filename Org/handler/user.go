@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"auditIntegralSys/Org/db/department"
+	"auditIntegralSys/Org/check"
 	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/Org/entity"
 	"auditIntegralSys/_public/app"
@@ -93,10 +93,10 @@ func (u *User) Add() {
 	id := 0
 	hasDepartment := false
 	// 检测人员表中是否存在此员工号
-	hasCode, msg, err := checkHasUserCode(userCode, 0)
+	hasCode, msg, err := check.HasUserCode(userCode, 0)
 	if !hasCode && err == nil {
 		// 检测是否部门是否存在
-		hasDepartment, msg, err = checkHasDepartment(departmentId)
+		hasDepartment, msg, err = check.HasDepartment(departmentId)
 		if !hasDepartment {
 			err = errors.New(msg)
 		}
@@ -157,10 +157,10 @@ func (u *User) Edit() {
 	rows := 0
 	hasDepartment := false
 	// 检测人员表中是否存在此员工号
-	hasCode, msg, err := checkHasUserCode(userCode, userId)
+	hasCode, msg, err := check.HasUserCode(userCode, userId)
 	if !hasCode && err == nil {
 		// 检测是否部门是否存在
-		hasDepartment, msg, err = checkHasDepartment(departmentId)
+		hasDepartment, msg, err = check.HasDepartment(departmentId)
 		if !hasDepartment {
 			err = errors.New(msg)
 		}
@@ -210,31 +210,4 @@ func (u *User) Delete() {
 			Msg:   config.GetTodoResMsg(config.DelStr, !success),
 		},
 	})
-}
-
-
-// 检测员工好是否存在（传userId将排除此userId后检测）
-func checkHasUserCode(userCode int, userId int) (bool, string, error) {
-	msg := ""
-	hasCode, userInfo, err := db_user.HasUserCode(userCode)
-	if userId > 0 && userInfo.UserId == userId {
-		hasCode = false
-	} else if err == nil {
-		msg = config.UserCode
-		if hasCode {
-			msg += config.Had
-		} else {
-			msg += config.NoHad
-		}
-	}
-	return hasCode, msg, err
-}
-
-func checkHasDepartment(departmentId int) (bool, string, error) {
-	msg := ""
-	hasDepartment, err := db_department.HasDepartment(departmentId)
-	if err == nil && !hasDepartment {
-		msg = config.DepartmentMsgStr + config.NoHad
-	}
-	return hasDepartment, msg, err
 }

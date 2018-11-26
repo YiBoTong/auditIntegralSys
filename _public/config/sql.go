@@ -8,4 +8,8 @@ const (
 	LogTbName            = "logs"            // 日志表名
 	DepartmentTbName     = "department"      // 部门表
 	DepartmentUserTbName = "department_user" // 部门负责人表
+	NoticeTbName         = "notice"          // 通知公告表
+	NoticeFileTbName     = "notice_file"     // 通知公告附件表
+	NoticeInformTbName   = "notice_inform"   // 通知公告通知部门索引表
+	FileTbName           = "file"            // 附件表
 )
