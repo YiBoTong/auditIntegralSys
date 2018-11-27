@@ -79,12 +79,21 @@ func (n *Notice) Add() {
 	reqData := n.Request.GetJson()
 	departmentId := reqData.GetInt("departmentId")
 	rangeType := reqData.GetInt("range")
+	state := reqData.GetString("state")
 
 	id := 0
+	hasState := false
 	// 检测是否部门是否存在
 	hasDepartment, msg, err := check.HasDepartment(departmentId)
 	if !hasDepartment {
 		err = errors.New(msg)
+	}
+	if err == nil {
+		// 检测状态是否合法
+		hasState, msg = check.NoticeState(state).HasState()
+		if !hasState {
+			err = errors.New(msg)
+		}
 	}
 	// 添加通知
 	if hasDepartment && err == nil {
@@ -94,11 +103,11 @@ func (n *Notice) Add() {
 			"content":       reqData.GetString("content"),
 			"time":          util.GetLocalNowTimeStr(),
 			"range":         rangeType,
-			"state":         reqData.GetString("state"),
+			"state":         state,
 		})
 	}
 	// 添加指定的通知部门
-	if rangeType == 2 {
+	if rangeType == 2 && id > 0 {
 		msg, err = addNoticeInform(id, reqData.GetString("informIds"))
 	}
 	// 添加附件
@@ -180,12 +189,21 @@ func (n *Notice) Edit() {
 	id := reqData.GetInt("id")
 	departmentId := reqData.GetInt("departmentId")
 	rangeType := reqData.GetInt("range")
+	state :=reqData.GetString("state")
 
 	rows := 0
+	hasState := false
 	// 检测是否部门是否存在
 	hasDepartment, msg, err := check.HasDepartment(departmentId)
 	if !hasDepartment {
 		err = errors.New(msg)
+	}
+	if err == nil {
+		// 检测状态是否合法
+		hasState, msg = check.NoticeState(state).HasState()
+		if !hasState {
+			err = errors.New(msg)
+		}
 	}
 	// 添加通知
 	if hasDepartment && err == nil {
@@ -224,6 +242,34 @@ func (n *Notice) Edit() {
 			Msg:   msg,
 		},
 	})
+}
+
+func (n *Notice) State() {
+	reqData := n.Request.GetJson()
+	id := reqData.GetInt("id")
+	state := reqData.GetInt("state")
+	rows := 0
+	var err error = nil
+	// 检测状态是否合法
+	hasState, msg := check.NoticeState(state).HasState()
+	if hasState {
+		rows, err = db_notice.UpdateNotice(id, g.Map{
+			"state": reqData.GetString("state"),
+		})
+	}
+	success := err == nil && rows > 0
+	if msg == "" {
+		msg = config.GetTodoResMsg(config.EditStr, !success)
+	}
+	n.Response.WriteJson(app.Response{
+		Data: id,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   msg,
+		},
+	})
+
 }
 
 func (n *Notice) Delete() {

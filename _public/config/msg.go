@@ -12,6 +12,7 @@ const (
 	ErrorStr       = "失败"
 	ParameterError = "，参数错误"
 	UserCode       = "员工号"
+	StateStr       = "状态"
 	Had            = "已存在"
 	NoHad          = "不存在"
 	ChangeState    = "状态变更"
