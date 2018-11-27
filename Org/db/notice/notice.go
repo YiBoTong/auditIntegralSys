@@ -98,11 +98,11 @@ func DelNoticeInform(noticeId int) (int, error) {
 
 func GetNoticeFile(noticeId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.NoticeInformTbName + " ni")
-	sql.LeftJoin(config.FileTbName+" f", "ni.file=f.id")
-	sql.Fields("d.*,ni.id as nid")
+	sql := db.Table(config.NoticeFileTbName + " ni")
+	sql.LeftJoin(config.FileTbName+" f", "ni.file_id=f.id")
+	sql.Fields("f.*,ni.id as nid")
 	sql.Where("ni.notice_id=?", noticeId)
-	sql.And("d.delete=?", 0)
+	sql.And("f.delete=?", 0)
 	r, err := sql.OrderBy("ni.id desc").Select()
 	return r.ToList(), err
 }

@@ -142,7 +142,7 @@ func (n *Notice) Get() {
 			})
 		}
 	}
-	if noticeInfo.Id > 0 && err != nil {
+	if noticeInfo.Id > 0 && err == nil {
 		var fileRes []map[string]interface{}
 		// 查询附件
 		fileRes, err = db_notice.GetNoticeFile(noticeId)

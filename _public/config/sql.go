@@ -11,5 +11,5 @@ const (
 	NoticeTbName         = "notice"          // 通知公告表
 	NoticeFileTbName     = "notice_file"     // 通知公告附件表
 	NoticeInformTbName   = "notice_inform"   // 通知公告通知部门索引表
-	FileTbName           = "file"            // 附件表
+	FileTbName           = "files"           // 附件表
 )
