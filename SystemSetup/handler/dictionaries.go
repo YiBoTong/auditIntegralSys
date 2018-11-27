@@ -100,7 +100,7 @@ func (c *Dictionaries) Add() {
 
 	id, err := db_dictionaries.AddDictionaryType(dictionaryType)
 	dictionaryLen := len(reqDictionaries.ToArray())
-	if err == nil && dictionaryLen > 0 {
+	if err == nil && dictionaryLen != 0 {
 		for i := 0; i < dictionaryLen; i++ {
 			dictionaries = append(dictionaries, g.Map{
 				"type_id":  id,
@@ -149,7 +149,7 @@ func (c *Dictionaries) Get() {
 	if err != nil {
 		log.Instance().Errorf("[Dictionaries Get]: %v", err)
 	}
-	success := err == nil && dictionaryType.Id > 0
+	success := err == nil && dictionaryType.Id != 0
 	c.Response.WriteJson(app.Response{
 		Data: entity.DictionaryTypeRes{
 			DictionaryType: dictionaryType,
@@ -186,7 +186,7 @@ func (c *Dictionaries) Edit() {
 	if err == nil && rows > 0 && dictionaryLen > 0 {
 		for i := 0; i < dictionaryLen; i++ {
 			id := reqDictionaries.GetInt(gconv.String(i) + ".id")
-			if id > 0 {
+			if id != 0 {
 				updateDictionaries = append(updateDictionaries, g.Map{
 					"id":       id,
 					"type_id":  typeId,
