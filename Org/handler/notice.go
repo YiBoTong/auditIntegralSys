@@ -247,7 +247,7 @@ func (n *Notice) Edit() {
 func (n *Notice) State() {
 	reqData := n.Request.GetJson()
 	id := reqData.GetInt("id")
-	state := reqData.GetInt("state")
+	state := reqData.GetString("state")
 	rows := 0
 	var err error = nil
 	// 检测状态是否合法
