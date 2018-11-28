@@ -58,7 +58,7 @@ func (n *Notice) List() {
 		}
 	}
 	if err != nil {
-		log.Instance().Errorf("[Notice List]: %v", err)
+		log.Instance().Errorfln("[Notice List]: %v", err)
 	}
 	n.Response.WriteJson(app.ListResponse{
 		Data: rspData,
@@ -116,7 +116,7 @@ func (n *Notice) Add() {
 	}
 	if err != nil && id > 0 {
 		_, _ = db_notice.DelNotice(id)
-		log.Instance().Errorf("[Notice Add]: %v", err)
+		log.Instance().Errorfln("[Notice Add]: %v", err)
 	}
 	success := err == nil && id > 0
 	if msg == "" {
@@ -167,7 +167,7 @@ func (n *Notice) Get() {
 		}
 	}
 	if err != nil {
-		log.Instance().Errorf("[Notice Get]: %v", err)
+		log.Instance().Errorfln("[Notice Get]: %v", err)
 	}
 	success := err == nil && noticeInfo.Id > 0
 	n.Response.WriteJson(app.Response{
@@ -228,7 +228,7 @@ func (n *Notice) Edit() {
 	}
 	if err != nil && rows > 0 {
 		_, _ = db_notice.DelNotice(id)
-		log.Instance().Errorf("[Notice Edit]: %v", err)
+		log.Instance().Errorfln("[Notice Edit]: %v", err)
 	}
 	success := err == nil && rows > 0
 	if msg == "" {

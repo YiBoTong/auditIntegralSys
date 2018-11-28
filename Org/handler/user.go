@@ -68,7 +68,7 @@ func (u *User) List() {
 		}
 	}
 	if err != nil {
-		log.Instance().Errorf("[User List]: %v", err)
+		log.Instance().Errorfln("[User List]: %v", err)
 	}
 	u.Response.WriteJson(app.ListResponse{
 		Data: rspData,
@@ -116,7 +116,7 @@ func (u *User) Add() {
 	}
 
 	if err != nil {
-		log.Instance().Errorf("[Login Add]: %v", err)
+		log.Instance().Errorfln("[Login Add]: %v", err)
 	}
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, err != nil)
@@ -135,7 +135,7 @@ func (u *User) Get() {
 	userId := u.Request.GetQueryInt("id")
 	userInfo, err := db_user.GetUser(userId)
 	if err != nil {
-		log.Instance().Errorf("[User Get]: %v", err)
+		log.Instance().Errorfln("[User Get]: %v", err)
 	}
 	success := err == nil && userInfo.UserId > 0
 	u.Response.WriteJson(app.Response{
@@ -179,7 +179,7 @@ func (u *User) Edit() {
 	}
 
 	if err != nil {
-		log.Instance().Errorf("[Login Edit]: %v", err)
+		log.Instance().Errorfln("[Login Edit]: %v", err)
 	}
 	success := err == nil && rows > 0
 	if msg == "" {

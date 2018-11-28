@@ -6,7 +6,6 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
-	"auditIntegralSys/_public/sqlLog"
 	"auditIntegralSys/_public/util"
 
 	"gitee.com/johng/gf/g"
@@ -76,7 +75,6 @@ func (d *Department) List() {
 			Total: count,
 		},
 	})
-	SqlLog.Init(&d.Controller).Server(config.SystemSetupNameSpace).Msg(config.DepartmentMsgStr + config.ListStr).Data(reqData).Done()
 }
 
 func (d *Department) Tree() {
@@ -171,7 +169,7 @@ func (d *Department) Get() {
 		}
 	}
 	if err != nil {
-		log.Instance().Errorf("[Department Get]: %v", err)
+		log.Instance().Errorfln("[Department Get]: %v", err)
 	}
 	success := err == nil && department.Id > 0
 	d.Response.WriteJson(app.Response{
