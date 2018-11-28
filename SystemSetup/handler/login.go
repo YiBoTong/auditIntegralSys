@@ -65,7 +65,7 @@ func (l *Login) List() {
 		}
 	}
 	if err != nil {
-		log.Instance().Errorf("[Login List]: %v", err)
+		log.Instance().Errorfln("[Login List]: %v", err)
 	}
 	l.Response.WriteJson(app.ListResponse{
 		Data: rspData,
@@ -121,7 +121,7 @@ func (l *Login) Add() {
 		msg = config.UserCode + config.NoHad
 	}
 	if err != nil {
-		log.Instance().Errorf("[Login Add]: %v", err)
+		log.Instance().Errorfln("[Login Add]: %v", err)
 	}
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, err != nil)
@@ -142,7 +142,7 @@ func (l *Login) Edit() {
 	isUse :=  reqData.GetBool("isUse")
 	rows, err := db_login.UpdateLogin(g.Map{"is_use": gconv.Int(isUse)}, userCode, 0)
 	if err != nil {
-		log.Instance().Errorf("[Login Edit]: %v", err)
+		log.Instance().Errorfln("[Login Edit]: %v", err)
 	}
 	success := err == nil && rows > 0
 	l.Response.WriteJson(app.Response{
@@ -159,7 +159,7 @@ func (l *Login) Delete() {
 	userCode := l.Request.GetQueryInt("userCode")
 	rows, err := db_login.DelLogin(userCode)
 	if err != nil {
-		log.Instance().Errorf("[Login Delete]: %v", err)
+		log.Instance().Errorfln("[Login Delete]: %v", err)
 	}
 	success := err == nil && rows > 0
 	l.Response.WriteJson(app.Response{

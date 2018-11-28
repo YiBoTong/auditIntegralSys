@@ -18,7 +18,8 @@ func GetLogCount(where g.Map) (int, error) {
 func GetLogs(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
 	sql := db.Table(config.LogTbName + " l").LeftJoin(config.UserTbName+" u", "l.user_id=u.user_id")
-	sql.Fields("l.*,u.user_name")
+	sql.LeftJoin(config.DictionaryTbName+" d","l.key=d.key")
+	sql.Fields("l.*,l.key as type,u.user_name,d.value as type_title")
 	sql.Where("l.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
