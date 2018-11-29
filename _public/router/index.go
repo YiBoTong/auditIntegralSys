@@ -35,7 +35,7 @@ func LoginTips(r *ghttp.Request)  {
 		Status: app.Status{
 			Code:  1,
 			Error: true,
-			Msg:   config.LoginTispStr,
+			Msg:   config.LoginTipStr,
 		},
 	})
 	r.Exit()

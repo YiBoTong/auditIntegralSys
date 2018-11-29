@@ -17,7 +17,7 @@ func Login(userCode int, password string) (bool, int, error) {
 	sql.Where("l.delete=?", 0)
 	sql.And("u.delete=?", 0)
 	sql.And("l.user_code=?", userCode)
-	sql.And("l.is_use=?", 0)
+	sql.And("l.is_use=?", 1)
 	res, err := sql.One()
 	res.ToStruct(&userLoginInfo)
 	if err == nil {

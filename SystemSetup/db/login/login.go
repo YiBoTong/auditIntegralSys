@@ -1,8 +1,8 @@
 package db_login
 
 import (
-	"auditIntegralSys/_public/config"
 	"auditIntegralSys/SystemSetup/entity"
+	"auditIntegralSys/_public/config"
 	"gitee.com/johng/gf/g"
 )
 
@@ -43,6 +43,22 @@ func AddLogin(login g.Map) (int, error) {
 		lastId, err = r.LastInsertId()
 	}
 	return int(lastId), err
+}
+
+func GetLoginUserInfoByUserId(userId int) (entity.LoginInfo, error) {
+	db := g.DB()
+	var loginInfo entity.LoginInfo
+	sql := db.Table(config.UserTbName + " u")
+	sql.LeftJoin(config.LoginTbName+" l", "u.user_code=l.user_code")
+	sql.Where("u.user_id=?", userId)
+	sql.And("u.delete=?", 0)
+	sql.And("l.delete=?", 0)
+	sql.And("l.is_use=?", 1)
+	res, err := sql.One()
+	if err == nil {
+		res.ToStruct(&loginInfo)
+	}
+	return loginInfo, err
 }
 
 func UpdateLogin(user g.Map, userCode int, deleted int) (int, error) {

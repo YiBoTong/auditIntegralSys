@@ -3,6 +3,9 @@ package handler
 import (
 	db_org_user "auditIntegralSys/Org/db/user"
 	"auditIntegralSys/Org/entity"
+	"auditIntegralSys/SystemSetup/db/login"
+	ss_entity "auditIntegralSys/SystemSetup/entity"
+	"auditIntegralSys/Worker/check"
 	"auditIntegralSys/Worker/db/user"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
@@ -10,15 +13,17 @@ import (
 	"auditIntegralSys/_public/token"
 	"auditIntegralSys/_public/util"
 	"errors"
+	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
+	"gitee.com/johng/gf/g/util/gconv"
 )
 
 type User struct {
 	gmvc.Controller
 }
 
-func (l *User) Login() {
-	reqData := l.Request.GetJson()
+func (u *User) Login() {
+	reqData := u.Request.GetJson()
 	userCode := reqData.GetInt("userCode")
 	password := reqData.GetString("password")
 	msg := ""
@@ -53,11 +58,11 @@ func (l *User) Login() {
 		msg = config.GetTodoResMsg(config.LoginStr, !success)
 	}
 	if success {
-		token.Set(userId, l.Request, true)
+		token.Set(userId, u.Request, true)
 	} else {
-		token.Del(l.Request)
+		token.Del(u.Request)
 	}
-	l.Response.WriteJson(app.Response{
+	u.Response.WriteJson(app.Response{
 		Data: userInfo,
 		Status: app.Status{
 			Code:  0,
@@ -67,16 +72,19 @@ func (l *User) Login() {
 	})
 }
 
-func (l *User) Get() {
-	userId := util.GetUserIdByRequest(l.Cookie)
+func (u *User) Get() {
+	userId := util.GetUserIdByRequest(u.Cookie)
 	log.Instance().Infofln("userId %v", userId)
 
 	userInfo, err := db_org_user.GetUser(userId)
+	if err != nil {
+		log.Instance().Errorfln("[User Get]: %v", err)
+	}
 	success := err == nil && userInfo.UserId > 0
 	if success {
-		token.Set(userId, l.Request, false)
+		token.Set(userId, u.Request, false)
 	}
-	l.Response.WriteJson(app.Response{
+	u.Response.WriteJson(app.Response{
 		Data: userInfo,
 		Status: app.Status{
 			Code:  0,
@@ -86,9 +94,53 @@ func (l *User) Get() {
 	})
 }
 
-func (l *User) Logout() {
-	token.Del(l.Request)
-	l.Response.WriteJson(app.Response{
+func (u *User) Password() {
+	msg := ""
+	reqData := u.Request.GetJson()
+	oldPd := reqData.GetString("password")
+	newPd := reqData.GetString("new")
+
+	rows := 0
+	userId := util.GetUserIdByRequest(u.Cookie)
+
+	var err error = nil
+	var userInfo ss_entity.LoginInfo
+
+	if !check.PasswordLen(newPd) {
+		msg = config.PasswordLenErrStr
+		err = errors.New(msg)
+	}
+	if err == nil {
+		userInfo, err = db_login.GetLoginUserInfoByUserId(userId)
+	}
+	if err == nil && userInfo.UserId != 0 && check.Password(userInfo.UserCode, oldPd, userInfo.Password) {
+		rows, err = db_login.UpdateLogin(g.Map{
+			"change_pd_time": util.GetLocalNowTimeStr(),
+			"password":       util.GetPasswordStr(newPd, gconv.String(userInfo.UserCode)),
+		}, userInfo.UserCode, 0)
+	} else if msg == "" {
+		msg = config.PasswordErrStr
+	}
+	if err != nil {
+		log.Instance().Errorfln("[User Password]: %v", err)
+	}
+	success := err == nil && rows > 0
+	if msg == "" {
+		msg = config.GetTodoResMsg(config.ChangePasswordStr, !success)
+	}
+	u.Response.WriteJson(app.Response{
+		Data: userId,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   msg,
+		},
+	})
+}
+
+func (u *User) Logout() {
+	token.Del(u.Request)
+	u.Response.WriteJson(app.Response{
 		Data: "",
 		Status: app.Status{
 			Code:  0,

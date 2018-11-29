@@ -28,6 +28,7 @@ func initUrlMsgStr() {
 	temp["login"] = "登录系统"
 	temp["logout"] = "退出系统"
 	temp["upload"] = "上传"
+	temp["password"] = "密码修改"
 	temp["systemSetup/dictionaries"] = "字典"
 	temp["systemSetup/log"] = "日志"
 	temp["systemSetup/login"] = "人员"
