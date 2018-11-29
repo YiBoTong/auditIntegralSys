@@ -22,6 +22,7 @@ func main() {
 	s := g.Server(config.WorkerNameSpace)
 	s.SetSessionIdName(config.CookieIdName)
 	_ = s.BindController(apiPath+"/user", new(handler.User))
+	_ = s.BindController(apiPath+"/file", new(handler.File))
 	_ = s.BindHandler("/*", router.Index)
 	_ = s.BindHookHandlerByMap(apiPath+"/*", map[string]ghttp.HandlerFunc{
 		"BeforeServe": func(r *ghttp.Request) {

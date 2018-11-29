@@ -7,6 +7,7 @@ const (
 	GetStr           = "获取"
 	AddStr           = "添加"
 	EditStr          = "编辑"
+	UploadStr        = "上传"
 	SuccessStr       = "成功"
 	ErrorStr         = "失败"
 	UserCode         = "员工号"

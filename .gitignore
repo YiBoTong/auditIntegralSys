@@ -15,3 +15,4 @@
 .idea/
 /docker/yapi/pkg/
 /docker/images/*
+static/*
