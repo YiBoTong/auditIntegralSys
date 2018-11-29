@@ -48,6 +48,7 @@ func (l *Log) List() {
 				TypeTitle: gconv.String(v["type_title"]),
 				UserId:    gconv.Int(v["user_id"]),
 				UserName:  gconv.String(v["user_name"]),
+				Method:    gconv.String(v["method"]),
 				Msg:       gconv.String(v["msg"]),
 				Time:      gconv.String(v["time"]),
 			})
