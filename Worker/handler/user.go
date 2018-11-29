@@ -52,6 +52,11 @@ func (u *User) Login() {
 	}
 	if err != nil {
 		log.Instance().Errorfln("[User Login]: %v", err)
+	} else {
+		// 更新登录时间
+		_, _ = db_login.UpdateLogin(g.Map{
+			"login_time": util.GetLocalNowTimeStr(),
+		}, userInfo.UserCode, 0)
 	}
 	success := err == nil && userId > 0 && checkPd
 	if msg == "" {

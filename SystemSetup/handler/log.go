@@ -43,14 +43,14 @@ func (l *Log) List() {
 		listData, err = db_log.GetLogs(offset, size, searchMap)
 		for _, v := range listData {
 			rspData = append(rspData, entity.Log{
-				Id:        gconv.Int(v["id"]),
-				Type:      gconv.String(v["type"]),
-				TypeTitle: gconv.String(v["type_title"]),
-				UserId:    gconv.Int(v["user_id"]),
-				UserName:  gconv.String(v["user_name"]),
-				Method:    gconv.String(v["method"]),
-				Msg:       gconv.String(v["msg"]),
-				Time:      gconv.String(v["time"]),
+				Id:       gconv.Int(v["id"]),
+				Url:      gconv.String(v["url"]),
+				Server:   gconv.String(v["server"]),
+				UserId:   gconv.Int(v["user_id"]),
+				UserName: gconv.String(v["user_name"]),
+				Method:   gconv.String(v["method"]),
+				Msg:      gconv.String(v["msg"]),
+				Time:     gconv.String(v["time"]),
 			})
 		}
 	}

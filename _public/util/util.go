@@ -57,9 +57,8 @@ func GetLocalNowTimeStr() string {
 	return localTime
 }
 
-func GetSqlLogKeyByRequest(r *ghttp.Request) string {
-	urlArr := strings.Split(r.RequestURI, "/")
-	return strings.Split(urlArr[len(urlArr)-1], "?")[0]
+func GetSqlLogURLByRequest(r *ghttp.Request) string {
+	return strings.Split(r.RequestURI, "?")[0]
 }
 
 func GetSqlLogMsgByRequest(r *ghttp.Request) string {

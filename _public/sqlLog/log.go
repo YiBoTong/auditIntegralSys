@@ -9,7 +9,7 @@ import (
 
 func Add(r *ghttp.Request, userId int) {
 	_, _ = db_log.AddLog(g.Map{
-		"key":     util.GetSqlLogKeyByRequest(r),
+		"url":     util.GetSqlLogURLByRequest(r),
 		"user_id": userId,
 		"msg":     util.GetSqlLogMsgByRequest(r),
 		"method":  r.Request.Method,
