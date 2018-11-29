@@ -9,6 +9,7 @@ import (
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/net/ghttp"
+	"strings"
 )
 
 const (
@@ -28,7 +29,7 @@ func main() {
 			userId := util.GetUserIdByRequest(r.Cookie)
 			log.Instance().Debugfln("测试 %v", server)
 			if userId == 0 {
-				if r.RequestURI != "/api/worker/user/login" {
+				if strings.Split(r.RequestURI, "?")[0] != "/api/worker/user/login" {
 					router.LoginTips(r)
 				}
 			} else {

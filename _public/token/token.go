@@ -23,7 +23,7 @@ func Set(userId int, r *ghttp.Request,isLogin bool) {
 	}
 	_, _ = g.Redis().Do("Set", token, userId)
 	_, _ = g.Redis().Do("Expire", token, config.CookieMaxAge)
-	r.Cookie.SetCookie(config.CookieIdName, token, "", "/", config.CookieMaxAge, true)
+	r.Cookie.SetCookie(config.CookieIdName, token, "", "/", config.CookieMaxAge, false)
 }
 
 func Del(r *ghttp.Request) {
