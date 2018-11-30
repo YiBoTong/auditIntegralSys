@@ -20,10 +20,11 @@ func main() {
 	log.Init(config.OrgNameSpace)
 	s := g.Server(config.OrgNameSpace)
 	s.SetSessionIdName(config.CookieIdName)
-	s.BindController(apiPath+"/department", new(handler.Department))
-	s.BindController(apiPath+"/user", new(handler.User))
-	s.BindController(apiPath+"/notice", new(handler.Notice))
-	s.BindHandler("/*", router.Index)
+	_ = s.BindController(apiPath+"/department", new(handler.Department))
+	_ = s.BindController(apiPath+"/user", new(handler.User))
+	_ = s.BindController(apiPath+"/notice", new(handler.Notice))
+	_ = s.BindController(apiPath+"/clause", new(handler.Clause))
+	_ = s.BindHandler("/*", router.Index)
 	_ = s.BindHookHandlerByMap(apiPath+"/*", map[string]ghttp.HandlerFunc{
 		"BeforeServe": func(r *ghttp.Request) {
 			server := r.Server.GetName()

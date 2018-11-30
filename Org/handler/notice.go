@@ -20,8 +20,8 @@ type Notice struct {
 	gmvc.Controller
 }
 
-func (n *Notice) List() {
-	reqData := n.Request.GetJson()
+func (r *Notice) List() {
+	reqData := r.Request.GetJson()
 	var rspData []entity.NoticeList
 	// 分页
 	pager := reqData.GetJson("page")
@@ -60,7 +60,7 @@ func (n *Notice) List() {
 	if err != nil {
 		log.Instance().Errorfln("[Notice List]: %v", err)
 	}
-	n.Response.WriteJson(app.ListResponse{
+	r.Response.WriteJson(app.ListResponse{
 		Data: rspData,
 		Status: app.Status{
 			Code:  0,
@@ -75,8 +75,8 @@ func (n *Notice) List() {
 	})
 }
 
-func (n *Notice) Add() {
-	reqData := n.Request.GetJson()
+func (r *Notice) Add() {
+	reqData := r.Request.GetJson()
 	departmentId := reqData.GetInt("departmentId")
 	rangeType := reqData.GetInt("range")
 	state := reqData.GetString("state")
@@ -122,7 +122,7 @@ func (n *Notice) Add() {
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, !success)
 	}
-	n.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: id,
 		Status: app.Status{
 			Code:  0,
@@ -132,8 +132,8 @@ func (n *Notice) Add() {
 	})
 }
 
-func (n *Notice) Get() {
-	noticeId := n.Request.GetQueryInt("id")
+func (r *Notice) Get() {
+	noticeId := r.Request.GetQueryInt("id")
 	fileList := []entity2.File{}
 	informs := []entity.DepartmentTreeInfo{}
 	noticeInfo, err := db_notice.GetNotice(noticeId)
@@ -170,7 +170,7 @@ func (n *Notice) Get() {
 		log.Instance().Errorfln("[Notice Get]: %v", err)
 	}
 	success := err == nil && noticeInfo.Id > 0
-	n.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: entity.NoticeRes{
 			Notice:   noticeInfo,
 			FileList: fileList,
@@ -184,8 +184,8 @@ func (n *Notice) Get() {
 	})
 }
 
-func (n *Notice) Edit() {
-	reqData := n.Request.GetJson()
+func (r *Notice) Edit() {
+	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	departmentId := reqData.GetInt("departmentId")
 	rangeType := reqData.GetInt("range")
@@ -227,14 +227,13 @@ func (n *Notice) Edit() {
 		err = db_notice.AddNoticeFiles(id, reqData.GetString("fileIds"))
 	}
 	if err != nil && rows > 0 {
-		_, _ = db_notice.DelNotice(id)
 		log.Instance().Errorfln("[Notice Edit]: %v", err)
 	}
 	success := err == nil && rows > 0
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.EditStr, !success)
 	}
-	n.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: id,
 		Status: app.Status{
 			Code:  0,
@@ -244,8 +243,8 @@ func (n *Notice) Edit() {
 	})
 }
 
-func (n *Notice) State() {
-	reqData := n.Request.GetJson()
+func (r *Notice) State() {
+	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	state := reqData.GetString("state")
 	rows := 0
@@ -254,14 +253,14 @@ func (n *Notice) State() {
 	hasState, msg := check.NoticeState(state).HasState()
 	if hasState {
 		rows, err = db_notice.UpdateNotice(id, g.Map{
-			"state": reqData.GetString("state"),
+			"state": state,
 		})
 	}
 	success := err == nil && rows > 0
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.EditStr, !success)
 	}
-	n.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: id,
 		Status: app.Status{
 			Code:  0,
@@ -269,17 +268,16 @@ func (n *Notice) State() {
 			Msg:   msg,
 		},
 	})
-
 }
 
-func (n *Notice) Delete() {
-	noticeId := n.Request.GetQueryInt("id")
+func (r *Notice) Delete() {
+	noticeId := r.Request.GetQueryInt("id")
 	rows, err := db_notice.DelNotice(noticeId)
 	if err != nil {
 		log.Instance().Error(err)
 	}
 	success := err == nil && rows > 0
-	n.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: noticeId,
 		Status: app.Status{
 			Code:  0,

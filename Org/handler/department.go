@@ -17,8 +17,8 @@ type Department struct {
 	gmvc.Controller
 }
 
-func (d *Department) List() {
-	reqData := d.Request.GetJson()
+func (r *Department) List() {
+	reqData := r.Request.GetJson()
 	var rspData []entity.Department
 
 	search := reqData.GetJson("search")
@@ -59,10 +59,10 @@ func (d *Department) List() {
 		})
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorfln("[Department List]: %v", err)
 	}
 	count := len(listData)
-	d.Response.WriteJson(app.ListResponse{
+	r.Response.WriteJson(app.ListResponse{
 		Data: rspData,
 		Status: app.Status{
 			Code:  0,
@@ -77,9 +77,9 @@ func (d *Department) List() {
 	})
 }
 
-func (d *Department) Tree() {
+func (r *Department) Tree() {
 	var rspData []entity.DepartmentTreeInfo
-	parentId := d.Request.GetQueryInt("parentId")
+	parentId := r.Request.GetQueryInt("parentId")
 	if parentId == 0 {
 		// 默认根节点
 		parentId = -1
@@ -96,9 +96,9 @@ func (d *Department) Tree() {
 		})
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorfln("[Department Tree]: %v", err)
 	}
-	d.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: rspData,
 		Status: app.Status{
 			Code:  0,
@@ -108,8 +108,8 @@ func (d *Department) Tree() {
 	})
 }
 
-func (d *Department) Add() {
-	reqData := d.Request.GetJson()
+func (r *Department) Add() {
+	reqData := r.Request.GetJson()
 	reqUserList := reqData.GetJson("userList")
 
 	var userList []g.Map
@@ -139,9 +139,9 @@ func (d *Department) Add() {
 		}
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorfln("[Department Add]: %v", err)
 	}
-	d.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: id,
 		Status: app.Status{
 			Code:  0,
@@ -151,8 +151,8 @@ func (d *Department) Add() {
 	})
 }
 
-func (d *Department) Get() {
-	departmentId := d.Request.GetQueryInt("id")
+func (r *Department) Get() {
+	departmentId := r.Request.GetQueryInt("id")
 	userList := []entity.DepUser{}
 	department, err := db_department.GetDepartment(departmentId)
 	if err == nil && department.Id > 0 {
@@ -172,7 +172,7 @@ func (d *Department) Get() {
 		log.Instance().Errorfln("[Department Get]: %v", err)
 	}
 	success := err == nil && department.Id > 0
-	d.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: entity.DepartmentRes{
 			Department: department,
 			UserList:   userList,
@@ -185,8 +185,8 @@ func (d *Department) Get() {
 	})
 }
 
-func (d *Department) Edit() {
-	reqData := d.Request.GetJson()
+func (r *Department) Edit() {
+	reqData := r.Request.GetJson()
 	departmentId := reqData.GetInt("id")
 	userList := reqData.GetJson("userList")
 
@@ -227,10 +227,10 @@ func (d *Department) Edit() {
 		_, err = db_department.UpdateDepartmentUser(departmentId, addDepartments, updateDepartments, updateDepartmentUserIds)
 	}
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorfln("[Department Edit]: %v", err)
 	}
 	success := err == nil && rows > 0
-	d.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: departmentId,
 		Status: app.Status{
 			Code:  0,
@@ -240,14 +240,15 @@ func (d *Department) Edit() {
 	})
 }
 
-func (d *Department) Delete() {
-	departmentId := d.Request.GetQueryInt("id")
+func (r *Department) Delete() {
+	departmentId := r.Request.GetQueryInt("id")
 	rows, err := db_department.DelDepartment(departmentId)
 	if err != nil {
-		log.Instance().Error(err)
+		log.Instance().Errorfln("[Department Delete]: %v", err)
+
 	}
 	success := err == nil && rows > 0
-	d.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: departmentId,
 		Status: app.Status{
 			Code:  0,

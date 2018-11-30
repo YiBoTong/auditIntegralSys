@@ -18,8 +18,8 @@ type User struct {
 	gmvc.Controller
 }
 
-func (u *User) List() {
-	reqData := u.Request.GetJson()
+func (r *User) List() {
+	reqData := r.Request.GetJson()
 	var rspData []entity.User
 	// 分页
 	pager := reqData.GetJson("page")
@@ -60,6 +60,7 @@ func (u *User) List() {
 				DepartmentId: gconv.Int(v["department_id"]),
 				UserName:     gconv.String(v["user_name"]),
 				UserCode:     gconv.Int(v["user_code"]),
+				Sex:          gconv.Int(v["sex"]),
 				Class:        gconv.String(v["class"]),
 				Phone:        gconv.String(v["phone"]),
 				IdCard:       gconv.String(v["id_card"]),
@@ -70,7 +71,7 @@ func (u *User) List() {
 	if err != nil {
 		log.Instance().Errorfln("[User List]: %v", err)
 	}
-	u.Response.WriteJson(app.ListResponse{
+	r.Response.WriteJson(app.ListResponse{
 		Data: rspData,
 		Status: app.Status{
 			Code:  0,
@@ -85,8 +86,8 @@ func (u *User) List() {
 	})
 }
 
-func (u *User) Add() {
-	reqData := u.Request.GetJson()
+func (r *User) Add() {
+	reqData := r.Request.GetJson()
 	userCode := reqData.GetInt("userCode")
 	departmentId := reqData.GetInt("departmentId")
 
@@ -121,7 +122,7 @@ func (u *User) Add() {
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, err != nil)
 	}
-	u.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: id,
 		Status: app.Status{
 			Code:  0,
@@ -131,14 +132,14 @@ func (u *User) Add() {
 	})
 }
 
-func (u *User) Get() {
-	userId := u.Request.GetQueryInt("id")
+func (r *User) Get() {
+	userId := r.Request.GetQueryInt("id")
 	userInfo, err := db_user.GetUser(userId)
 	if err != nil {
 		log.Instance().Errorfln("[User Get]: %v", err)
 	}
 	success := err == nil && userInfo.UserId > 0
-	u.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: userInfo,
 		Status: app.Status{
 			Code:  0,
@@ -148,8 +149,8 @@ func (u *User) Get() {
 	})
 }
 
-func (u *User) Edit() {
-	reqData := u.Request.GetJson()
+func (r *User) Edit() {
+	reqData := r.Request.GetJson()
 	userId := reqData.GetInt("userId")
 	userCode := reqData.GetInt("userCode")
 	departmentId := reqData.GetInt("departmentId")
@@ -185,7 +186,7 @@ func (u *User) Edit() {
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.EditStr, !success)
 	}
-	u.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: userId,
 		Status: app.Status{
 			Code:  0,
@@ -195,14 +196,14 @@ func (u *User) Edit() {
 	})
 }
 
-func (u *User) Delete() {
-	userId := u.Request.GetQueryInt("id")
+func (r *User) Delete() {
+	userId := r.Request.GetQueryInt("id")
 	rows, err := db_user.DelUser(userId)
 	if err != nil {
 		log.Instance().Error(err)
 	}
 	success := err == nil && rows > 0
-	u.Response.WriteJson(app.Response{
+	r.Response.WriteJson(app.Response{
 		Data: userId,
 		Status: app.Status{
 			Code:  0,
