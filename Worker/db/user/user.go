@@ -18,6 +18,7 @@ func Login(userCode int, password string) (bool, int, error) {
 	sql.And("u.delete=?", 0)
 	sql.And("l.user_code=?", userCode)
 	sql.And("l.is_use=?", 1)
+	sql.OrderBy("l.login_id desc")
 	res, err := sql.One()
 	res.ToStruct(&userLoginInfo)
 	if err == nil {
