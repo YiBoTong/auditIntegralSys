@@ -112,7 +112,7 @@ func (n *Notice) Add() {
 	}
 	// 添加附件
 	if err == nil && id > 0 {
-		err = addNoticeFile(id, reqData.GetString("fileIds"))
+		err = db_notice.AddNoticeFiles(id, reqData.GetString("fileIds"))
 	}
 	if err != nil && id > 0 {
 		_, _ = db_notice.DelNotice(id)
@@ -189,7 +189,7 @@ func (n *Notice) Edit() {
 	id := reqData.GetInt("id")
 	departmentId := reqData.GetInt("departmentId")
 	rangeType := reqData.GetInt("range")
-	state :=reqData.GetString("state")
+	state := reqData.GetString("state")
 
 	rows := 0
 	hasState := false
@@ -224,7 +224,7 @@ func (n *Notice) Edit() {
 	// 添加附件
 	if err == nil && rows > 0 {
 		_, _ = db_notice.DelNoticeFile(id)
-		err = addNoticeFile(id, reqData.GetString("fileIds"))
+		err = db_notice.AddNoticeFiles(id, reqData.GetString("fileIds"))
 	}
 	if err != nil && rows > 0 {
 		_, _ = db_notice.DelNotice(id)
@@ -310,23 +310,4 @@ func addNoticeInform(noticeId int, informIds string) (string, error) {
 		err = errors.New(msg)
 	}
 	return msg, err
-}
-
-func addNoticeFile(noticeId int, fileIds string) error {
-	addIds := strings.Split(fileIds, ",")
-	var err error = nil
-	if len(addIds) > 0 && addIds[0] != "" {
-		var add []g.Map
-		for _, id := range addIds {
-			dId := gconv.Int(id)
-			if dId > 0 {
-				add = append(add, g.Map{
-					"notice_id": noticeId,
-					"file_id":   dId,
-				})
-			}
-		}
-		_, err = db_notice.AddNoticeFile(add)
-	}
-	return err
 }

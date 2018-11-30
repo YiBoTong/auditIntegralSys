@@ -2,8 +2,11 @@ package db_notice
 
 import (
 	"auditIntegralSys/Org/entity"
+	"auditIntegralSys/Worker/db/file"
 	"auditIntegralSys/_public/config"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 )
 
 func GetNoticeCount(where g.Map) (int, error) {
@@ -118,12 +121,42 @@ func AddNoticeFile(add []g.Map) (int, error) {
 	return int(lastId), err
 }
 
+func AddNoticeFiles(noticeId int, fileIds string) error {
+	addIds := strings.Split(fileIds, ",")
+	var err error = nil
+	if len(addIds) > 0 && addIds[0] != "" {
+		var add []g.Map
+		for _, id := range addIds {
+			fId := gconv.Int(id)
+			if fId > 0 {
+				add = append(add, g.Map{
+					"notice_id": noticeId,
+					"file_id":   fId,
+				})
+				_, err = db_file.UpdateFile(fId, g.Map{
+					"form":    config.NoticeTbName,
+					"form_id": noticeId,
+					"delete":  0,
+				})
+				if err != nil {
+					break
+				}
+			}
+		}
+		if err == nil {
+			_, err = AddNoticeFile(add)
+		}
+	}
+	return err
+}
+
 func DelNoticeFile(noticeId int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
 	r, err := db.Table(config.NoticeFileTbName).Where("notice_id=?", noticeId).Delete()
 	if err == nil {
 		rows, _ = r.RowsAffected()
+		_, _ = db_file.DelFilesByFrom(noticeId, config.NoticeTbName)
 	}
 	return int(rows), err
 }
