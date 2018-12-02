@@ -69,6 +69,12 @@
 			"revisionTime": "2018-11-12T01:28:26Z"
 		},
 		{
+			"checksumSHA1": "+X7RDRIn+lnBGB07LTrVpJZpu3g=",
+			"path": "gitee.com/johng/gf/g/crypto/gmd5",
+			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
+			"revisionTime": "2018-11-12T01:28:26Z"
+		},
+		{
 			"checksumSHA1": "4FDTOrIKDaeaZfN2JK5GdvLhjm0=",
 			"path": "gitee.com/johng/gf/g/database/gdb",
 			"revision": "e9da6116f85f29490d896f10bc52abf223cf8f8d",
