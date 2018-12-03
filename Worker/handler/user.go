@@ -29,6 +29,7 @@ func (u *User) Login() {
 	msg := ""
 	checkPd := false
 	userId := 0
+	var loginUser ss_entity.LoginInfo
 	var err error = nil
 	var userInfo entity.User
 	if password == "" {
@@ -37,7 +38,8 @@ func (u *User) Login() {
 		msg = "员工号不能为空"
 	}
 	if msg == "" {
-		checkPd, userId, err = db_user.Login(userCode, password)
+		checkPd, loginUser, err = db_user.Login(userCode, password)
+		userId = loginUser.UserId
 		if userId == 0 {
 			msg = "该员工号不允许登录"
 		} else if !checkPd {
@@ -56,6 +58,7 @@ func (u *User) Login() {
 		// 更新登录时间
 		_, _ = db_login.UpdateLogin(g.Map{
 			"login_time": util.GetLocalNowTimeStr(),
+			"login_num":  loginUser.LoginNum + 1,
 		}, userInfo.UserCode, 0)
 	}
 	success := err == nil && userId > 0 && checkPd
