@@ -1,0 +1,30 @@
+{
+  "database": {
+    "default": [
+      {
+        "host": "127.0.0.1",
+        "port": "3310",
+        "user": "root",
+        "pass": "root",
+        "name": "audit_integral",
+        "type": "mysql",
+        "role": "master"
+      },
+      {
+        "host": "127.0.0.1",
+        "port": "3311",
+        "user": "root",
+        "pass": "root",
+        "name": "audit_integral",
+        "type": "mysql",
+        "role": "slave"
+      }
+    ]
+  },
+  "redis": {
+    "default": "127.0.0.1:6389,0",
+    "cache": "127.0.0.1:6389,1"
+  },
+  "filePath": "D:/go/src/auditIntegralSys/static/",
+  "appPort": 8093
+}
