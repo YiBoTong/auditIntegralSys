@@ -4,4 +4,5 @@ const (
 	SystemSetupNameSpace = "systemSetup"
 	OrgNameSpace         = "org"
 	WorkerNameSpace      = "worker"
+	AuditNameSpace       = "audit"
 )
