@@ -303,8 +303,10 @@ func (r *Clause) Edit() {
 			}
 		}
 		_, _ = db_clause.DelClauseContentByClauseId(clauseId)
-		_, err = db_clause.AddClauseContents(addContentArr)
-		if err == nil {
+		if len(addContentArr) > 0 {
+			_, err = db_clause.AddClauseContents(addContentArr)
+		}
+		if err == nil && len(updateContentArr) > 0 {
 			_, err = db_clause.UpdateClauseContents(updateContentArr)
 		}
 	}
