@@ -191,7 +191,7 @@ CREATE TABLE `dictionary_type` (
 
 /*Data for the table `dictionary_type` */
 
-insert  into `dictionary_type`(`id`,`type_id`,`key`,`title`,`is_use`,`update_time`,`user_id`,`describe`,`delete`) values (-1,-1,'system','字典分类',1,'2018-11-12 15:37:43',0,'系统字典分类',0),(-4,-1,'system','管理办法标题级别',0,'2018-12-03 20:31:18',0,'管理办法标题级别选项',0),(-3,-1,'system','日志分类',1,'2018-11-29 18:15:50',0,'系统日志分类',0),(119,3,'yes','666',0,'2018-11-28 17:18:03',0,'这是描述文字11',1),(118,3,'yes','666',0,'2018-11-28 17:14:02',0,'这是描述文字11',1),(117,3,'yes','666',0,'2018-11-28 16:43:54',0,'这是描述文字11',1),(116,3,'yes','666',0,'2018-11-28 16:37:25',0,'这是描述文字11',1),(115,3,'yes','666',0,'2018-11-28 15:40:49',0,'这是描述文字11',1),(114,3,'yes','666',0,'2018-11-28 09:49:40',0,'这是描述文字11',0),(-2,-1,'system','人员角色',1,'2018-11-26 12:08:34',0,'部门人员角色字典',0);
+insert  into `dictionary_type`(`id`,`type_id`,`key`,`title`,`is_use`,`update_time`,`user_id`,`describe`,`delete`) values (-1,-1,'system','字典分类',1,'2018-11-12 15:37:43',0,'系统字典分类',0),(-4,-1,'system','管理办法标题级别',0,'2018-12-03 20:31:18',0,'管理办法标题级别选项',0),(-3,-1,'system','日志分类',1,'2018-11-29 18:15:50',0,'系统日志分类',0),(119,3,'yes','666',0,'2018-11-28 17:18:03',0,'这是描述文字11',1),(118,3,'yes','666',0,'2018-11-28 17:14:02',0,'这是描述文字11',1),(117,3,'yes','666',0,'2018-11-28 16:43:54',0,'这是描述文字11',1),(116,3,'yes','666',0,'2018-11-28 16:37:25',0,'这是描述文字11',1),(115,3,'yes','666',0,'2018-11-28 15:40:49',0,'这是描述文字11',1),(114,3,'yes','666',1,'2018-12-06 15:32:21',0,'这是描述文字11',0),(-2,-1,'system','人员角色',1,'2018-11-26 12:08:34',0,'部门人员角色字典',0);
 
 /*Table structure for table `draft` */
 
@@ -366,7 +366,7 @@ CREATE TABLE `login` (
 
 /*Data for the table `login` */
 
-insert  into `login`(`login_id`,`user_code`,`password`,`is_use`,`change_pd_time`,`login_num`,`login_time`,`author_id`,`delete`) values (3,10001,'3b1ac6e9a16ff76879e5888483e118a8',1,'2018-11-29 18:10:57',0,'2018-12-03 10:48:57',2,0),(4,10002,'78dc8bbc86eb472b3db1d0b025714ec1',1,'0000-00-00 00:00:00',3,'2018-12-04 14:26:29',2,0);
+insert  into `login`(`login_id`,`user_code`,`password`,`is_use`,`change_pd_time`,`login_num`,`login_time`,`author_id`,`delete`) values (3,10001,'3b1ac6e9a16ff76879e5888483e118a8',1,'2018-11-29 18:10:57',0,'2018-12-03 10:48:57',2,0),(4,10002,'78dc8bbc86eb472b3db1d0b025714ec1',1,'0000-00-00 00:00:00',7,'2018-12-06 17:19:23',2,0);
 
 /*Table structure for table `logs` */
 
@@ -384,7 +384,7 @@ CREATE TABLE `logs` (
   `ip` char(15) DEFAULT NULL COMMENT 'IP地址',
   `delete` tinyint(1) DEFAULT '0' COMMENT '删除（0未删1删除）',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=5167 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5913 DEFAULT CHARSET=utf8;
 
 /*Data for the table `logs` */
 
@@ -402,14 +402,15 @@ CREATE TABLE `menu` (
   `parent_id` int(11) NOT NULL DEFAULT '-1' COMMENT '父级菜单',
   `has_child` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否有子菜单',
   `order` int(2) NOT NULL DEFAULT '0' COMMENT '排序',
+  `is_use` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否启用（0禁用1启用）',
   `time` timestamp NULL DEFAULT '0000-00-00 00:00:00' COMMENT '更新日期',
   `delete` tinyint(1) NOT NULL DEFAULT '0' COMMENT '删除（0未删|1删除）',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 
 /*Data for the table `menu` */
 
-insert  into `menu`(`id`,`path`,`name`,`title`,`icon`,`no_cache`,`parent_id`,`has_child`,`order`,`time`,`delete`) values (10,'/audit','audit','audit','international',0,8,0,0,'2018-12-04 17:08:39',0),(9,'/audit','audit','audit','international',0,-1,0,0,'2018-12-04 15:33:34',0),(8,'/audit','audit','audit','international',0,-1,0,0,'2018-12-04 15:33:33',0),(7,'/audit','audit','audit','international',0,-1,0,0,'2018-12-04 15:33:33',0),(6,'/audit','audit','audit','international',0,-1,0,0,'2018-12-04 15:33:27',0),(11,'/audit','audit','audit','international',0,8,0,0,'2018-12-04 17:08:40',0),(12,'/audit','audit','audit','international',0,8,0,0,'2018-12-04 17:08:41',0),(13,'/audit','audit','audit','international',0,8,0,0,'2018-12-04 17:08:42',0),(14,'/audit','audit','audit','international',0,10,0,0,'2018-12-04 17:08:46',0),(15,'/audit','audit','audit','international',0,10,0,0,'2018-12-04 17:08:47',0),(16,'/audit','audit','audit','international',0,10,0,0,'2018-12-04 17:08:47',0),(17,'/audit','audit','audit','international',0,10,0,0,'2018-12-04 17:08:48',0);
+insert  into `menu`(`id`,`path`,`name`,`title`,`icon`,`no_cache`,`parent_id`,`has_child`,`order`,`is_use`,`time`,`delete`) values (1,'','','','',1,-1,1,1,1,'2018-12-06 09:15:55',0),(2,'dashboard','Dashboard','dashboard','dashboard',1,1,0,0,0,'2018-12-06 09:16:41',0),(3,'/guide','','','',1,-1,1,2,1,'2018-12-06 09:17:06',0),(4,'index','Guide','guide','guide',1,3,0,0,1,'2018-12-06 09:17:44',0),(5,'/personal','','','',1,-1,1,3,1,'2018-12-06 09:18:09',0),(6,'index','Personal','personal','user',1,5,0,0,1,'2018-12-06 09:19:57',0),(7,'/organization','organization','organization','component',1,-1,1,4,1,'2018-12-06 09:20:43',0),(8,'notice','notice','notice','notice',1,7,0,1,1,'2018-12-06 09:21:10',0),(9,'departmentManagement','departmentManagement','departmentManagement','',1,7,0,2,1,'2018-12-06 09:21:31',0),(10,'personnelManagement','personnelManagement','personnelManagement','',1,7,0,3,1,'2018-12-06 09:21:41',0),(11,'managementMethods','managementMethods','managementMethods','',1,7,0,4,1,'2018-12-06 09:21:47',0),(12,'/audit','audit','audit','international',1,-1,1,5,1,'2018-12-06 09:22:10',0),(13,'workManuscript','workManuscript','workManuscript','',1,12,0,1,1,'2018-12-06 09:23:00',0),(14,'confirmation','confirmation','confirmation','',1,12,0,2,1,'2018-12-06 09:23:08',0),(15,'punishNotice','punishNotice','punishNotice','',1,12,0,3,1,'2018-12-06 09:23:16',0),(16,'integralTable','integralTable','integralTable','',1,12,0,4,1,'2018-12-06 09:23:25',0),(17,'statisticalAnalysis','statisticalAnalysis','statisticalAnalysis','',1,12,0,5,1,'2018-12-06 09:23:31',0),(18,'/system','system','system','example',1,-1,1,6,1,'2018-12-06 09:23:47',0),(19,'dictionaryManagement','dictionaryManagement','dictionaryManagement','',1,18,0,1,1,'2018-12-06 09:25:58',0),(20,'loginManagement','loginManagement','loginManagement','',1,18,0,2,1,'2018-12-06 09:26:06',0),(21,'menusManagement','menusManagement','menusManagement','',1,18,0,3,1,'2018-12-06 09:26:19',0),(22,'powerManagement','powerManagement','powerManagement','',1,18,0,4,1,'2018-12-06 09:26:27',0),(23,'systemLog','systemLog','systemLog','',1,18,0,5,1,'2018-12-06 09:26:33',0);
 
 /*Table structure for table `notice` */
 
@@ -489,6 +490,23 @@ CREATE TABLE `punish_notice` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 /*Data for the table `punish_notice` */
+
+/*Table structure for table `rbac` */
+
+DROP TABLE IF EXISTS `rbac`;
+
+CREATE TABLE `rbac` (
+  `rid` int(11) NOT NULL AUTO_INCREMENT COMMENT '权限主键ID',
+  `key` char(20) NOT NULL DEFAULT '-' COMMENT '角色key（字典）',
+  `menu_id` int(11) NOT NULL DEFAULT '0' COMMENT '菜单ID',
+  `is_read` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可读',
+  `is_write` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否可写',
+  PRIMARY KEY (`rid`)
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8;
+
+/*Data for the table `rbac` */
+
+insert  into `rbac`(`rid`,`key`,`menu_id`,`is_read`,`is_write`) values (28,'management',4,1,1),(27,'management',2,1,1),(26,'management',1,1,1);
 
 /*Table structure for table `rectify` */
 
