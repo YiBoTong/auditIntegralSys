@@ -1,6 +1,7 @@
 package config
 
 const (
+	RbacTbName                       = "rbac"                         // 角色权限表
 	MenuTbName                       = "menu"                         // 菜单表
 	DictionaryTypeTbName             = "dictionary_type"              // 字典类型表
 	DictionaryTbName                 = "dictionary"                   // 字典类型表

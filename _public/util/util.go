@@ -33,6 +33,8 @@ func initUrlMsgStr() {
 	temp["systemSetup/dictionaries"] = "字典"
 	temp["systemSetup/log"] = "日志"
 	temp["systemSetup/login"] = "人员"
+	temp["systemSetup/menu"] = "菜单"
+	temp["systemSetup/rbac"] = "权限"
 	temp["worker/user"] = ""
 	temp["worker/file"] = "文件"
 	temp["worker/menu"] = "菜单"

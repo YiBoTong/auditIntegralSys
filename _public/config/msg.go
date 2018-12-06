@@ -22,6 +22,8 @@ const (
 	PasswordErrStr    = "密码错误"
 	ChangePasswordStr = "修改密码"
 	PasswordLenErrStr = "密码长度为6-18位"
+	RbacStr           = "权限"
+	MastHasOneStr     = "至少要有一个"
 )
 
 // 获取操作提示
