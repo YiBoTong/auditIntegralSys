@@ -5,7 +5,7 @@ import (
 	"gitee.com/johng/gf/g"
 )
 
-func Get(key string, menuParentId int) ([]map[string]interface{}, error) {
+func GetRbacMenu(key string, menuParentId int) ([]map[string]interface{}, error) {
 	db := g.DB()
 	sql := db.Table(config.MenuTbName + " m")
 	sql.InnerJoin(config.RbacTbName+" r", "r.menu_id=m.id")

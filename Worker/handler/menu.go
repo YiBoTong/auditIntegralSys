@@ -16,10 +16,10 @@ type Menu struct {
 }
 
 func (r *Menu) Get() {
-	allMenu, err := fun.GetAllMenu(-1, true)
+	allMenu, err := fun.GetRbacMenu(-1, "management")
 	if err != nil {
 		allMenu = nil
-		log.Instance().Errorfln("[All Menu]: %v", err)
+		log.Instance().Errorfln("[Worker Menu Get]: %v", err)
 	}
 	r.Response.WriteJson(app.Response{
 		Data: allMenu,
@@ -35,7 +35,7 @@ func (r *Menu) All() {
 	allMenu, err := fun.GetAllMenu(-1, true)
 	if err != nil {
 		allMenu = nil
-		log.Instance().Errorfln("[All Menu]: %v", err)
+		log.Instance().Errorfln("[Worker Menu All]: %v", err)
 	}
 	r.Response.WriteJson(app.Response{
 		Data: allMenu,
@@ -61,6 +61,9 @@ func (r *Menu) Add() {
 		"time":      util.GetLocalNowTimeStr(),
 	})
 	success := err == nil && id > 0
+	if err != nil {
+		log.Instance().Errorfln("[Worker Menu Add]: %v", err)
+	}
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, !success)
 	}
