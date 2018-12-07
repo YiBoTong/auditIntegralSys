@@ -2,18 +2,16 @@ package db_rbac
 
 import (
 	"auditIntegralSys/_public/config"
-	"fmt"
 	"gitee.com/johng/gf/g"
 )
 
 func Get(key string, menuParentId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	str := fmt.Sprintf("SELECT m.*,r.* FROM %v m LEFT JOIN %v r ON (r.menu_id=m.id) WHERE m.delete=0 AND m.parent_id=%v", config.MenuTbName, config.RbacTbName, menuParentId)
-	sql := str
-	sql += " UNION "
-	sql += fmt.Sprintf("%v AND r.key='%v'", str, key)
-	sql += " ORDER BY `order` ASC"
-	res, err := db.GetAll(sql)
+	sql := db.Table(config.MenuTbName + " m")
+	sql.LeftJoin(config.RbacTbName+" r", "r.key='"+key+"' AND r.menu_id=m.id")
+	sql.Where("m.delete=?", 0)
+	sql.And("m.parent_id=?", menuParentId)
+	res, err := sql.All()
 	return res.ToList(), err
 }
 
