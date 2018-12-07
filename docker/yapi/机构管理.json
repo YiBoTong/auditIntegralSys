@@ -1,1061 +1,906 @@
-[
-  {
-    "index": 0,
-    "name": "部门管理",
-    "desc": null,
-    "add_time": 1542607700,
-    "up_time": 1542607700,
-    "list": [
-      {
-        "query_path": {
-          "path": "/department/edit",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 94,
-        "method": "PUT",
-        "catid": 115,
-        "title": "修改机构",
-        "path": "/department/edit",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf7511bb2985521d80ec9b3",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"修改的机构id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"description\":\"部门id\"},\"parentId\":{\"type\":\"string\",\"description\":\"上级机构的id\"},\"code\":{\"type\":\"string\",\"description\":\"部门编码\"},\"level\":{\"type\":\"number\",\"description\":\"部门级别\"},\"address\":{\"type\":\"string\",\"description\":\"地址\"},\"phone\":{\"type\":\"string\",\"description\":\"联系方式\"},\"userList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"用户id\"},\"type\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"用户角色\"}},\"required\":[\"userId\",\"type\"]},\"description\":\"负责人\"}},\"required\":[\"id\",\"parentId\",\"code\",\"level\",\"address\",\"phone\",\"userList\"]}",
-        "uid": 11,
-        "add_time": 1542607635,
-        "up_time": 1542962685,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/department/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 98,
-        "method": "DELETE",
-        "catid": 115,
-        "title": "删除机构",
-        "path": "/department/delete",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf7512ab2985521d80ec9b4",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除的机构id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门id\"}},\"required\":[\"id\"]}",
-        "uid": 11,
-        "add_time": 1542607635,
-        "up_time": 1542962808,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/department/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 122,
-        "method": "POST",
-        "catid": 115,
-        "title": "机构列表",
-        "path": "/department/list",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf77f71b2985521d80ec9c0",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf77f71b2985521d80ec9bf",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>此接口为树形接口<br>\n默认根节点的parentId为-1</p>\n",
-        "markdown": "此接口为树形接口\n默认根节点的parentId为-1",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"search\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"机构名称\"},\"parentId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"上级部门ID\"},\"code\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"部门编码\"},\"level\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门登记\"}},\"description\":\"搜索对象\",\"required\":[\"parentId\"]}},\"required\":[\"search\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"机构id\"},\"name\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name\"},\"description\":\"机构名称\"},\"parentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"上级机构id\"},\"code\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"部门编码\"},\"level\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门级别\"},\"address\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"地址\"},\"phone\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"联系方式\"},\"updateTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"更新时间\"}},\"required\":[\"id\",\"parentId\",\"code\",\"level\",\"address\",\"phone\",\"updateTime\",\"name\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示多少条数据\"}},\"description\":\"分页\",\"required\":[\"page\",\"size\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"status\",\"page\"]}",
-        "uid": 11,
-        "add_time": 1542607705,
-        "up_time": 1542946673,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/department/tree",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 218,
-        "method": "GET",
-        "catid": 115,
-        "title": "机构树",
-        "path": "/department/tree",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf77f8bb2985521d80ec9c1",
-            "name": "parentId",
-            "example": "1",
-            "desc": "父级结构id，根节点为-1"
-          }
-        ],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf77f8bb2985521d80ec9c3",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf77f8bb2985521d80ec9c2",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>此接口为树形接口<br>\n默认根节点的parentId为-1</p>\n",
-        "markdown": "此接口为树形接口\n默认根节点的parentId为-1",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"search\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"机构名称\"},\"parentId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"上级部门ID\"},\"code\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"部门编码\"},\"level\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门登记\"}},\"description\":\"搜索对象\",\"required\":[\"parentId\"]}},\"required\":[\"search\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"机构id\"},\"name\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name\"},\"description\":\"机构树\"},\"parentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"上级机构id\"},\"code\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"部门编码\"},\"level\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门级别\"}},\"required\":[\"id\",\"parentId\",\"code\",\"level\",\"name\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示多少条数据\"}},\"description\":\"分页\",\"required\":[\"page\",\"size\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"status\",\"page\"]}",
-        "uid": 11,
-        "add_time": 1542938092,
-        "up_time": 1542946699,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/department/add",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 102,
-        "method": "POST",
-        "catid": 115,
-        "title": "添加机构",
-        "path": "/department/add",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf78016b2985521d80ec9c5",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的部门id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"parentId\":{\"type\":\"string\",\"description\":\"上级结构id\"},\"name\":{\"type\":\"string\",\"description\":\"机构名称\"},\"code\":{\"type\":\"string\",\"description\":\"机构编码\"},\"level\":{\"type\":\"number\",\"description\":\"部门级别\"},\"address\":{\"type\":\"string\",\"description\":\"地址\"},\"phone\":{\"type\":\"string\",\"description\":\"联系方式\"},\"userList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"人员id\"},\"type\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"角色类型\"}},\"required\":[\"userId\",\"type\"]},\"description\":\"负责人\"}},\"required\":[\"parentId\",\"code\",\"level\",\"address\",\"phone\",\"userList\",\"name\"]}",
-        "uid": 11,
-        "add_time": 1542607635,
-        "up_time": 1542957044,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/department/get",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 126,
-        "method": "GET",
-        "catid": 115,
-        "title": "获取机构",
-        "path": "/department/get",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf75147b2985521d80ec9b8",
-            "name": "id",
-            "example": "1",
-            "desc": "部门id"
-          }
-        ],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf75147b2985521d80ec9b9",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"机构id\"},\"parent_id\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"上级机构id\"},\"code\":{\"type\":\"string\",\"description\":\"部门编码\",\"mock\":{\"mock\":\"@string\"}},\"level\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"部门级别\"},\"address\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"地址\"},\"phone\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"联系方式\"},\"updateTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"更新时间\"},\"userList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"用户id\"},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"用户姓名\"},\"type\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"角色分类\"}},\"required\":[\"userId\",\"userName\",\"type\"]},\"description\":\"部门负责人列表\"}},\"description\":\"机构信息\",\"required\":[\"id\",\"parent_id\",\"code\",\"level\",\"address\",\"phone\",\"updateTime\",\"userList\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\",\"required\":[\"code\",\"error\",\"msg\"]}},\"required\":[\"data\",\"status\"]}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"description\":\"部门id\"}},\"description\":\"搜索项\"}",
-        "uid": 11,
-        "add_time": 1542609190,
-        "up_time": 1542957053,
-        "__v": 0
-      }
-    ]
-  },
-  {
-    "index": 0,
-    "name": "人员管理",
-    "desc": null,
-    "add_time": 1542610490,
-    "up_time": 1542610490,
-    "list": [
-      {
-        "query_path": {
-          "path": "/user/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 134,
-        "method": "POST",
-        "catid": 123,
-        "title": "人员列表",
-        "path": "/user/list",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf7c11cb2985521d80ec9c7",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf7c11cb2985521d80ec9c6",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>此接口为树形接口<br>\n默认根节点的parentId为-1</p>\n",
-        "markdown": "此接口为树形接口\n默认根节点的parentId为-1",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"search\":{\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"人员姓名\"},\"userCode\":{\"type\":\"string\",\"description\":\"员工号\"},\"departmentId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门ID\"},\"sex\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"性别\"}},\"description\":\"搜索对象\",\"required\":[\"departmentId\"]},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示几条数据\"}},\"required\":[\"page\",\"size\"],\"description\":\"分页\"}},\"required\":[\"search\",\"page\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"用户id\"},\"departmentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"机构id\"},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"人员姓名\"},\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"员工号\"},\"class\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"名族\"},\"phone\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"联系方式\"},\"idCard\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"身份证号\"},\"updateTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"更新时间\"}},\"required\":[\"id\",\"departmentId\",\"userName\",\"userCode\",\"phone\",\"updateTime\",\"idCard\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示多少条数据\"}},\"description\":\"分页\",\"required\":[\"page\",\"size\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"status\",\"page\"]}",
-        "uid": 11,
-        "add_time": 1542610527,
-        "up_time": 1542963484,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/user/edit",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 142,
-        "method": "PUT",
-        "catid": 123,
-        "title": "修改人员",
-        "path": "/user/edit",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf262910c53d73a6ce1e121",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"修改的人员id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"departmentId\":{\"type\":\"string\",\"description\":\"机构id\",\"mock\":{\"mock\":\"@id\"},\"minLength\":1,\"maxLength\":3},\"userName\":{\"type\":\"string\",\"description\":\"人员姓名\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"员工号\",\"minimum\":5,\"maximum\":8},\"sex\":{\"type\":\"string\",\"description\":\"名族\",\"mock\":{\"mock\":\"@integer\"},\"minLength\":1,\"maxLength\":1,\"pattern\":\"\",\"enum\":[\"0\",\"1\",\"2\"]},\"idCard\":{\"type\":\"string\",\"description\":\"身份证\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\"},\"id\":{\"type\":\"string\",\"mock\":{\"mock\":\"@id\"},\"description\":\"人员id\"}},\"required\":[\"departmentId\",\"userName\",\"userCode\",\"sex\",\"idCard\",\"id\"]}",
-        "uid": 11,
-        "add_time": 1542611529,
-        "up_time": 1542611601,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/user/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 166,
-        "method": "DELETE",
-        "catid": 123,
-        "title": "删除人员",
-        "path": "/user/delete",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf26f9c0c53d73a6ce1e13d",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除的人员id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"人员id\"}},\"required\":[\"id\"]}",
-        "uid": 11,
-        "add_time": 1542614901,
-        "up_time": 1542614940,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/user/add",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 138,
-        "method": "POST",
-        "catid": 123,
-        "title": "添加人员",
-        "path": "/user/add",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf2621c0c53d73a6ce1e11f",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的人员id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"departmentId\":{\"type\":\"string\",\"description\":\"机构id\",\"mock\":{\"mock\":\"@integer\"},\"minLength\":1,\"maxLength\":3},\"userName\":{\"type\":\"string\",\"description\":\"人员姓名\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"员工号\",\"minimum\":5,\"maximum\":8},\"sex\":{\"type\":\"string\",\"description\":\"名族\",\"mock\":{\"mock\":\"@integer\"},\"minLength\":1,\"maxLength\":1,\"pattern\":\"\",\"enum\":[\"0\",\"1\",\"2\"]},\"idCard\":{\"type\":\"string\",\"description\":\"身份证\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\"}},\"required\":[\"departmentId\",\"userName\",\"userCode\",\"sex\",\"idCard\"]}",
-        "uid": 11,
-        "add_time": 1542611101,
-        "up_time": 1542611484,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/user/get",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 146,
-        "method": "GET",
-        "catid": 123,
-        "title": "获取人员",
-        "path": "/user/get",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf265400c53d73a6ce1e12e",
-            "name": "id",
-            "example": "1",
-            "desc": "人员id"
-          }
-        ],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf265400c53d73a6ce1e12f",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"description\":\"人员id\",\"mock\":{\"mock\":\"@id\"}},\"departmentId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"部门id\"},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"人员姓名\"},\"userCode\":{\"type\":\"number\",\"description\":\"员工号\",\"mock\":{\"mock\":\"@id\"}},\"class\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"名族\"},\"sex\":{\"type\":\"number\",\"description\":\"性别\",\"minimum\":0,\"maximum\":2,\"enum\":[0,1,2],\"enumDesc\":\"0保密、1女、2男\"},\"iidCard\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"身份证\"},\"updateTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"更新时间\"}},\"description\":\"修改的人员id\",\"required\":[\"id\",\"departmentId\",\"userCode\",\"userName\",\"class\",\"sex\",\"iidCard\",\"updateTime\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\",\"required\":[\"code\",\"error\",\"msg\"]}},\"required\":[\"data\",\"status\"]}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"departmentId\":{\"type\":\"string\",\"description\":\"机构id\",\"mock\":{\"mock\":\"@id\"},\"minLength\":1,\"maxLength\":3},\"userName\":{\"type\":\"string\",\"description\":\"人员姓名\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"员工号\",\"minimum\":5,\"maximum\":8},\"sex\":{\"type\":\"string\",\"description\":\"名族\",\"mock\":{\"mock\":\"@integer\"},\"minLength\":1,\"maxLength\":1,\"pattern\":\"\",\"enum\":[\"0\",\"1\",\"2\"]},\"idCard\":{\"type\":\"string\",\"description\":\"身份证\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\"},\"id\":{\"type\":\"string\",\"mock\":{\"mock\":\"@id\"},\"description\":\"人员id\"}},\"required\":[\"departmentId\",\"userName\",\"userCode\",\"sex\",\"idCard\",\"id\"]}",
-        "uid": 11,
-        "add_time": 1542611840,
-        "up_time": 1542612288,
-        "__v": 0
-      }
-    ]
-  },
-  {
-    "index": 0,
-    "name": "通知公告",
-    "desc": null,
-    "add_time": 1542613968,
-    "up_time": 1542613989,
-    "list": [
-      {
-        "query_path": {
-          "path": "/notice/edit",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 162,
-        "method": "PUT",
-        "catid": 131,
-        "title": "修改通知公告",
-        "path": "/notice/edit",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf26f4e0c53d73a6ce1e13b",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"修改的公告id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"description\":\"公告标题\",\"mock\":{\"mock\":\"@title\"},\"minLength\":1,\"maxLength\":3},\"content\":{\"type\":\"string\",\"description\":\"公告内容\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"range\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"通知范围（1全部部门|2指定部门）\",\"minimum\":5,\"maximum\":8},\"inform_id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"指定部门的部门id\"},\"fileIds\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\",\"description\":\"附件ID（多个附件用引文逗号分隔）\"},\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"公告id\"}},\"required\":[\"title\",\"content\",\"range\",\"inform_id\",\"fileIds\",\"id\"]}",
-        "uid": 11,
-        "add_time": 1542614812,
-        "up_time": 1542614862,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/notice/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 170,
-        "method": "DELETE",
-        "catid": 131,
-        "title": "删除通知公告",
-        "path": "/notice/delete",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf26fd30c53d73a6ce1e140",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除的公告id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"公告id\"}},\"required\":[\"id\"]}",
-        "uid": 11,
-        "add_time": 1542614949,
-        "up_time": 1542614995,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/notice/add",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 154,
-        "method": "POST",
-        "catid": 131,
-        "title": "添加通知公告",
-        "path": "/notice/add",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf26eea0c53d73a6ce1e137",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的公告id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"description\":\"公告标题\",\"mock\":{\"mock\":\"@title\"},\"minLength\":1,\"maxLength\":3},\"content\":{\"type\":\"string\",\"description\":\"公告内容\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"range\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"通知范围（1全部部门|2指定部门）\",\"minimum\":5,\"maximum\":8},\"inform_id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"指定部门的部门id\"},\"fileIds\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\",\"description\":\"附件ID（多个附件用引文逗号分隔）\"}},\"required\":[\"title\",\"content\",\"range\",\"inform_id\",\"fileIds\"]}",
-        "uid": 11,
-        "add_time": 1542614560,
-        "up_time": 1542614762,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/notice/get",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 174,
-        "method": "GET",
-        "catid": 131,
-        "title": "获取通知公告",
-        "path": "/notice/get",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf2720b0c53d73a6ce1e146",
-            "name": "id",
-            "example": "1",
-            "desc": "公告id"
-          }
-        ],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf2720b0c53d73a6ce1e147",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>附件的下载地址拼接规则：/api/static/ + path + fileName + \".\" + suffix<br>\n保存文件命名规则：name + \".\" + suffix</p>\n",
-        "markdown": "附件的下载地址拼接规则：/api/static/ + path + fileName + \".\" + suffix\n保存文件命名规则：name + \".\" + suffix",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"description\":\"人员id\",\"mock\":{\"mock\":\"@id\"}},\"departmentId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"部门id\"},\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@title\"},\"description\":\"公告标题\"},\"content\":{\"type\":\"string\",\"description\":\"内容（富文本）\",\"mock\":{\"mock\":\"@string\"}},\"range\":{\"type\":\"number\",\"description\":\"通知范围\"},\"informId\":{\"type\":\"number\",\"minimum\":0,\"maximum\":2,\"enum\":[0,1,2],\"enumDesc\":\"0保密、1女、2男\",\"mock\":{\"mock\":\"@id\"},\"description\":\"指定的部门id\"},\"informName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"指定的部门名称\"},\"time\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"发布时间\"},\"state\":{\"type\":\"string\",\"description\":\"状态\"},\"fileList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"附件id\"},\"name\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"附件名称\"},\"suffix\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"附件后缀\",\"minLength\":1,\"maxLength\":5,\"enum\":[\"jpg\",\"png\",\"doc\",\"docx\",\"\"],\"enumDesc\":\"文件后缀\"},\"time\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"上传时间\"},\"fileName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"存放名称\"},\"path\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"存放位置\"}},\"required\":[\"id\",\"name\",\"suffix\",\"time\",\"fileName\",\"path\"]},\"description\":\"附件\"}},\"description\":\"修改的人员id\",\"required\":[\"id\",\"departmentId\",\"content\",\"title\",\"range\",\"informId\",\"informName\",\"time\",\"state\",\"fileList\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\",\"required\":[\"code\",\"error\",\"msg\"]}},\"required\":[\"data\",\"status\"]}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"departmentId\":{\"type\":\"string\",\"description\":\"机构id\",\"mock\":{\"mock\":\"@id\"},\"minLength\":1,\"maxLength\":3},\"userName\":{\"type\":\"string\",\"description\":\"人员姓名\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"员工号\",\"minimum\":5,\"maximum\":8},\"sex\":{\"type\":\"string\",\"description\":\"名族\",\"mock\":{\"mock\":\"@integer\"},\"minLength\":1,\"maxLength\":1,\"pattern\":\"\",\"enum\":[\"0\",\"1\",\"2\"]},\"idCard\":{\"type\":\"string\",\"description\":\"身份证\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\"},\"id\":{\"type\":\"string\",\"mock\":{\"mock\":\"@id\"},\"description\":\"人员id\"}},\"required\":[\"departmentId\",\"userName\",\"userCode\",\"sex\",\"idCard\",\"id\"]}",
-        "uid": 11,
-        "add_time": 1542615045,
-        "up_time": 1542615563,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/notice/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 150,
-        "method": "POST",
-        "catid": 131,
-        "title": "通知公告列表",
-        "path": "/notice/list",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf26df10c53d73a6ce1e135",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf26df10c53d73a6ce1e134",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"search\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@title\"},\"description\":\"公告标题\"},\"startTime\":{\"type\":\"number\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"发布开始时间\"},\"endTime\":{\"type\":\"number\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"发布截止时间\"},\"state\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"状态\",\"enum\":[\"draft\",\"publish\",\"\"],\"enumDesc\":\"draft草稿|publish发布\"}},\"description\":\"搜索对象\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示几条数据\"}},\"required\":[\"page\",\"size\"],\"description\":\"分页\"}},\"required\":[\"search\",\"page\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"用户id\"},\"departmentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"机构id\"},\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@title\"},\"description\":\"公告标题\"},\"time\":{\"type\":\"number\",\"mock\":{\"mock\":\"@time\"},\"description\":\"发布时间\"},\"range\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"通知范围\",\"enumDesc\":\"1所有部门、2指定部门\\n\",\"enum\":[1,2],\"minimum\":1,\"maximum\":2,\"default\":\"1\"},\"state\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"状态\"}},\"required\":[\"id\",\"departmentId\",\"title\",\"time\",\"state\",\"range\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示多少条数据\"}},\"description\":\"分页\",\"required\":[\"page\",\"size\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"status\",\"page\"]}",
-        "uid": 11,
-        "add_time": 1542614055,
-        "up_time": 1542614513,
-        "__v": 0
-      }
-    ]
-  },
-  {
-    "index": 0,
-    "name": "管理办法",
-    "desc": null,
-    "add_time": 1542615901,
-    "up_time": 1542615901,
-    "list": [
-      {
-        "query_path": {
-          "path": "/clause/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 198,
-        "method": "DELETE",
-        "catid": 147,
-        "title": "删除管理办法",
-        "path": "/clause/delete",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf276d40c53d73a6ce1e158",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除的id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"管理办法id\"}},\"required\":[\"id\"]}",
-        "uid": 11,
-        "add_time": 1542616746,
-        "up_time": 1542616788,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/clause/deleteContent",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 206,
-        "method": "DELETE",
-        "catid": 147,
-        "title": "删除管理办法内容",
-        "path": "/clause/deleteContent",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf278fe0c53d73a6ce1e160",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除内容的id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"管理办法内容id\"}},\"required\":[\"id\"]}",
-        "uid": 11,
-        "add_time": 1542617300,
-        "up_time": 1542617342,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/clause/add",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 190,
-        "method": "POST",
-        "catid": 147,
-        "title": "添加管理办法",
-        "path": "/clause/add",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf278cc0c53d73a6ce1e15e",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的管理办法id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"description\":\"管理办法标题\",\"mock\":{\"mock\":\"@title\"},\"minLength\":1,\"maxLength\":3},\"departmentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"minLength\":1,\"maxLength\":3,\"description\":\"所属机构id\",\"enum\":[\"1\",\"2\"],\"enumDesc\":\"-1所有部门、大于0的数都是指定部门的id\"},\"state\":{\"type\":\"string\",\"enumDesc\":\"draft草稿、publish发布\",\"default\":\"draft\",\"enum\":[\"draft\",\"publish\"],\"description\":\"状态\"},\"informId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"指定部门的部门id\"},\"fileIds\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"minLength\":1,\"maxLength\":5,\"default\":\"522428199510010123\",\"description\":\"附件ID（多个附件用引文逗号分隔）\"},\"content\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"content\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"内容\"},\"isTitle\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否为标题\",\"default\":false},\"titleLevel\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"标题级别\",\"minimum\":1,\"maximum\":5,\"default\":\"1\"},\"order\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"数字顺序\"}},\"required\":[\"content\",\"isTitle\",\"titleLevel\",\"order\"]},\"description\":\"管理办法内容\"}},\"required\":[\"title\",\"departmentId\",\"state\",\"informId\",\"fileIds\",\"content\"]}",
-        "uid": 11,
-        "add_time": 1542616192,
-        "up_time": 1542617292,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/clause/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 186,
-        "method": "POST",
-        "catid": 147,
-        "title": "管理办法列表",
-        "path": "/clause/list",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf274660c53d73a6ce1e150",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf274660c53d73a6ce1e14f",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"search\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@title\"},\"description\":\"管理办法标题\"},\"startTime\":{\"type\":\"number\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"发布开始时间\"},\"endTime\":{\"type\":\"number\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"发布截止时间\"},\"state\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"状态\",\"enum\":[\"draft\",\"publish\",\"\"],\"enumDesc\":\"draft草稿|publish发布\"}},\"description\":\"搜索对象\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示几条数据\"}},\"required\":[\"page\",\"size\"],\"description\":\"分页\"}},\"required\":[\"search\",\"page\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"用户id\"},\"departmentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"机构id\"},\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@title\"},\"description\":\"管理办法标题\"},\"time\":{\"type\":\"number\",\"mock\":{\"mock\":\"@time\"},\"description\":\"发布时间\"},\"authorId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"发布人id\"},\"authorName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name\"},\"description\":\"发布人姓名\"},\"state\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"状态\"}},\"required\":[\"id\",\"departmentId\",\"title\",\"time\",\"state\",\"authorId\",\"authorName\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\"},\"size\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示多少条数据\"}},\"description\":\"分页\",\"required\":[\"page\",\"size\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"status\",\"page\"]}",
-        "uid": 11,
-        "add_time": 1542615905,
-        "up_time": 1542616166,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/clause/state",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 214,
-        "method": "PUT",
-        "catid": 147,
-        "title": "管理办法状态",
-        "path": "/clause/state",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf279c30c53d73a6ce1e162",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"变跟管理办法的id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"管理办法id\"},\"state\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"状态\",\"enumDesc\":\"draft草稿publish发布\",\"enum\":[\"draft\",\"publish\"],\"default\":\"draft\"}},\"required\":[\"id\",\"state\"]}",
-        "uid": 11,
-        "add_time": 1542617425,
-        "up_time": 1542617539,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/clause/edit",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 194,
-        "method": "PUT",
-        "catid": 147,
-        "title": "编辑管理办法",
-        "path": "/clause/edit",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf278b40c53d73a6ce1e15d",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的管理办法id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@d\"},\"description\":\"管理办法id\"},\"title\":{\"type\":\"string\",\"description\":\"管理办法标题\"},\"departmentId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"minLength\":1,\"maxLength\":3,\"description\":\"所属机构id\",\"enum\":[\"1\",\"2\"],\"enumDesc\":\"-1所有部门、大于0的数都是指定部门的id\"},\"state\":{\"type\":\"string\",\"enumDesc\":\"draft草稿、publish发布\",\"default\":\"draft\",\"enum\":[\"draft\",\"publish\"],\"description\":\"状态\"},\"informId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"指定部门的部门id\"},\"fileIds\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"minLength\":1,\"maxLength\":5,\"default\":\"522428199510010123\",\"description\":\"附件ID（多个附件用引文逗号分隔）\"},\"content\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"content\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"内容\"},\"isTitle\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否为标题\",\"default\":false},\"titleLevel\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"标题级别\",\"minimum\":1,\"maximum\":5,\"default\":\"1\"},\"order\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"顺序数字\"}},\"required\":[\"content\",\"isTitle\",\"titleLevel\",\"order\"]},\"description\":\"管理办法内容\"}},\"required\":[\"id\",\"departmentId\",\"state\",\"informId\",\"fileIds\",\"content\",\"title\"]}",
-        "uid": 11,
-        "add_time": 1542616665,
-        "up_time": 1542617268,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/clause/get",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "undone",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 202,
-        "method": "GET",
-        "catid": 147,
-        "title": "获取管理办法",
-        "path": "/clause/get",
-        "project_id": 29,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf278870c53d73a6ce1e15b",
-            "name": "id",
-            "example": "1",
-            "desc": "管理办法id"
-          }
-        ],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf278870c53d73a6ce1e15c",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>附件的下载地址拼接规则：/api/static/ + path + fileName + \".\" + suffix<br>\n保存文件命名规则：name + \".\" + suffix</p>\n",
-        "markdown": "附件的下载地址拼接规则：/api/static/ + path + fileName + \".\" + suffix\n保存文件命名规则：name + \".\" + suffix",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"description\":\"人员id\",\"mock\":{\"mock\":\"@id\"}},\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@title\"},\"description\":\"公告标题\"},\"authorId\":{\"type\":\"number\",\"description\":\"发布人id\",\"mock\":{\"mock\":\"@id\"}},\"authorName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@name\"},\"description\":\"发布人姓名\"},\"departmentId\":{\"type\":\"number\",\"minimum\":0,\"maximum\":2,\"enum\":[0,1,2],\"enumDesc\":\"0保密、1女、2男\",\"mock\":{\"mock\":\"@id\"},\"description\":\"指定的部门id\"},\"departmentName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"指定的部门名称\"},\"time\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"发布时间\"},\"state\":{\"type\":\"string\",\"description\":\"状态\"},\"fileList\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"附件id\"},\"name\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"附件名称\"},\"suffix\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"附件后缀\",\"minLength\":1,\"maxLength\":5,\"enum\":[\"jpg\",\"png\",\"doc\",\"docx\",\"\"],\"enumDesc\":\"文件后缀\"},\"time\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"上传时间\"},\"fileName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"存放名称\"},\"path\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"存放位置\"}},\"required\":[\"id\",\"name\",\"suffix\",\"time\",\"fileName\",\"path\"]},\"description\":\"附件\"},\"content\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@id\"},\"description\":\"内容id\"},\"isTitle\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否为标题（0内容1标题）\"},\"titleLevel\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"标题级别\"},\"content\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"内容\"},\"order\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"顺序数字\"}},\"required\":[\"id\",\"isTitle\",\"titleLevel\",\"content\",\"order\"]}}},\"description\":\"修改的人员id\",\"required\":[\"id\",\"title\",\"authorId\",\"departmentId\",\"departmentName\",\"time\",\"state\",\"fileList\",\"authorName\",\"content\"]},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\",\"required\":[\"code\",\"error\",\"msg\"]}},\"required\":[\"data\",\"status\"]}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"departmentId\":{\"type\":\"string\",\"description\":\"机构id\",\"mock\":{\"mock\":\"@id\"},\"minLength\":1,\"maxLength\":3},\"userName\":{\"type\":\"string\",\"description\":\"人员姓名\",\"mock\":{\"mock\":\"@string\"},\"minLength\":2,\"maxLength\":10},\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@string\"},\"description\":\"员工号\",\"minimum\":5,\"maximum\":8},\"sex\":{\"type\":\"string\",\"description\":\"名族\",\"mock\":{\"mock\":\"@integer\"},\"minLength\":1,\"maxLength\":1,\"pattern\":\"\",\"enum\":[\"0\",\"1\",\"2\"]},\"idCard\":{\"type\":\"string\",\"description\":\"身份证\",\"mock\":{\"mock\":\"@string\"},\"minLength\":18,\"maxLength\":18,\"default\":\"522428199510010123\"},\"id\":{\"type\":\"string\",\"mock\":{\"mock\":\"@id\"},\"description\":\"人员id\"}},\"required\":[\"departmentId\",\"userName\",\"userCode\",\"sex\",\"idCard\",\"id\"]}",
-        "uid": 11,
-        "add_time": 1542616817,
-        "up_time": 1542617223,
-        "__v": 0
-      }
-    ]
-  }
-]
+{
+	"info": {
+		"_postman_id": "aed7d97c-19d0-4989-8ec5-e98a384ad82d",
+		"name": "机构管理",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "部门管理",
+			"item": [
+				{
+					"name": "添加部门",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parentId\":-1,\n\t\"name\":\"部门1\",\n\t\"code\":\"d1\",\n\t\"level\":1,\n\t\"address\":\"贵州贵阳\",\n\t\"phone\":\"\",\n\t\"userList\":[]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/department/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"department",
+								"add"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取部门信息",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/department/get?id=20",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"department",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "20"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取部门列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"search\":{\n    \t\"parentId\":\"\",\n    \t\"title\":\"\",\n    \t\"code\":\"\",\n    \t\"level\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/department/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"department",
+								"list"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取部门树",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/department/tree?parentId=-1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"department",
+								"tree"
+							],
+							"query": [
+								{
+									"key": "parentId",
+									"value": "-1"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "修改部门信息",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\": \"贵州贵阳1\",\n    \"code\": \"d12\",\n    \"id\": 20,\n    \"level\": 1,\n    \"name\": \"部门1\",\n    \"parentId\": -1,\n    \"phone\": \"\",\n    \"updateTime\": \"0000-00-00 00:00:00\",\n    \"userList\": [\n        {\n            \"id\": 3,\n            \"type\": \"admins\",\n            \"typeName\": \"\",\n            \"userId\": 1,\n            \"userName\": \"小明\"\n        },\n        {\n            \"type\": \"admins\",\n            \"userId\": 2\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/department/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"department",
+								"edit"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "删除部门",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/department/delete?id=3",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"department",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "人员管理",
+			"item": [
+				{
+					"name": "人员列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"userName\":\"\",\n    \t\"userCode\":\"\",\n    \t\"departmentId\":\"\",\n    \t\"sex\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/user/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"user",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加人员",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userName\": \"1\",\n    \"userCode\": \"21\",\n    \"departmentId\": \"1\",\n    \"sex\": \"1\",\n    \"class\":\"汉\",\n    \"idCard\":\"123456578\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/user/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"user",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取人员",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/user/get?id=9",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"user",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "编辑人员",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/user/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"user",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除人员",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/user/delete?id=8",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"user",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "8"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "通知公告",
+			"item": [
+				{
+					"name": "通知公告列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20\n    },\n    \"search\": {\n        \"title\": \"\",\n        \"state\": \"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加通知公告",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"content\": \"公告内容1\",\n    \"range\": 2,\n    \"informIds\": \"1\",\n    \"fileIds\": \"\",\n    \"state\": \"draft\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "编辑通知公告",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 18,\n    \"departmentId\": 1,\n    \"title\": \"公告18\",\n    \"content\": \"公告内容18\",\n    \"range\": 2,\n    \"informIds\": \"1,2,5\",\n    \"fileIds\": \"\",\n    \"state\": \"draft\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "编辑通知公告状态管理",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 18,\n    \"state\": \"publish\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/state",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"state"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取通知公告",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/get?id=18",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "18"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除通知公告",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/delete?id=16",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "管理办法",
+			"item": [
+				{
+					"name": "获取管理办法",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/get?id=5",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "管理办法列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20\n    },\n    \"search\": {\n        \"title\": \"\",\n        \"state\": \"\",\n        \"userId\": \"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "添加管理办法",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"fileIds\": \"5,6,7,8\",\n    \"state\": \"draft\",\n    \"content\": [\n        {\n            \"isTitle\": true,\n            \"titleLevel\": \"h1\",\n            \"content\": \"标题测试1\",\n            \"order\": 1\n        },\n         {\n            \"isTitle\": false,\n            \"titleLevel\": \"\",\n            \"content\": \"标题测试2\",\n            \"order\": 2\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改管理办法",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"fileIds\": \"5,6,7,8\",\n    \"state\": \"draft\",\n    \"content\": [\n        {\n            \"isTitle\": true,\n            \"titleLevel\": \"h1\",\n            \"content\": \"标题测试1\",\n            \"order\": 1\n        },\n         {\n            \"isTitle\": false,\n            \"titleLevel\": \"\",\n            \"content\": \"标题测试2\",\n            \"order\": 2\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "删除管理办法",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/delete?id=16",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "16"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "办法状态管理",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 18,\n    \"state\": \"publish\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/notice/state",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"notice",
+								"state"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

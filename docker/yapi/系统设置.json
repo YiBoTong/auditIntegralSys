@@ -1,551 +1,683 @@
-[
-  {
-    "index": 0,
-    "name": "字典管理",
-    "desc": null,
-    "add_time": 1542591746,
-    "up_time": 1542591746,
-    "list": [
-      {
-        "query_path": {
-          "path": "/dictionaries/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 30,
-        "method": "DELETE",
-        "catid": 19,
-        "title": "删除字典",
-        "path": "/dictionaries/delete",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "uid": 11,
-        "add_time": 1542591971,
-        "up_time": 1542853648,
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf23d8f0c53d73a6ce1e0c6",
-            "name": "id",
-            "example": "1",
-            "desc": "字典类型id"
-          }
-        ],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf23d8f0c53d73a6ce1e0c7",
-            "name": "Content-Type",
-            "value": "application/x-www-form-urlencoded"
-          }
-        ],
-        "req_body_form": [],
-        "__v": 0,
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "form",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"error\":{\"type\":\"boolean\"},\"msg\":{\"type\":\"string\"}}}}}"
-      },
-      {
-        "query_path": {
-          "path": "/dictionaries/edit",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 22,
-        "method": "PUT",
-        "catid": 19,
-        "title": "字典修改",
-        "path": "/dictionaries/edit",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf23d4d0c53d73a6ce1e0c5",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "uid": 11,
-        "add_time": 1542591863,
-        "up_time": 1542853645,
-        "__v": 0,
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"error\":{\"type\":\"boolean\"},\"msg\":{\"type\":\"string\"}}}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"typeId\":{\"type\":\"number\"},\"key\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"},\"isUse\":{\"type\":\"boolean\"},\"updateTime\":{\"type\":\"string\"},\"describe\":{\"type\":\"string\"},\"dictionaries\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"key\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"order\":{\"type\":\"number\"},\"describe\":{\"type\":\"string\"}},\"required\":[\"key\",\"value\",\"order\",\"describe\"]}}}}"
-      },
-      {
-        "query_path": {
-          "path": "/dictionaries/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 14,
-        "method": "POST",
-        "catid": 19,
-        "title": "字典列表",
-        "path": "/dictionaries/list",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "uid": 11,
-        "add_time": 1542591826,
-        "up_time": 1542967934,
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf7d27eb2985521d80ec9d9",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf7d27eb2985521d80ec9d8",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "__v": 0,
-        "desc": "",
-        "markdown": "",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"integer\",\"description\":\"第几页\",\"minimum\":1,\"maximum\":10,\"default\":\"1\"},\"size\":{\"type\":\"integer\",\"description\":\"每页显示几条数据\",\"default\":\"20\",\"minimum\":10,\"maximum\":50}},\"description\":\"分页对象\",\"required\":[\"page\",\"size\"]},\"search\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"名称\"},\"key\":{\"type\":\"string\",\"description\":\"字典分类\",\"mock\":{\"mock\":\"@string\"}},\"userId\":{\"type\":\"integer\",\"description\":\"用户ID\",\"minimum\":1,\"maximum\":10}},\"description\":\"搜索对象\"}},\"required\":[\"page\",\"search\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"字典类型id\"},\"typeId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"类型id\"},\"key\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"类型键\"},\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"字典类型名称\"},\"isUse\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否启用\"},\"updateTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@time\"},\"description\":\"最后更新时间\"},\"describe\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"字典类型描述\"},\"userId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"更新人ID\"},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"根性人姓名\"}},\"required\":[\"id\",\"typeId\",\"key\",\"title\",\"isUse\",\"updateTime\",\"describe\",\"userId\",\"userName\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"number\",\"description\":\"第几页\"},\"size\":{\"type\":\"number\",\"description\":\"每页显示数量\"}},\"required\":[\"page\",\"size\"],\"description\":\"分页信息\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"page\",\"status\"]}"
-      },
-      {
-        "query_path": {
-          "path": "/dictionaries/is-use",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 215,
-        "method": "PUT",
-        "catid": 19,
-        "title": "字典状态管理",
-        "path": "/dictionaries/is-use",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf6829e79a7db37e8409ff8",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"description\":\"变更的id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"error\":{\"type\":\"boolean\"},\"msg\":{\"type\":\"string\"}}}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"description\":\"字典类型ID\"},\"isUse\":{\"type\":\"boolean\",\"description\":\"是否启用\"}}}",
-        "uid": 11,
-        "add_time": 1542881216,
-        "up_time": 1542881950,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/dictionaries/add",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 18,
-        "method": "POST",
-        "catid": 19,
-        "title": "添加字典",
-        "path": "/dictionaries/add",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "uid": 11,
-        "add_time": 1542591859,
-        "up_time": 1542787280,
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf23c050c53d73a6ce1e0c0",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "__v": 0,
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的字典类型ID\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"typeId\":{\"type\":\"number\",\"description\":\"类型id\",\"mock\":{\"mock\":\"@integer\"}},\"key\":{\"type\":\"string\",\"description\":\"类型键\",\"mock\":{\"mock\":\"@string\"}},\"title\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"类型标题\"},\"isUse\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否启用\"},\"updateTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"更新时间\"},\"describe\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"描述\"},\"dictionaries\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"key\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"键\"},\"value\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"值\"},\"order\":{\"type\":\"number\",\"mock\":{\"mock\":\"@natural\"},\"description\":\"顺序\"},\"describe\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"备注\"}},\"required\":[\"key\",\"value\",\"order\",\"describe\"]},\"description\":\"字典\"}},\"required\":[\"dictionaries\",\"typeId\",\"key\",\"title\",\"isUse\",\"updateTime\",\"describe\"]}"
-      },
-      {
-        "query_path": {
-          "path": "/dictionaries/get",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 26,
-        "method": "GET",
-        "catid": 19,
-        "title": "获取字典",
-        "path": "/dictionaries/get",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "uid": 11,
-        "add_time": 1542591919,
-        "up_time": 1542853647,
-        "req_query": [
-          {
-            "required": "1",
-            "_id": "5bf23d3d0c53d73a6ce1e0c4",
-            "name": "id",
-            "example": "1",
-            "desc": "字典类型id"
-          }
-        ],
-        "req_headers": [],
-        "req_body_form": [],
-        "__v": 0,
-        "desc": "",
-        "markdown": "",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"object\",\"properties\":{\"typeId\":{\"type\":\"number\"},\"key\":{\"type\":\"string\"},\"title\":{\"type\":\"string\"},\"isUse\":{\"type\":\"boolean\"},\"updateTime\":{\"type\":\"string\"},\"describe\":{\"type\":\"string\"},\"dictionaries\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\"},\"key\":{\"type\":\"string\"},\"value\":{\"type\":\"string\"},\"order\":{\"type\":\"number\"},\"describe\":{\"type\":\"string\"}},\"required\":[\"id\",\"key\",\"value\",\"order\",\"describe\"]}}}},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\"},\"error\":{\"type\":\"boolean\"},\"msg\":{\"type\":\"string\"}}}}}"
-      }
-    ]
-  },
-  {
-    "index": 0,
-    "name": "登录管理",
-    "desc": "控制系统登录功能",
-    "add_time": 1542602192,
-    "up_time": 1542602192,
-    "list": [
-      {
-        "query_path": {
-          "path": "/login/edit",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 46,
-        "method": "PUT",
-        "catid": 27,
-        "title": "修改登录人员",
-        "path": "/login/edit",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf242630c53d73a6ce1e0d9",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"修改的员工号\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"员工号\"},\"isUse\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否启用\"}},\"required\":[\"userCode\",\"isUse\"]}",
-        "uid": 11,
-        "add_time": 1542602806,
-        "up_time": 1542874822,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/login/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 50,
-        "method": "DELETE",
-        "catid": 27,
-        "title": "删除登录人员",
-        "path": "/login/delete",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf242740c53d73a6ce1e0da",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除的员工号\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"员工号\"}},\"required\":[\"userCode\"]}",
-        "uid": 11,
-        "add_time": 1542602919,
-        "up_time": 1542874824,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/login/add",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 42,
-        "method": "POST",
-        "catid": 27,
-        "title": "添加登录人员",
-        "path": "/login/add",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf64f9b79a7db37e8409ff4",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>请求数据<br>\n{<br>\n&nbsp;&nbsp;&nbsp; \"userCode\": \"10001\",<br>\n&nbsp;&nbsp;&nbsp; \"is_use\": true<br>\n}</p>\n<p>添加成功返回数据<br>\n{<br>\n&nbsp;&nbsp;&nbsp; \"data\": 2,<br>\n&nbsp;&nbsp;&nbsp; \"status\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"code\": 0,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"error\": false,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"msg\": \"添加成功\"<br>\n&nbsp;&nbsp;&nbsp; }<br>\n}</p>\n",
-        "markdown": "请求数据\n{\n    \"userCode\": \"10001\",\n    \"is_use\": true\n}\n\n添加成功返回数据\n{\n    \"data\": 2,\n    \"status\": {\n        \"code\": 0,\n        \"error\": false,\n        \"msg\": \"添加成功\"\n    }\n}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"添加的员工号\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"userCode\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"员工号\"},\"isUse\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否启用\"}},\"required\":[\"userCode\",\"isUse\"]}",
-        "uid": 11,
-        "add_time": 1542602696,
-        "up_time": 1542874821,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/login/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 38,
-        "method": "POST",
-        "catid": 27,
-        "title": "登录账户列表",
-        "path": "/login/list",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf64efa79a7db37e8409ff3",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf64efa79a7db37e8409ff2",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>请求数据<br>\n{<br>\n&nbsp;&nbsp;&nbsp; \"page\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"page\":1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"size\":20<br>\n&nbsp;&nbsp;&nbsp; },<br>\n&nbsp;&nbsp;&nbsp; \"search\":{<br>\n&nbsp;&nbsp;&nbsp; \t\"userName\":\"\",<br>\n&nbsp;&nbsp;&nbsp; \t\"key\":\"\",<br>\n&nbsp;&nbsp;&nbsp; \t\"departmentId\":\"\"<br>\n&nbsp;&nbsp;&nbsp; }<br>\n}</p>\n<p>返回数据<br>\n{<br>\n&nbsp;&nbsp;&nbsp; \"data\": [<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"authorId\": 2,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"authorName\": \"小王\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"changePdTime\": \"0000-00-00 00:00:00\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"isUse\": false,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"loginNum\": 0,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"loginTime\": \"0000-00-00 00:00:00\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userCode\": 10001,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userId\": 1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userName\": \"小明\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>\n&nbsp;&nbsp;&nbsp; ],<br>\n&nbsp;&nbsp;&nbsp; \"page\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"page\": 1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"size\": 20,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"total\": 1<br>\n&nbsp;&nbsp;&nbsp; },<br>\n&nbsp;&nbsp;&nbsp; \"status\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"code\": 0,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"error\": false,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"msg\": \"获取列表成功\"<br>\n&nbsp;&nbsp;&nbsp; }<br>\n}</p>\n",
-        "markdown": "请求数据\n{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"userName\":\"\",\n    \t\"key\":\"\",\n    \t\"departmentId\":\"\"\n    }\n}\n\n返回数据\n{\n    \"data\": [\n        {\n            \"authorId\": 2,\n            \"authorName\": \"小王\",\n            \"changePdTime\": \"0000-00-00 00:00:00\",\n            \"isUse\": false,\n            \"loginNum\": 0,\n            \"loginTime\": \"0000-00-00 00:00:00\",\n            \"userCode\": 10001,\n            \"userId\": 1,\n            \"userName\": \"小明\"\n        }\n    ],\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20,\n        \"total\": 1\n    },\n    \"status\": {\n        \"code\": 0,\n        \"error\": false,\n        \"msg\": \"获取列表成功\"\n    }\n}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\",\"default\":\"1\",\"minimum\":1,\"maximum\":100,\"exclusiveMinimum\":true,\"exclusiveMaximum\":true},\"size\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示几条数据\",\"minimum\":1,\"default\":\"1\",\"maximum\":100,\"exclusiveMinimum\":true,\"exclusiveMaximum\":true}},\"description\":\"分页对象\",\"required\":[\"page\",\"size\"]},\"search\":{\"type\":\"object\",\"properties\":{\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"人员姓名\"},\"key\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"人员分类\"},\"departmentId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"部门ID\"}},\"description\":\"搜索对象\",\"required\":[]}},\"required\":[\"page\",\"search\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"更新人ID\"},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"根性人姓名\"},\"userCode\":{\"type\":\"number\",\"description\":\"员工号\",\"mock\":{\"mock\":\"@integer\"}},\"isUse\":{\"type\":\"boolean\",\"mock\":{\"mock\":\"@boolean\"},\"description\":\"是否启用\"},\"loginTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"最后登录时间\"},\"loginNum\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"登录次数\"},\"changePdTime\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"最后修改密码时间\"},\"authorName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"授权人\"},\"authorId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"授权人id\"}},\"required\":[\"userId\",\"userName\",\"userCode\",\"isUse\",\"loginTime\",\"changePdTime\",\"authorName\",\"authorId\",\"loginNum\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"number\",\"description\":\"第几页\"},\"size\":{\"type\":\"number\",\"description\":\"每页显示数量\"}},\"required\":[\"page\",\"size\"],\"description\":\"分页信息\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"page\",\"status\"]}",
-        "uid": 11,
-        "add_time": 1542602245,
-        "up_time": 1542874819,
-        "__v": 0
-      }
-    ]
-  },
-  {
-    "index": 0,
-    "name": "系统日志",
-    "desc": null,
-    "add_time": 1542602963,
-    "up_time": 1542602963,
-    "list": [
-      {
-        "query_path": {
-          "path": "/log/delete",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 58,
-        "method": "DELETE",
-        "catid": 35,
-        "title": "删除操作日志",
-        "path": "/log/delete",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf242490c53d73a6ce1e0d8",
-            "name": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "",
-        "markdown": "",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"删除的日志id\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"信息\"}},\"description\":\"状态\"}}}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"日志id\"}},\"required\":[\"id\"]}",
-        "uid": 11,
-        "add_time": 1542603290,
-        "up_time": 1542877224,
-        "__v": 0
-      },
-      {
-        "query_path": {
-          "path": "/log/list",
-          "params": []
-        },
-        "edit_uid": 0,
-        "status": "done",
-        "type": "static",
-        "req_body_is_json_schema": true,
-        "res_body_is_json_schema": true,
-        "api_opened": false,
-        "index": 0,
-        "tag": [],
-        "_id": 54,
-        "method": "POST",
-        "catid": 35,
-        "title": "日志列表",
-        "path": "/log/list",
-        "project_id": 13,
-        "req_params": [],
-        "res_body_type": "json",
-        "req_query": [],
-        "req_headers": [
-          {
-            "required": "1",
-            "_id": "5bf66f0c79a7db37e8409ff6",
-            "name": "Content-Type",
-            "value": "application/json"
-          },
-          {
-            "required": "1",
-            "_id": "5bf66f0c79a7db37e8409ff5",
-            "name": "Token",
-            "value": "123",
-            "example": "123",
-            "desc": "用户token"
-          }
-        ],
-        "req_body_form": [],
-        "desc": "<p>请求接口<br>\n{<br>\n&nbsp;&nbsp;&nbsp; \"page\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"page\":1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"size\":20<br>\n&nbsp;&nbsp;&nbsp; },<br>\n&nbsp;&nbsp;&nbsp; \"search\":{<br>\n&nbsp;&nbsp;&nbsp; \t\"key\":\"\",<br>\n&nbsp;&nbsp;&nbsp; \t\"userId\":\"\"<br>\n&nbsp;&nbsp;&nbsp; }<br>\n}</p>\n<p>成功返回数据<br>\n{<br>\n&nbsp;&nbsp;&nbsp; \"data\": [<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"Id\": 2,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"msg\": \"测试2\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"time\": \"2018-11-22 16:52:51\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"type\": \"test1\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"typeTitle\": \"\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userId\": 2,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userName\": \"小王\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"Id\": 1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"msg\": \"测试\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"time\": \"2018-11-22 16:45:46\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"type\": \"test\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"typeTitle\": \"\",<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userId\": 1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"userName\": \"小明\"<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>\n&nbsp;&nbsp;&nbsp; ],<br>\n&nbsp;&nbsp;&nbsp; \"page\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"page\": 1,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"size\": 20,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"total\": 2<br>\n&nbsp;&nbsp;&nbsp; },<br>\n&nbsp;&nbsp;&nbsp; \"status\": {<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"code\": 0,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"error\": false,<br>\n&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; \"msg\": \"获取列表成功\"<br>\n&nbsp;&nbsp;&nbsp; }<br>\n}</p>\n",
-        "markdown": "请求接口\n{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"key\":\"\",\n    \t\"userId\":\"\"\n    }\n}\n\n成功返回数据\n{\n    \"data\": [\n        {\n            \"Id\": 2,\n            \"msg\": \"测试2\",\n            \"time\": \"2018-11-22 16:52:51\",\n            \"type\": \"test1\",\n            \"typeTitle\": \"\",\n            \"userId\": 2,\n            \"userName\": \"小王\"\n        },\n        {\n            \"Id\": 1,\n            \"msg\": \"测试\",\n            \"time\": \"2018-11-22 16:45:46\",\n            \"type\": \"test\",\n            \"typeTitle\": \"\",\n            \"userId\": 1,\n            \"userName\": \"小明\"\n        }\n    ],\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20,\n        \"total\": 2\n    },\n    \"status\": {\n        \"code\": 0,\n        \"error\": false,\n        \"msg\": \"获取列表成功\"\n    }\n}",
-        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"第几页\",\"default\":\"1\",\"minimum\":1,\"maximum\":100,\"exclusiveMinimum\":true,\"exclusiveMaximum\":true},\"size\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"每页显示几条数据\",\"minimum\":1,\"default\":\"1\",\"maximum\":100,\"exclusiveMinimum\":true,\"exclusiveMaximum\":true}},\"description\":\"分页对象\",\"required\":[\"page\",\"size\"]},\"search\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"人员id\"},\"key\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"日志分类\"}},\"description\":\"搜索对象\",\"required\":[]}},\"required\":[\"page\",\"search\"]}",
-        "req_body_type": "json",
-        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"日志ID\"},\"type\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"日志分类key\"},\"typeTitle\":{\"type\":\"string\",\"description\":\"日志分类名称\",\"mock\":{\"mock\":\"@string\"}},\"userId\":{\"type\":\"number\",\"mock\":{\"mock\":\"@integer\"},\"description\":\"操作人id\"},\"userName\":{\"type\":\"string\",\"mock\":{\"mock\":\"@string\"},\"description\":\"操作人姓名\"},\"msg\":{\"type\":\"string\",\"description\":\"日志信息\",\"mock\":{\"mock\":\"@string\"}},\"time\":{\"type\":\"string\",\"mock\":{\"mock\":\"@timestamp\"},\"description\":\"操作时间\"}},\"required\":[\"id\",\"type\",\"typeTitle\",\"userId\",\"userName\",\"msg\",\"time\"]},\"description\":\"字典类型\"},\"page\":{\"type\":\"object\",\"properties\":{\"page\":{\"type\":\"number\",\"description\":\"第几页\"},\"size\":{\"type\":\"number\",\"description\":\"每页显示数量\"}},\"required\":[\"page\",\"size\"],\"description\":\"分页信息\"},\"status\":{\"type\":\"object\",\"properties\":{\"code\":{\"type\":\"number\",\"description\":\"状态码\"},\"error\":{\"type\":\"boolean\",\"description\":\"是否错误\"},\"msg\":{\"type\":\"string\",\"description\":\"接口信息\"}},\"required\":[\"code\",\"error\",\"msg\"],\"description\":\"接口状态\"}},\"required\":[\"data\",\"page\",\"status\"]}",
-        "uid": 11,
-        "add_time": 1542602967,
-        "up_time": 1542877222,
-        "__v": 0
-      }
-    ]
-  }
-]
+{
+	"info": {
+		"_postman_id": "631f5abd-14d3-4cad-a30e-bf8432a1c171",
+		"name": "系统管理",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "字典管理",
+			"item": [
+				{
+					"name": "获取字典",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/get?id=-2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"dictionaries",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "-2"
+								}
+							]
+						},
+						"description": "获取字典"
+					},
+					"response": []
+				},
+				{
+					"name": "获取字典列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"title\":\"\",\n    \t\"key\":\"\",\n    \t\"userId\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"dictionaries",
+								"list"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "创建字典",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"typeId\": 3,\n    \"key\": \"yes\",\n    \"title\": \"666\",\n    \"isUse\": false,\n    \"describe\": \"这是描述文字11\",\n    \"dictionaries\": [\n        {\n            \"key\": \"test1\",\n            \"value\": \"测试1\",\n            \"order\": 1,\n            \"describe\": \"这是测试1\"\n        },\n        {\n            \"key\": \"test2\",\n            \"value\": \"测试2\",\n            \"order\": 2,\n            \"describe\": \"这是测试2\"\n        },\n        {\n            \"key\": \"test3\",\n            \"value\": \"测试3\",\n            \"order\":3,\n            \"describe\": \"这是测试3\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"dictionaries",
+								"add"
+							]
+						},
+						"description": "创建字典"
+					},
+					"response": []
+				},
+				{
+					"name": "删除字典类型",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/delete?id=82",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"dictionaries",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "82"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "编辑字典",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"describe\": \"这是描述文字110\",\n        \"dictionaries\": [\n            {\n                \"describe\": \"这是测试10\",\n                \"id\": 90,\n                \"key\": \"test1\",\n                \"order\": 1,\n                \"typeId\": 81,\n                \"value\": \"测试10\"\n            },\n            {\n                \"describe\": \"这是测试20\",\n                \"key\": \"test2\",\n                \"order\": 2,\n                \"typeId\": 81,\n                \"value\": \"测试20\"\n            },\n            {\n                \"describe\": \"这是测试30\",\n                \"id\": 92,\n                \"key\": \"test3\",\n                \"order\": 3,\n                \"typeId\": 81,\n                \"value\": \"测试30\"\n            }\n        ],\n        \"id\": 81,\n        \"isUse\": false,\n        \"key\": \"yes\",\n        \"title\": \"666000\",\n        \"typeId\": 3,\n        \"updateTime\": \"2018-11-21 15:45:31\",\n        \"userId\": 1,\n        \"userName\": \"\"\n    }"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"dictionaries",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "字典可用状态变更",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/is-use?id=80&isUse=true",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"dictionaries",
+								"is-use"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "80"
+								},
+								{
+									"key": "isUse",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "登录管理",
+			"item": [
+				{
+					"name": "获取登录人员列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"userName\":\"\",\n    \t\"key\":\"\",\n    \t\"departmentId\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/login/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"login",
+								"list"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "添加登录人员",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userCode\": \"10001\",\r\n    \"isUse\": true\r\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/login/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"login",
+								"add"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "修改登录人员",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userCode\": \"10001\",\n    \"isUse\": true\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/login/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"login",
+								"edit"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "删除登录人员",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/login/delete?userCode=10001",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"login",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "userCode",
+									"value": "10001"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "日志管理",
+			"item": [
+				{
+					"name": "获取日志列表",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"key\":\"\",\n    \t\"userId\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/log/list",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"log",
+								"list"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "删除日志",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/log/delete?id=10",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"log",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "10"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "菜单管理",
+			"item": [
+				{
+					"name": "获取所有菜单",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/menu/all",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"menu",
+								"all"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "菜单是否启用",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"isUse\": true\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/menu/is-use",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"menu",
+								"is-use"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "添加菜单",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8092/api/worker/menu/all",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"worker",
+								"menu",
+								"all"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "权限管理",
+			"item": [
+				{
+					"name": "编辑权限",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"key\": \"test\",\n    \"rbac\": [\n        {\n            \"menuId\": 1,\n            \"isRead\": true,\n            \"isWrite\": true\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/rbac/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"rbac",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取可用菜单的权限",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/rbac/get?key=management",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"rbac",
+								"get"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "management"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
