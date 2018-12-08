@@ -25,6 +25,13 @@ func HasDepartment(departmentId int) (bool, error) {
 	return count > 0, err
 }
 
+func HadChildByParentId(parintId int) (int, error) {
+	db := g.DB()
+	sql := db.Table(config.DepartmentTbName).Where("`delete`=?", 0).And("parent_id=?", parintId)
+	count, err := sql.Count()
+	return count, err
+}
+
 func AddDepartment(department g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()

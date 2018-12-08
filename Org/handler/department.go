@@ -3,6 +3,7 @@ package handler
 import (
 	"auditIntegralSys/Org/db/department"
 	"auditIntegralSys/Org/entity"
+	"auditIntegralSys/Org/fun"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
@@ -90,6 +91,7 @@ func (r *Department) Tree() {
 		rspData = append(rspData, entity.DepartmentTreeInfo{
 			Id:       gconv.Int(v["id"]),
 			Name:     gconv.String(v["name"]),
+			HasChild: gconv.Bool(v["has_child"]),
 			ParentId: gconv.Int(v["parent_id"]),
 			Code:     gconv.String(v["code"]),
 			Level:    gconv.Int(v["level"]),
@@ -111,10 +113,11 @@ func (r *Department) Tree() {
 func (r *Department) Add() {
 	reqData := r.Request.GetJson()
 	reqUserList := reqData.GetJson("userList")
+	parentId := reqData.GetInt("parentId")
 
 	var userList []g.Map
 	dictionaryType := g.Map{
-		"parent_id":   reqData.GetInt("parentId"),
+		"parent_id":   parentId,
 		"name":        reqData.GetString("name"),
 		"code":        reqData.GetString("code"),
 		"level":       reqData.GetInt("level"),
@@ -137,6 +140,9 @@ func (r *Department) Add() {
 		if err != nil {
 			_, _ = db_department.DelDepartment(id)
 		}
+	}
+	if err == nil {
+		err = fun.UpdateDepartmentHasChild(parentId)
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Department Add]: %v", err)
@@ -188,13 +194,14 @@ func (r *Department) Get() {
 func (r *Department) Edit() {
 	reqData := r.Request.GetJson()
 	departmentId := reqData.GetInt("id")
+	parentId := reqData.GetInt("parentId")
 	userList := reqData.GetJson("userList")
 
 	var addDepartments []g.Map
 	var updateDepartments []g.Map
 	var updateDepartmentUserIds []int
 	department := g.Map{
-		"parent_id":   reqData.GetInt("parentId"),
+		"parent_id":   parentId,
 		"name":        reqData.GetString("name"),
 		"code":        reqData.GetString("code"),
 		"level":       reqData.GetInt("level"),
@@ -203,6 +210,7 @@ func (r *Department) Edit() {
 		"update_time": util.GetLocalNowTimeStr(),
 	}
 
+	_ = fun.UpdateDepartmentHasChildById(departmentId)
 	rows, err := db_department.UpdateDepartment(departmentId, department)
 	userLen := len(userList.ToArray())
 	if err == nil && rows > 0 && userLen > 0 {
@@ -226,6 +234,9 @@ func (r *Department) Edit() {
 		}
 		_, err = db_department.UpdateDepartmentUser(departmentId, addDepartments, updateDepartments, updateDepartmentUserIds)
 	}
+	if err == nil {
+		err = fun.UpdateDepartmentHasChild(parentId)
+	}
 	if err != nil {
 		log.Instance().Errorfln("[Department Edit]: %v", err)
 	}
@@ -242,10 +253,13 @@ func (r *Department) Edit() {
 
 func (r *Department) Delete() {
 	departmentId := r.Request.GetQueryInt("id")
+	delDepartment, _ := db_department.GetDepartment(departmentId)
 	rows, err := db_department.DelDepartment(departmentId)
+	if err == nil && delDepartment.ParentId > 0 {
+		err = fun.UpdateDepartmentHasChild(delDepartment.ParentId)
+	}
 	if err != nil {
 		log.Instance().Errorfln("[Department Delete]: %v", err)
-
 	}
 	success := err == nil && rows > 0
 	r.Response.WriteJson(app.Response{

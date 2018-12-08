@@ -10,6 +10,7 @@ func Get(key string, menuParentId int) ([]map[string]interface{}, error) {
 	sql := db.Table(config.MenuTbName + " m")
 	sql.LeftJoin(config.RbacTbName+" r", "r.key='"+key+"' AND r.menu_id=m.id")
 	sql.Where("m.delete=?", 0)
+	sql.And("m.is_use=?", 1)
 	sql.And("m.parent_id=?", menuParentId)
 	res, err := sql.All()
 	return res.ToList(), err

@@ -14,6 +14,7 @@ type Department struct {
 type DepartmentTreeInfo struct {
 	Id       int    `db:"id" json:"id" field:"id"`
 	Name     string `db:"name" json:"name" field:"name"`
+	HasChild bool   `db:"has_child" json:"hasChild" field:"has_child"`
 	ParentId int    `db:"parent_id" json:"parentId" field:"parent_id"`
 	Code     string `db:"code" json:"code" field:"code"`
 	Level    int    `db:"level" json:"level" field:"level"`
