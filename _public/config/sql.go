@@ -19,6 +19,12 @@ const (
 	ClauseFileTbName                 = "clause_file"                  // 管理办法附件表
 	FileTbName                       = "files"                        // 附件表
 	ProgrammeTbName                  = "programme"                    // 审查方案表
+	ProgrammeBasisTbName             = "programme_basis"              // 审查方案实施依据案表
+	ProgrammeContentTbName           = "programme_content"            // 审查方案主要内容表
+	ProgrammeStepTbName              = "programme_step"               // 审查方案实施步骤表
+	ProgrammeBusinessTbName          = "programme_business"           // 审查方案业务范围表
+	ProgrammeEmphasesTbName          = "programme_emphases"           // 审查方案重点表
+	ProgrammeUserTbName              = "programme_user"               // 审查方案员工分工表
 	DraftTbName                      = "draft"                        // 工作底稿表
 	DraftContentTbName               = "draft_content"                // 工作底稿内容表
 	DraftAdminUserTbName             = "draft_admin_user"             // 工作底稿复查人索引表

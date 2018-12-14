@@ -35,12 +35,13 @@ func initUrlMsgStr() {
 	temp["systemSetup/login"] = "人员"
 	temp["systemSetup/menu"] = "菜单"
 	temp["systemSetup/rbac"] = "权限"
-	temp["worker/user"] = ""
+	temp["worker/user"] = "登录员工"
 	temp["worker/file"] = "文件"
 	temp["worker/menu"] = "菜单"
 	temp["org/department"] = "部门/结构/网点"
 	temp["org/notice"] = "通知公告"
 	temp["org/user"] = "人员"
+	temp["audit/programme"] = "审核方案"
 	UrlMsgStr = temp
 }
 
