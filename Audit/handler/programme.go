@@ -6,6 +6,7 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -39,29 +40,34 @@ func (c *Programme) List() {
 		var listData []map[string]interface{}
 		listData, err = db_programme.List(offset, size, listSearchMap)
 		for _, v := range listData {
-			rspData = append(rspData, entity.ProgrammeItem{
-				Id:                  gconv.Int(v["id"]),
-				QueryDepartmentId:   0,
-				QueryDepartmentName: "",
-				UserId:              gconv.Int(v["user_id"]),
-				QueryPointId:        0,
-				QueryPointName:      "",
-				Purpose:             "",
-				Type:                "",
-				StartTime:           "",
-				EndTime:             "",
-				PlanStartTime:       "",
-				PlanEndTime:         "",
-				DetUserId:           0,
-				DetUserName:         "",
-				DetUserContent:      "",
-				DetUserTime:         "",
-				AdminUserId:         "",
-				AdminUserName:       "",
-				AdminUserContent:    "",
-				AdminUserTime:       "",
-				State:               "",
-			})
+			programmeItem := entity.ProgrammeItem{}
+			err := gconv.Struct(v, programmeItem)
+			if err == nil {
+				rspData = append(rspData, programmeItem)
+			}
+			//rspData = append(rspData, entity.ProgrammeItem{
+			//	Id:                  gconv.Int(v["id"]),
+			//	QueryDepartmentId:   0,
+			//	QueryDepartmentName: "",
+			//	UserId:              gconv.Int(v["user_id"]),
+			//	QueryPointId:        0,
+			//	QueryPointName:      "",
+			//	Purpose:             "",
+			//	Type:                "",
+			//	StartTime:           "",
+			//	EndTime:             "",
+			//	PlanStartTime:       "",
+			//	PlanEndTime:         "",
+			//	DetUserId:           0,
+			//	DetUserName:         "",
+			//	DetUserContent:      "",
+			//	DetUserTime:         "",
+			//	AdminUserId:         "",
+			//	AdminUserName:       "",
+			//	AdminUserContent:    "",
+			//	AdminUserTime:       "",
+			//	State:               "",
+			//})
 		}
 	}
 	if err != nil {
@@ -82,51 +88,51 @@ func (c *Programme) List() {
 	})
 }
 
-//func (c *Programme) Add() {
-//	reqData := c.Request.GetJson()
-//	reqDictionaries := reqData.GetJson("dictionaries")
-//
-//	var dictionaries []g.Map
-//	dictionaryType := g.Map{
-//		"type_id":     reqData.GetInt("typeId"),
-//		"key":         reqData.GetString("key"),
-//		"title":       reqData.GetString("title"),
-//		"is_use":      gconv.Int(reqData.GetBool("isUse")),
-//		"user_id":     reqData.GetInt("userId"),
-//		"update_time": util.GetLocalNowTimeStr(),
-//		"describe":    reqData.GetString("describe"),
-//	}
-//
-//	id, err := db_dictionaries.AddDictionaryType(dictionaryType)
-//	dictionaryLen := len(reqDictionaries.ToArray())
-//	if err == nil && dictionaryLen != 0 {
-//		for i := 0; i < dictionaryLen; i++ {
-//			dictionaries = append(dictionaries, g.Map{
-//				"type_id":  id,
-//				"key":      reqDictionaries.GetString(gconv.String(i) + ".key"),
-//				"value":    reqDictionaries.GetString(gconv.String(i) + ".value"),
-//				"order":    reqDictionaries.GetInt(gconv.String(i) + ".order"),
-//				"describe": reqDictionaries.GetString(gconv.String(i) + ".describe"),
-//			})
-//		}
-//		_, err = db_dictionaries.AddDictionaries(dictionaries)
-//		if err != nil {
-//			_, _ = db_dictionaries.DelDictionaryType(id)
-//		}
-//	}
-//	if err != nil {
-//		log.Instance().Errorfln("[Dictionaries Add]: %v", err)
-//	}
-//	c.Response.WriteJson(app.Response{
-//		Data: id,
-//		Status: app.Status{
-//			Code:  0,
-//			Error: err != nil,
-//			Msg:   config.GetTodoResMsg(config.AddStr, err != nil),
-//		},
-//	})
-//}
-//
+func (c *Programme) Add() {
+	reqData := c.Request.GetJson()
+	//reqBasis := reqData.GetJson("basis")
+	//reqContent := reqData.GetJson("content")
+	//reqStep := reqData.GetJson("step")
+	//reqBusiness := reqData.GetJson("business")
+	//reqEmphases := reqData.GetJson("emphases")
+	//reqUserList := reqData.GetJson("userList")
+
+	addProgramme := map[string]interface{}{
+		"query_department_id": "int",
+		"user_id":             "int",
+		"query_point_id":      "int",
+		"purpose":             "string",
+		"type":                "string",
+		"start_time":          "string",
+		"end_time":            "string",
+		"plan_start_time":     "string",
+		"plan_end_time":       "string",
+		"state":               "string",
+	}
+	programme := g.Map{
+		"update_time": util.GetLocalNowTimeStr(),
+	}
+
+	for k, v := range addProgramme {
+		programme[k] = gconv.Convert(reqData.Get(util.CamelCase(k)), gconv.String(v))
+	}
+
+	id := 0
+	var err error = nil
+	//id, err := db_programme.Add()
+	if err != nil {
+		log.Instance().Errorfln("[Dictionaries Add]: %v", err)
+	}
+	c.Response.WriteJson(app.Response{
+		Data: id,
+		Status: app.Status{
+			Code:  0,
+			Error: err != nil,
+			Msg:   config.GetTodoResMsg(config.AddStr, err != nil),
+		},
+	})
+}
+
 //func (c *Programme) Get() {
 //	typeId := c.Request.GetQueryInt("id")
 //	var dictionaries = []entity.Dictionary{}

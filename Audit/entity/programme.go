@@ -80,5 +80,5 @@ type Programme struct {
 	Step     []ProgrammeStep     `db:"step" json:"step" field:"step"`
 	Business []ProgrammeBusiness `db:"business" json:"business" field:"business"`
 	Emphases []ProgrammeEmphases `db:"emphases" json:"emphases" field:"emphases"`
-	UserList []ProgrammeUser     `db:"user_list" json:"userList" field:"user_list"`
+	UserList []ProgrammeUser     `db:"user_list" json:"userList" field:"userList"`
 }

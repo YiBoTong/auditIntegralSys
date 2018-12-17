@@ -6,6 +6,7 @@ import (
 	"gitee.com/johng/gf/g/net/ghttp"
 	"gitee.com/johng/gf/g/util/gconv"
 	"reflect"
+	"regexp"
 	"strings"
 	"time"
 )
@@ -99,4 +100,12 @@ func GetUserIdByRequest(r *ghttp.Cookie) int {
 		userId = gconv.Int(res)
 	}
 	return userId
+}
+
+// 转换为驼峰命名
+func CamelCase(str string) string {
+	reg := regexp.MustCompile(`_\w`)
+	return reg.ReplaceAllStringFunc(str, func(s string) string {
+		return strings.ToUpper(strings.Split(s, "_")[1])
+	})
 }
