@@ -4,13 +4,15 @@
 // If a copy of the MIT was not distributed with this file,
 // You can obtain one at https://gitee.com/johng/gf.
 
+// Package gvar provides a universal variable type.
 // 通用动态变量.
 package gvar
 
 import (
-    "time"
-    "gitee.com/johng/gf/g/util/gconv"
     "gitee.com/johng/gf/g/container/gtype"
+    "gitee.com/johng/gf/g/os/gtime"
+    "gitee.com/johng/gf/g/util/gconv"
+    "time"
 )
 
 type Var struct {
@@ -28,6 +30,16 @@ func New(value interface{}, safe...bool) *Var {
         v.value = value
     }
     return v
+}
+
+// 创建一个只读动态变量，value参数可以为nil
+func NewRead(value interface{}, safe...bool) VarRead {
+    return VarRead(New(value, safe...))
+}
+
+// 返回动态变量的只读接口
+func (v *Var) ReadOnly() VarRead {
+    return VarRead(v)
 }
 
 func (v *Var) Set(value interface{}) (old interface{}) {
@@ -48,6 +60,7 @@ func (v *Var) Val() interface{} {
     }
 }
 
+// Val() 别名
 func (v *Var) Interface() interface{} {
     return v.Val()
 }
@@ -79,6 +92,8 @@ func (v *Var) Interfaces()     []interface{}   { return gconv.Interfaces(v.Val()
 
 func (v *Var) Time(format...string) time.Time       { return gconv.Time(v.Val(), format...) }
 func (v *Var) TimeDuration()        time.Duration   { return gconv.TimeDuration(v.Val()) }
+
+func (v *Var) GTime(format...string) *gtime.Time    { return gconv.GTime(v.Val(), format...) }
 
 // 将变量转换为对象，注意 objPointer 参数必须为struct指针
 func (v *Var) Struct(objPointer interface{}, attrMapping...map[string]string) error {

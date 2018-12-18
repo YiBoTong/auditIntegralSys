@@ -68,8 +68,38 @@ func (a *Array) InsertAfter(index int, value interface{}) {
 func (a *Array) Remove(index int) interface{} {
     a.mu.Lock()
     defer a.mu.Unlock()
+    // 边界删除判断，以提高删除效率
+    if index == 0 {
+        value  := a.array[0]
+        a.array = a.array[1 : ]
+        return value
+    } else if index == len(a.array) - 1 {
+        value  := a.array[index]
+        a.array = a.array[: index]
+        return value
+    }
+    // 如果非边界删除，会涉及到数组创建，那么删除的效率差一些
     value  := a.array[index]
     a.array = append(a.array[ : index], a.array[index + 1 : ]...)
+    return value
+}
+
+// 将最左端(索引为0)的数据项移出数组，并返回该数据项
+func (a *Array) PopLeft() interface{} {
+    a.mu.Lock()
+    defer a.mu.Unlock()
+    value  := a.array[0]
+    a.array = a.array[1 : ]
+    return value
+}
+
+// 将最右端(索引为length - 1)的数据项移出数组，并返回该数据项
+func (a *Array) PopRight() interface{} {
+    a.mu.Lock()
+    defer a.mu.Unlock()
+    index  := len(a.array) - 1
+    value  := a.array[index]
+    a.array = a.array[: index]
     return value
 }
 
@@ -107,10 +137,12 @@ func (a *Array) Slice() []interface{} {
 // 清空数据数组
 func (a *Array) Clear() {
     a.mu.Lock()
-    if a.cap > 0 {
-        a.array = make([]interface{}, a.size, a.cap)
-    } else {
-        a.array = make([]interface{}, a.size)
+    if len(a.array) > 0 {
+        if a.cap > 0 {
+            a.array = make([]interface{}, a.size, a.cap)
+        } else {
+            a.array = make([]interface{}, a.size)
+        }
     }
     a.mu.Unlock()
 }
@@ -131,6 +163,20 @@ func (a *Array) Search(value interface{}) int {
     a.mu.RUnlock()
 
     return result
+}
+
+// 清理数组中重复的元素项
+func (a *Array) Unique() *Array {
+    a.mu.Lock()
+    for i := 0; i < len(a.array) - 1; i++ {
+        for j := i + 1; j < len(a.array); j++ {
+            if a.array[i] == a.array[j] {
+                a.array = append(a.array[ : j], a.array[j + 1 : ]...)
+            }
+        }
+    }
+    a.mu.Unlock()
+    return a
 }
 
 // 使用自定义方法执行加锁修改操作

@@ -4,6 +4,7 @@
 // If a copy of the MIT was not distributed with this file,
 // You can obtain one at https://gitee.com/johng/gf.
 
+// Package gqueue provides a dynamic/static concurrent-safe(alternative) queue.
 // 并发安全的动态队列.
 // 特点：
 // 1、动态队列初始化速度快；
@@ -29,26 +30,22 @@ type Queue struct {
 }
 
 const (
-    // 默认临时队列大小,注意是临时的
-    gDEFAULT_QUEUE_SIZE = 10000
+    // 动态队列缓冲区大小
+    gQUEUE_SIZE = 10000
 )
 
 // 队列大小为非必须参数，默认不限制
 func New(limit...int) *Queue {
-    size := gDEFAULT_QUEUE_SIZE
-    if len(limit) > 0 {
-        size = limit[0]
-    }
     q := &Queue {
-        list      : glist.New(),
-        queue     : make(chan interface{}, size),
-        events    : make(chan struct{}, math.MaxInt32),
         closeChan : make(chan struct{}, 0),
     }
     if len(limit) > 0 {
-        q.limit = size
+        q.limit  = limit[0]
+        q.queue  = make(chan interface{}, limit[0])
     } else {
-        // 如果是动态队列大小，那么额外会运行一个goroutine
+        q.list   = glist.New()
+        q.queue  = make(chan interface{}, gQUEUE_SIZE)
+        q.events = make(chan struct{}, math.MaxInt32)
         go q.startAsyncLoop()
     }
     return q

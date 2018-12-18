@@ -16,7 +16,7 @@ type SortedIntArray struct {
     mu          *rwmutex.RWMutex     // 互斥锁
     cap         int                  // 初始化设置的数组容量
     array       []int                // 底层数组
-    unique      *gtype.Bool          // 是否要求不能重复
+    unique      *gtype.Bool          // 是否要求不能重复(默认false)
     compareFunc func(v1, v2 int) int // 比较函数，返回值 -1: v1 < v2；0: v1 == v2；1: v1 > v2
 }
 
@@ -76,6 +76,17 @@ func (a *SortedIntArray) Get(index int) int {
 func (a *SortedIntArray) Remove(index int) int {
     a.mu.Lock()
     defer a.mu.Unlock()
+    // 边界删除判断，以提高删除效率
+    if index == 0 {
+        value  := a.array[0]
+        a.array = a.array[1 : ]
+        return value
+    } else if index == len(a.array) - 1 {
+        value  := a.array[index]
+        a.array = a.array[: index]
+        return value
+    }
+    // 如果非边界删除，会涉及到数组创建，那么删除的效率差一些
     value  := a.array[index]
     a.array = append(a.array[ : index], a.array[index + 1 : ]...)
     return value
@@ -94,9 +105,9 @@ func (a *SortedIntArray) PopLeft() int {
 func (a *SortedIntArray) PopRight() int {
     a.mu.Lock()
     defer a.mu.Unlock()
-    length := len(a.array)
-    value  := a.array[length - 1]
-    a.array = a.array[: length - 1]
+    index  := len(a.array) - 1
+    value  := a.array[index]
+    a.array = a.array[: index]
     return value
 }
 
@@ -150,7 +161,7 @@ func (a *SortedIntArray) binSearch(value int, lock bool) (index int, result int)
             case  0 :
             case  1 : min = mid + 1
         }
-        if cmp == 0 || min > max {
+        if cmp == 0 || min >= max {
             break
         }
     }
@@ -186,7 +197,9 @@ func (a *SortedIntArray) doUnique() {
 // 清空数据数组
 func (a *SortedIntArray) Clear() {
     a.mu.Lock()
-    a.array = make([]int, 0, a.cap)
+    if len(a.array) > 0 {
+        a.array = make([]int, 0, a.cap)
+    }
     a.mu.Unlock()
 }
 

@@ -4,13 +4,14 @@
 // If a copy of the MIT was not distributed with this file,
 // You can obtain one at https://gitee.com/johng/gf.
 
-// 其他工具包
+// 工具包
 package gutil
 
 import (
     "fmt"
     "bytes"
     "encoding/json"
+    "os"
     "reflect"
     "gitee.com/johng/gf/g/util/gconv"
     "runtime"
@@ -43,7 +44,7 @@ func Dump(i...interface{}) {
             if err := encoder.Encode(v); err == nil {
                 fmt.Print(buffer.String())
             } else {
-                fmt.Errorf("%s", err.Error())
+                fmt.Fprintln(os.Stderr, err.Error())
             }
         }
         //fmt.Println()

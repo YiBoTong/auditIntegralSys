@@ -5,6 +5,7 @@
 // You can obtain one at https://gitee.com/johng/gf.
 //
 
+// Package glist provides a concurrent-safe(alternative) doubly linked list.
 // 并发安全的双向链表.
 package glist
 
@@ -21,7 +22,7 @@ type List struct {
 
 // 获得一个变长链表指针
 func New(safe...bool) *List {
-	return &List{
+	return &List {
 	    mu   : rwmutex.New(safe...),
 		list : list.New(),
     }
