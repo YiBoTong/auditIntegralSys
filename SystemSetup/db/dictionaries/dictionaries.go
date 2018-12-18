@@ -44,7 +44,7 @@ func UpdateDictionaries(typeId int, add []g.Map, update []g.Map, updateIds []int
 	return err == nil, err
 }
 
-func addDictionaries(ctx *gdb.Tx, add []g.Map) (int, error) {
+func addDictionaries(ctx *gdb.TX, add []g.Map) (int, error) {
 	var rows int64 = 0
 	// 批次5条数据写入
 	r, err := ctx.BatchInsert(config.DictionaryTbName, add, 5)
@@ -54,7 +54,7 @@ func addDictionaries(ctx *gdb.Tx, add []g.Map) (int, error) {
 	return int(rows), err
 }
 
-func updateDictionaries(ctx *gdb.Tx, update []g.Map) (int, error) {
+func updateDictionaries(ctx *gdb.TX, update []g.Map) (int, error) {
 	var rows int64 = 0
 	// 批次5条数据写入
 	r, err := ctx.BatchReplace(config.DictionaryTbName, update, 5)
@@ -64,7 +64,7 @@ func updateDictionaries(ctx *gdb.Tx, update []g.Map) (int, error) {
 	return int(rows), err
 }
 
-func delDictionaries(ctx *gdb.Tx, typeId int, ids []int) (driver.Result, error) {
+func delDictionaries(ctx *gdb.TX, typeId int, ids []int) (driver.Result, error) {
 	var sql *gdb.Model
 	if len(ids) > 1 {
 		for index, id := range ids {

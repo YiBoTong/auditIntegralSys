@@ -25,26 +25,21 @@ func (c *Dictionaries) List() {
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
-	title := search.GetString("title")
-	key := search.GetString("key")
-	userId := search.GetInt("userId")
 
 	searchMap := g.Map{}
 	listSearchMap := g.Map{}
 
-	if title != "" {
-		searchMap["title"] = title
-		listSearchMap["d.title"] = title
+	searchItem := map[string]interface{}{
+		"title":   "string",
+		"key":     "string",
+		"user_id": "int",
 	}
 
-	if key != "" {
-		searchMap["`key`"] = key
-		listSearchMap["d.key"] = key
-	}
-
-	if userId != 0 {
-		searchMap["user_id"] = userId
-		listSearchMap["d.user_id"] = userId
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		// d.title:title String
+		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
 	}
 
 	count, err := db_dictionaries.GetDictionaryTypeCount(searchMap)
@@ -52,17 +47,13 @@ func (c *Dictionaries) List() {
 		var listData []map[string]interface{}
 		listData, err = db_dictionaries.GetDictionaryTypes(offset, size, listSearchMap)
 		for _, v := range listData {
-			rspData = append(rspData, entity.DictionaryType{
-				Id:         gconv.Int(v["id"]),
-				TypeId:     gconv.Int(v["type_id"]),
-				Key:        gconv.String(v["key"]),
-				Title:      gconv.String(v["title"]),
-				IsUse:      gconv.Bool(v["is_use"]),
-				UpdateTime: gconv.String(v["update_time"]),
-				UserId:     gconv.Int(v["user_id"]),
-				UserName:   gconv.String(v["user_name"]),
-				Describe:   gconv.String(v["describe"]),
-			})
+			item:=entity.DictionaryType{}
+			err = gconv.Struct(v,&item)
+			if err == nil {
+				rspData = append(rspData,item)
+			}else {
+				break
+			}
 		}
 	}
 	if err != nil {

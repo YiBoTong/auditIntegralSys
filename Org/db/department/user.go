@@ -50,7 +50,7 @@ func UpdateDepartmentUser(departmentId int, add []g.Map, update []g.Map, updateI
 	return err == nil, err
 }
 
-func addDepartmentUser(ctx *gdb.Tx, add []g.Map) (int, error) {
+func addDepartmentUser(ctx *gdb.TX, add []g.Map) (int, error) {
 	var rows int64 = 0
 	// 批次5条数据写入
 	r, err := ctx.BatchInsert(config.DepartmentUserTbName, add, 5)
@@ -60,7 +60,7 @@ func addDepartmentUser(ctx *gdb.Tx, add []g.Map) (int, error) {
 	return int(rows), err
 }
 
-func updateDepartmentUser(ctx *gdb.Tx, update []g.Map) (int, error) {
+func updateDepartmentUser(ctx *gdb.TX, update []g.Map) (int, error) {
 	var rows int64 = 0
 	// 批次5条数据写入
 	r, err := ctx.BatchReplace(config.DepartmentUserTbName, update, 5)
@@ -70,7 +70,7 @@ func updateDepartmentUser(ctx *gdb.Tx, update []g.Map) (int, error) {
 	return int(rows), err
 }
 
-func delDepartmentUser(ctx *gdb.Tx, departmentId int, ids []int) (driver.Result, error) {
+func delDepartmentUser(ctx *gdb.TX, departmentId int, ids []int) (driver.Result, error) {
 	var sql *gdb.Model
 	if len(ids) > 1 {
 		for index, id := range ids {

@@ -3,6 +3,7 @@ package util
 import (
 	"auditIntegralSys/_public/config"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/encoding/gjson"
 	"gitee.com/johng/gf/g/net/ghttp"
 	"gitee.com/johng/gf/g/util/gconv"
 	"reflect"
@@ -12,6 +13,11 @@ import (
 )
 
 var UrlMsgStr map[string]string
+
+// 转驼峰命名法正则规则
+var camelCaseReg = regexp.MustCompile(`_\w`)
+// sql中的关键字
+var sqlKeyReg = regexp.MustCompile(`^(key|order)$`)
 
 func init() {
 	initUrlMsgStr()
@@ -63,10 +69,12 @@ func GetLocalNowTimeStr() string {
 	return localTime
 }
 
+// 获取请求URL
 func GetSqlLogURLByRequest(r *ghttp.Request) string {
 	return strings.Split(r.RequestURI, "?")[0]
 }
 
+// 获取请求方式
 func GetSqlLogMsgByRequest(r *ghttp.Request) string {
 	urlArr := strings.Split(r.RequestURI, "/")
 	urlLen := len(urlArr)
@@ -79,6 +87,7 @@ func GetSqlLogMsgByRequest(r *ghttp.Request) string {
 	return msg
 }
 
+// 获取get请求参数
 func GetSqlLogDataByRequest(r *ghttp.Request) string {
 	method := r.Request.Method
 	data := ""
@@ -91,6 +100,7 @@ func GetSqlLogDataByRequest(r *ghttp.Request) string {
 	return data
 }
 
+// 根据请求获取userId
 func GetUserIdByRequest(r *ghttp.Cookie) int {
 	userId := 0
 	token := r.Get(config.CookieIdName)
@@ -104,8 +114,61 @@ func GetUserIdByRequest(r *ghttp.Cookie) int {
 
 // 转换为驼峰命名
 func CamelCase(str string) string {
-	reg := regexp.MustCompile(`_\w`)
-	return reg.ReplaceAllStringFunc(str, func(s string) string {
+	return camelCaseReg.ReplaceAllStringFunc(str, func(s string) string {
 		return strings.ToUpper(strings.Split(s, "_")[1])
 	})
+}
+
+// 请求json转换为sql语句map
+// gMap 传引用
+// key 冒号右侧映射给左侧
+// typeStr 冒号右侧的类型转换为左侧类型（nowTime为当前时间字符串）
+func GetSqlMapByReqJson(gMap g.Map, reqData gjson.Json, key string, typeStr string) {
+	srcKey := strings.Split(key, ":")      // 冒号左边是sql对应的字段，右边是json字段
+	srcType := strings.Split(typeStr, ":") // 冒号左边是目标类型，右边是json传的类型
+	sqlKey := srcKey[0]
+	sqlType := srcType[0]
+	jsonKey := sqlKey
+	jsonType := sqlType
+	var val interface{}
+	if sqlType == "nowTime" { // 当前字符串
+		val = GetLocalNowTimeStr()
+	} else {
+		if len(srcKey) > 1 {
+			jsonKey = srcKey[1] // json中的键
+		}
+		val = reqData.Get(CamelCase(jsonKey)) // 获取到json中对应的值
+		if len(srcType) > 1 {
+			jsonType = srcType[1]
+			val = gconv.Convert(val, jsonType) // json中传递的数据类型
+		}
+		val = gconv.Convert(val, sqlType) // sql保存时的数据类型
+	}
+	gMap[sqlKey] = val
+}
+
+// 请求json转换为搜索语句map
+// gMap 传引用
+// key 冒号右侧映射给左侧
+// typeStr 冒号右侧的类型转换为左侧类型（nowTime为当前时间字符串）
+func GetSearchMapByReqJson(gMap g.Map, reqData gjson.Json, key string, typeStr string) {
+	srcKey := strings.Split(key, ":")      // 冒号左边是sql对应的字段，右边是json字段
+	srcType := strings.Split(typeStr, ":") // 冒号左边是目标类型，右边是json传的类型
+	sqlKey := srcKey[0]
+	sqlType := srcType[0]
+	jsonKey := sqlKey
+	jsonType := sqlType
+	var val interface{}
+	if len(srcKey) > 1 {
+		jsonKey = srcKey[1] // json中的键
+	}
+	val = reqData.Get(CamelCase(jsonKey)) // 获取到json中对应的值
+	if val != "" {
+		if len(srcType) > 1 {
+			jsonType = srcType[1]
+			val = gconv.Convert(val, jsonType) // json中传递的数据类型
+		}
+		val = gconv.Convert(val, sqlType) // sql保存时的数据类型
+		gMap[sqlKeyReg.ReplaceAllString(sqlKey,"`$1`")] = val
+	}
 }

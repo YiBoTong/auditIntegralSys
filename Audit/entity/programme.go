@@ -1,7 +1,23 @@
 package entity
 
+type AddProgramme struct {
+	Title             string `db:"title" json:"title" field:"title"`
+	QueryDepartmentId int    `db:"query_department_id" json:"queryDepartmentId" field:"query_department_id"`
+	UserId            int    `db:"user_id" json:"userId" field:"user_id"`
+	QueryPointId      int    `db:"query_point_id" json:"queryPointId" field:"query_point_id"`
+	Purpose           string `db:"purpose" json:"purpose" field:"purpose"`
+	Type              string `db:"type" json:"type" field:"type"`
+	StartTime         string `db:"start_time" json:"startTime" field:"start_time"`
+	EndTime           string `db:"end_time" json:"endTime" field:"end_time"`
+	PlanStartTime     string `db:"plan_start_time" json:"planStartTime" field:"plan_start_time"`
+	PlanEndTime       string `db:"plan_end_time" json:"planEndTime" field:"plan_end_time"`
+	State             string `db:"state" json:"state" field:"state"`
+}
+
 type ProgrammeItem struct {
 	Id                  int    `db:"id" json:"id" field:"id"`
+	Title               string `db:"title" json:"title" field:"title"`
+	Key                 string `db:"key" json:"key" field:"key"`
 	QueryDepartmentId   int    `db:"query_department_id" json:"queryDepartmentId" field:"query_department_id"`
 	QueryDepartmentName string `db:"query_department_name" json:"queryDepartmentName" field:"query_department_name"`
 	UserId              int    `db:"user_id" json:"userId" field:"user_id"`
@@ -17,7 +33,7 @@ type ProgrammeItem struct {
 	DetUserName         string `db:"det_user_name" json:"detUserName" field:"det_user_name"`
 	DetUserContent      string `db:"det_user_content" json:"detUserContent" field:"det_user_content"`
 	DetUserTime         string `db:"det_user_time" json:"detUserTime" field:"det_user_time"`
-	AdminUserId         string `db:"admin_user_id" json:"adminUserId" field:"admin_user_id"`
+	AdminUserId         int    `db:"admin_user_id" json:"adminUserId" field:"admin_user_id"`
 	AdminUserName       string `db:"admin_user_name" json:"adminUserName" field:"admin_user_name"`
 	AdminUserContent    string `db:"admin_user_content" json:"adminUserContent" field:"admin_user_content"`
 	AdminUserTime       string `db:"admin_user_time" json:"adminUserTime" field:"admin_user_time"`
