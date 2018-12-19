@@ -18,6 +18,7 @@ const (
 func main() {
 	g.Config().SetFileName("config.json")
 	log.Init(config.AuditNameSpace)
+	g.DB().SetDebug(true)
 	s := g.Server(config.AuditNameSpace)
 	s.SetSessionIdName(config.CookieIdName)
 	// 审查方案

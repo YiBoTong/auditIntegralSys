@@ -12,6 +12,7 @@ const (
 	ErrorStr          = "失败"
 	UserCode          = "员工号"
 	StateStr          = "状态"
+	RoleStr           = "人员角色"
 	Had               = "已存在"
 	NoHad             = "不存在"
 	ChangeState       = "状态变更"
@@ -24,6 +25,7 @@ const (
 	PasswordLenErrStr = "密码长度为6-18位"
 	RbacStr           = "权限"
 	MastHasOneStr     = "至少要有一个"
+	ExamineStr        = "审核"
 )
 
 // 获取操作提示

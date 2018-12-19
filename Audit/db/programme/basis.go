@@ -6,42 +6,53 @@ import (
 	"gitee.com/johng/gf/g/database/gdb"
 )
 
-func addBasis(ctx gdb.TX, programmeId int, data []g.Map) (int, error) {
-	var rows int64 = 0
-	len := len(data)
-	for i := 0; i < len; i++ {
+func addBasis(tx *gdb.TX, programmeId int, data []g.Map) (int, error) {
+	l := len(data)
+	if l == 0 {
+		return 0, nil
+	}
+	for i := 0; i < l; i++ {
 		data[i]["programme_id"] = programmeId
 	}
-	res, err := ctx.BatchInsert(config.ProgrammeBasisTbName, data, 5)
-	if err == nil {
-		rows, _ = res.RowsAffected()
-	}
+	res, err := tx.BatchInsert(config.ProgrammeBasisTbName, data, 5)
+	rows, _ := res.RowsAffected()
 	return int(rows), err
 }
 
-func delBasis(ctx *gdb.TX, programmeId int) (int64, error) {
-	var rows int64 = 0
-	r, err := ctx.Table(config.ProgrammeBasisTbName).Where("programme_id=?", programmeId).Data(g.Map{"delete": 1}).Update()
-	if err == nil {
-		rows, err = r.RowsAffected()
+func updateBasis(tx *gdb.TX, programmeId int, data []g.Map) (int, error) {
+	l := len(data)
+	if l == 0 {
+		return 0, nil
 	}
-	return rows, err
+	for i := 0; i < l; i++ {
+		data[i]["programme_id"] = programmeId
+		data[i]["delete"] = 0
+	}
+	res, err := tx.BatchReplace(config.ProgrammeBasisTbName, data, 5)
+	rows, _ := res.RowsAffected()
+	return int(rows), err
 }
 
-//func updateBasis(update []g.Map) (int,error) {
-//	var rows int64 = 0
-//
-//}
-//
-//func editBasis(programmeId int, add, update []g.Map) (int64, error) {
-//	var rows int64 = 0
-//	row, err := delBasis(programmeId)
-//	rows += int64(row)
-//	if len(add) >0 {
-//
-//	}
-//	return int64(rows), err
-//}
+func delBasis(tx *gdb.TX, programmeId int) (int, error) {
+	r, err := tx.Table(config.ProgrammeBasisTbName).Where("programme_id=?", programmeId).Data(g.Map{"delete": 1}).Update()
+	rows, _ := r.RowsAffected()
+	return int(rows), err
+}
+
+func editBasis(tx *gdb.TX, programmeId int, update []g.Map) (int, error) {
+	l := len(update)
+	_, _ = delBasis(tx, programmeId)
+	if l == 0 {
+		return 0, nil
+	}
+	for i := 0; i < l; i++ {
+		update[i]["programme_id"] = programmeId
+		update[i]["delete"] = 0
+	}
+	r, err := tx.BatchSave(config.ProgrammeBasisTbName, update, 5)
+	rows, _ := r.RowsAffected()
+	return int(rows), err
+}
 
 func GetBasis(programmeId int) ([]map[string]interface{}, error) {
 	db := g.DB()

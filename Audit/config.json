@@ -18,6 +18,15 @@
         "name": "audit_integral",
         "type": "mysql",
         "role": "slave"
+      },
+      {
+        "host": "127.0.0.1",
+        "port": "3312",
+        "user": "root",
+        "pass": "root",
+        "name": "audit_integral",
+        "type": "mysql",
+        "role": "slave"
       }
     ]
   },

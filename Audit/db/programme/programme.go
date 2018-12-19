@@ -3,26 +3,21 @@ package db_programme
 import (
 	"auditIntegralSys/Audit/entity"
 	"auditIntegralSys/_public/config"
+	"fmt"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 	"strings"
 )
 
-func add(ctx *gdb.TX, data g.Map) (int, error) {
-	var id int64 = 0
-	res, err := ctx.Table(config.ProgrammeTbName).Data(data).Insert()
-	if err == nil {
-		id, _ = res.LastInsertId()
-	}
+func add(tx *gdb.TX, data g.Map) (int, error) {
+	res, err := tx.Table(config.ProgrammeTbName).Data(data).Insert()
+	id, _ := res.LastInsertId()
 	return int(id), err
 }
 
-func edit(ctx *gdb.TX, id int, data g.Map) (int64, error) {
-	var row int64 = 0
-	res, err := ctx.Table(config.ProgrammeTbName).Data(data).Where("id=?", id).Update()
-	if err == nil {
-		row, _ = res.RowsAffected()
-	}
+func edit(tx *gdb.TX, id int, data g.Map) (int64, error) {
+	res, err := tx.Table(config.ProgrammeTbName).Data(data).Where("id=?", id).And("`delete`=?", 0).Update()
+	row, _ := res.RowsAffected()
 	return row, err
 }
 
@@ -50,72 +45,109 @@ func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) 
 func Add(programme g.Map, basis, content, step, business, emphases, user []g.Map) (int, error) {
 	id := 0
 	db := g.DB()
-	ctx, err := db.Begin()
+	tx, err := db.Begin()
 	if err == nil {
-		id, err = add(ctx, programme)
+		id, err = add(tx, programme)
 	}
 	if err == nil && id != 0 {
-		_, err = addBasis(*ctx, id, basis)
+		_, err = addBasis(tx, id, basis)
 	}
 	if err == nil && id != 0 {
-		_, err = addContent(ctx, id, content)
+		_, err = addContent(tx, id, content)
 	}
 	if err == nil && id != 0 {
-		_, err = addStep(ctx, id, step)
+		_, err = addStep(tx, id, step)
 	}
 	if err == nil && id != 0 {
-		_, err = addBusiness(ctx, id, business)
+		_, err = addBusiness(tx, id, business)
 	}
 	if err == nil && id != 0 {
-		_, err = addEmphases(ctx, id, emphases)
+		_, err = addEmphases(tx, id, emphases)
 	}
 	if err == nil && id != 0 {
-		_, err = addUser(ctx, id, user)
+		_, err = addUser(tx, id, user)
 	}
 	if err == nil {
-		err = ctx.Commit()
+		err = tx.Commit()
 	} else {
 		id = 0
-		err = ctx.Rollback()
+		err = tx.Rollback()
 	}
 	return id, err
 }
 
-func Edit(id int, programme g.Map, basis, content, step, business, emphases, user [][]g.Map) (int, error) {
+func Edit(id int, programme g.Map, basis, content, step, business, emphases, user [2][]g.Map) (int, error) {
 	db := g.DB()
-	var rows int64 = 0
-	var row int64 = 0
-	ctx, err := db.Begin()
+	var rows int = 0
+	var row int = 0
+	tx, err := db.Begin()
 	if err == nil {
-		row, err = edit(ctx, id, programme)
-		rows += row
+		var r int64 = 0
+		r, err = edit(tx, id, programme)
+		rows += int(r)
 	}
-	if err == nil && id != 0 {
-		//_, _ = delBasis(ctx, id)
-		_, err = addBasis(*ctx, id, basis[1])
-	}
-	if err == nil && id != 0 {
-		_, err = addContent(ctx, id, content[1])
-	}
-	if err == nil && id != 0 {
-		_, err = addStep(ctx, id, step[1])
-	}
-	if err == nil && id != 0 {
-		_, err = addBusiness(ctx, id, business[1])
-	}
-	if err == nil && id != 0 {
-		_, err = addEmphases(ctx, id, emphases[1])
-	}
-	if err == nil && id != 0 {
-		_, err = addUser(ctx, id, user[1])
+	if rows != 0 {
+		if err == nil {
+			_, _ = delBasis(tx, id)
+			row, err = addBasis(tx, id, basis[0])
+			rows += row
+			row, err = updateBasis(tx, id, basis[1])
+			rows += row
+		}
+		if err == nil {
+			_, _ = delContent(tx, id)
+			row, err = addContent(tx, id, content[0])
+			rows += row
+			row, err = updateContent(tx, id, content[1])
+			rows += row
+		}
+		if err == nil {
+			_, _ = delStep(tx, id)
+			row, err = addStep(tx, id, step[0])
+			rows += row
+			row, err = updateStep(tx, id, step[1])
+			rows += row
+		}
+		if err == nil {
+			_, _ = delBusiness(tx, id)
+			row, err = addBusiness(tx, id, business[0])
+			rows += row
+			row, err = updateBusiness(tx, id, business[1])
+			rows += row
+		}
+		if err == nil {
+			_, _ = delEmphases(tx, id)
+			row, err = addEmphases(tx, id, emphases[0])
+			rows += row
+			row, err = updateEmphases(tx, id, emphases[1])
+			rows += row
+		}
+		if err == nil {
+			_, _ = delUser(tx, id)
+			row, err = addUser(tx, id, user[0])
+			rows += row
+			row, err = updateUser(tx, id, user[1])
+			rows += row
+		}
 	}
 	if err == nil {
-		err = ctx.Commit()
+		err = tx.Commit()
 	} else {
-		id = 0
-		err = ctx.Rollback()
+		err = tx.Rollback()
 	}
-	return id, err
+	return rows, err
+}
+
+func Update(id int, data g.Map, where ...g.Map) (int, error) {
+	db := g.DB()
+	sql := db.Table(config.ProgrammeTbName).Data(data).Where("`delete`=?", 0).And("id=?", id)
+	if len(where) > 0 {
+		sql.And(where[0])
+	}
+	r, err := sql.Update()
+	row, _ := r.RowsAffected()
+	fmt.Println(row)
+	return int(row), err
 }
 
 func Get(id int) (entity.ProgrammeItem, error) {
@@ -146,28 +178,22 @@ func Get(id int) (entity.ProgrammeItem, error) {
 func Del(id int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	var row int64 = 0
-	ctx, err := db.Begin()
+	tx, err := db.Begin()
 	if err == nil {
-		r, _ := ctx.Table(config.ProgrammeTbName).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
-		_ = ctx.Rollback()
-		row, err = r.RowsAffected()
-		rows += row
-		//row, err = delBasis(ctx, id)
-		//rows += row
+		r, _ := tx.Table(config.ProgrammeTbName).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+		rows, _ = r.RowsAffected()
 	}
-	//if err == nil {
-	//	_ = ctx.Rollback()
-	//	//_, _ = delBasis(id)
-	//	//_, _ = delBusiness(id)
-	//	//_, _ = delContent(id)
-	//	//_, _ = delEmphases(id)
-	//	//_, _ = delStep(id)
-	//	//_, _ = delUser(id)
-	//	//rows, _ = r.RowsAffected()
-	//} else {
-	//	_ = ctx.Rollback()
-	//	rows = 0
-	//}
+	fmt.Println(tx)
+	if err == nil && rows > 0 {
+		_, _ = delBasis(tx, id)
+		_, _ = delBusiness(tx, id)
+		_, _ = delContent(tx, id)
+		_, _ = delEmphases(tx, id)
+		_, _ = delStep(tx, id)
+		_, _ = delUser(tx, id)
+		_ = tx.Commit()
+	} else {
+		_ = tx.Rollback()
+	}
 	return int(rows), err
 }

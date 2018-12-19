@@ -32,6 +32,10 @@ func initUrlMsgStr() {
 	temp["delete"] = "删除"
 	temp["tree"] = "获取"
 	temp["is-use"] = "变更$状态"
+	temp["state"] = "变更$状态"
+	temp["admin_examine"] = "分管领导审核$"
+	temp["dep_examine"] = "部门负责人审核$"
+	temp["select"] = "获取$选择列表"
 	temp["login"] = "登录系统"
 	temp["logout"] = "退出系统"
 	temp["upload"] = "上传"
@@ -144,7 +148,9 @@ func GetSqlMapByReqJson(gMap g.Map, reqData gjson.Json, key string, typeStr stri
 		}
 		val = gconv.Convert(val, sqlType) // sql保存时的数据类型
 	}
-	gMap[sqlKey] = val
+	if sqlKey != "id" || (sqlKey == "id" && val != 0) { // 过滤id为0
+		gMap[sqlKey] = val
+	}
 }
 
 // 请求json转换为搜索语句map
@@ -169,6 +175,26 @@ func GetSearchMapByReqJson(gMap g.Map, reqData gjson.Json, key string, typeStr s
 			val = gconv.Convert(val, jsonType) // json中传递的数据类型
 		}
 		val = gconv.Convert(val, sqlType) // sql保存时的数据类型
-		gMap[sqlKeyReg.ReplaceAllString(sqlKey,"`$1`")] = val
+		gMap[sqlKeyReg.ReplaceAllString(sqlKey, "`$1`")] = val
+	}
+}
+
+// 获取sql map
+func GetSqlMap(reqJson gjson.Json, reqDataMap map[string]interface{}, sqlMap g.Map) {
+	for k, v := range reqDataMap {
+		GetSqlMapByReqJson(sqlMap, reqJson, k, gconv.String(v))
+	}
+}
+
+func GetSqlMapItemFun(json gjson.Json, reqDataMap map[string]interface{}, appendFun func(itemMap g.Map)) {
+	if dataLen := len(json.ToArray()); dataLen > 0 {
+		for index := 0; index < dataLen; index++ {
+			item := g.Map{}
+			reqBasisItem := json.GetJson(gconv.String(index))
+			for k, v := range reqDataMap {
+				GetSqlMapByReqJson(item, *reqBasisItem, k, gconv.String(v))
+			}
+			appendFun(item)
+		}
 	}
 }
