@@ -311,7 +311,7 @@ func depExamineCall(id int, json gjson.Json) (int, error) {
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
 	// 只有上报的数据才能被部门负责人进行审核
-	row, err := db_programme.Update(id, stateMap, g.Map{"state": "report"})
+	row, err := db_programme.Update(id, stateMap, g.Map{"state=?": "report"})
 	if err == nil && row > 0 {
 		// 更新时间
 		_, _ = db_programme.Update(id, g.Map{"det_user_time": util.GetLocalNowTimeStr()})
@@ -332,7 +332,7 @@ func adminExamineCall(id int, json gjson.Json) (int, error) {
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
 	// 只有部门负责人审核通过的分管领导才能审核
-	row, err := db_programme.Update(id, stateMap, g.Map{"state": "dep_adopt"})
+	row, err := db_programme.Update(id, stateMap, g.Map{"state=?": "dep_adopt"})
 	if err == nil && row > 0 {
 		// 更新时间
 		_, _ = db_programme.Update(id, g.Map{"admin_user_time": util.GetLocalNowTimeStr()})
