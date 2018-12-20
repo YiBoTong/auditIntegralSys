@@ -166,14 +166,10 @@ func Get(id int) (entity.ProgrammeItem, error) {
 		"p.*",
 		"qd.name as query_department_name",
 		"qp.name as query_point_name",
-		"ud.user_name as det_user_name",
-		"ua.user_name as admin_user_name",
 	}
 	sql := db.Table(config.ProgrammeTbName + " p")
 	sql.LeftJoin(config.DepartmentTbName+" qd", "p.query_department_id=qd.id")
 	sql.LeftJoin(config.DepartmentTbName+" qp", "p.query_point_id=qp.id")
-	sql.LeftJoin(config.UserTbName+" ud", "p.det_user_id=ud.user_id")
-	sql.LeftJoin(config.UserTbName+" ua", "p.admin_user_id=ua.user_id")
 	sql.Fields(strings.Join(fields, ","))
 	sql.Where("p.delete=?", 0)
 	sql.And("p.id=?", id)

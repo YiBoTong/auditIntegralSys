@@ -207,7 +207,7 @@ func editCall(id int, json gjson.Json) (int, error) {
 
 	where := g.Map{
 		// 只有草稿、部门负责人驳回两种状态可以被修改
-		"state IN (?)": g.Slice{"draft", "dep_reject", "admin_reject"},
+		"state IN (?)": g.Slice{check.P_draft, check.P_dep_reject, check.P_admin_reject},
 	}
 
 	programme := g.Map{}
@@ -290,7 +290,7 @@ func stateCall(id int, json gjson.Json) (int, error) {
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
 	// 只有草稿的数据才能上报
-	row, err := db_programme.Update(id, stateMap, g.Map{"state IN (?)": g.Slice{"draft", "dep_reject", "admin_reject"}})
+	row, err := db_programme.Update(id, stateMap, g.Map{"state IN (?)": g.Slice{check.P_draft, check.P_dep_reject, check.P_admin_reject}})
 	if err == nil && row > 0 {
 		// 更新时间
 		_, _ = db_programme.Update(id, g.Map{"update_time": util.GetLocalNowTimeStr()})
@@ -305,16 +305,25 @@ func beforeDepExamine(id int, json gjson.Json) (bool, string) {
 
 func depExamineCall(id int, json gjson.Json) (int, error) {
 	state := map[string]interface{}{
-		"state":                    "string",
-		"det_user_content:content": "string",
+		"state":           "string",
+		"content":         "string",
+		"programme_id:id": "int",
 	}
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
+	programmeState := stateMap["state"]
+	if programmeState == check.P_adopt {
+		// 部门领导通过
+		programmeState = check.P_dep_adopt
+	} else {
+		// 部门领导驳回
+		programmeState = check.P_dep_reject
+	}
 	// 只有上报的数据才能被部门负责人进行审核
-	row, err := db_programme.Update(id, stateMap, g.Map{"state=?": "report"})
+	row, err := db_programme.Update(id, g.Map{"state": programmeState}, g.Map{"state=?": check.P_report})
 	if err == nil && row > 0 {
 		// 更新时间
-		_, _ = db_programme.Update(id, g.Map{"det_user_time": util.GetLocalNowTimeStr()})
+		_, _ = db_programme.AddDepExamines(id, stateMap)
 	}
 	return row, err
 }
@@ -326,16 +335,25 @@ func beforeAdminExamine(id int, json gjson.Json) (bool, string) {
 
 func adminExamineCall(id int, json gjson.Json) (int, error) {
 	state := map[string]interface{}{
-		"state":                      "string",
-		"admin_user_content:content": "string",
+		"state":           "string",
+		"content":         "string",
+		"programme_id:id": "int",
 	}
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
+	programmeState := stateMap["state"]
+	if programmeState == check.P_adopt {
+		// 分管领导通过则直接发布
+		programmeState = check.P_publish
+	} else {
+		// 分管领导驳回
+		programmeState = check.P_admin_reject
+	}
 	// 只有部门负责人审核通过的分管领导才能审核
-	row, err := db_programme.Update(id, stateMap, g.Map{"state=?": "dep_adopt"})
+	row, err := db_programme.Update(id, g.Map{"state": programmeState}, g.Map{"state=?": check.P_dep_adopt})
 	if err == nil && row > 0 {
 		// 更新时间
-		_, _ = db_programme.Update(id, g.Map{"admin_user_time": util.GetLocalNowTimeStr()})
+		_, _ = db_programme.AddAdminExamines(id, stateMap)
 	}
 	return row, err
 }
@@ -484,6 +502,8 @@ func (r *Programme) Get() {
 	business := []entity.ProgrammeBusiness{}
 	emphases := []entity.ProgrammeEmphases{}
 	userList := []entity.ProgrammeUser{}
+	depExamines := []entity.ProgrammeDepExamine{}
+	adminExamines := []entity.ProgrammeAdminExamine{}
 
 	programme, err := db_programme.Get(id)
 
@@ -498,6 +518,8 @@ func (r *Programme) Get() {
 		businessList, _ := db_programme.GetBusiness(id)
 		emphasesList, _ := db_programme.GetEmphases(id)
 		userListList, _ := db_programme.GetUser(id)
+		depExamineList, _ := db_programme.GetDepExamines(id)
+		adminExamineList, _ := db_programme.GetAdminExamines(id)
 
 		for _, bv := range basisList {
 			item := entity.ProgrammeBasis{}
@@ -540,6 +562,20 @@ func (r *Programme) Get() {
 				userList = append(userList, item)
 			}
 		}
+
+		for _, uv := range depExamineList {
+			item := entity.ProgrammeDepExamine{}
+			if ok := gconv.Struct(uv, &item); ok == nil {
+				depExamines = append(depExamines, item)
+			}
+		}
+
+		for _, uv := range adminExamineList {
+			item := entity.ProgrammeAdminExamine{}
+			if ok := gconv.Struct(uv, &item); ok == nil {
+				adminExamines = append(adminExamines, item)
+			}
+		}
 	}
 
 	success := err == nil && programme.Id != 0
@@ -552,6 +588,8 @@ func (r *Programme) Get() {
 			Business:      business,
 			Emphases:      emphases,
 			UserList:      userList,
+			DepExamines:   depExamines,
+			AdminExamines: adminExamines,
 		},
 		Status: app.Status{
 			Code:  0,

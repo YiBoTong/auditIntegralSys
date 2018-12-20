@@ -46,15 +46,25 @@ type ProgrammeItem struct {
 	EndTime             string `db:"end_time" json:"endTime" field:"end_time"`
 	PlanStartTime       string `db:"plan_start_time" json:"planStartTime" field:"plan_start_time"`
 	PlanEndTime         string `db:"plan_end_time" json:"planEndTime" field:"plan_end_time"`
-	DetUserId           int    `db:"det_user_id" json:"detUserId" field:"det_user_id"`
-	DetUserName         string `db:"det_user_name" json:"detUserName" field:"det_user_name"`
-	DetUserContent      string `db:"det_user_content" json:"detUserContent" field:"det_user_content"`
-	DetUserTime         string `db:"det_user_time" json:"detUserTime" field:"det_user_time"`
-	AdminUserId         int    `db:"admin_user_id" json:"adminUserId" field:"admin_user_id"`
-	AdminUserName       string `db:"admin_user_name" json:"adminUserName" field:"admin_user_name"`
-	AdminUserContent    string `db:"admin_user_content" json:"adminUserContent" field:"admin_user_content"`
-	AdminUserTime       string `db:"admin_user_time" json:"adminUserTime" field:"admin_user_time"`
 	State               string `db:"state" json:"state" field:"state"`
+}
+
+type ProgrammeDepExamine struct {
+	Id       int    `db:"id" json:"id" field:"id"`
+	UserId   int    `db:"user_id" json:"userId" field:"user_id"`
+	UserName string `db:"user_name" json:"userName" field:"user_name"`
+	Content  string `db:"content" json:"content" field:"content"`
+	Time     string `db:"time" json:"time" field:"time"`
+	State    string `db:"state" json:"state" field:"state"`
+}
+
+type ProgrammeAdminExamine struct {
+	Id       int    `db:"id" json:"id" field:"id"`
+	UserId   int    `db:"user_id" json:"userId" field:"user_id"`
+	UserName string `db:"user_name" json:"userName" field:"user_name"`
+	Content  string `db:"content" json:"content" field:"content"`
+	Time     string `db:"time" json:"time" field:"time"`
+	State    string `db:"state" json:"state" field:"state"`
 }
 
 type ProgrammeBasis struct {
@@ -108,10 +118,12 @@ type ProgrammeUser struct {
 
 type Programme struct {
 	ProgrammeItem
-	Basis    []ProgrammeBasis    `db:"basis" json:"basis" field:"basis"`
-	Content  []ProgrammeContent  `db:"content" json:"content" field:"content"`
-	Step     []ProgrammeStep     `db:"step" json:"step" field:"step"`
-	Business []ProgrammeBusiness `db:"business" json:"business" field:"business"`
-	Emphases []ProgrammeEmphases `db:"emphases" json:"emphases" field:"emphases"`
-	UserList []ProgrammeUser     `db:"user_list" json:"userList" field:"userList"`
+	Basis         []ProgrammeBasis        `db:"basis" json:"basis" field:"basis"`
+	Content       []ProgrammeContent      `db:"content" json:"content" field:"content"`
+	Step          []ProgrammeStep         `db:"step" json:"step" field:"step"`
+	Business      []ProgrammeBusiness     `db:"business" json:"business" field:"business"`
+	Emphases      []ProgrammeEmphases     `db:"emphases" json:"emphases" field:"emphases"`
+	UserList      []ProgrammeUser         `db:"user_list" json:"userList" field:"userList"`
+	DepExamines   []ProgrammeDepExamine   `db:"dep_examines" json:"depExamines" field:"dep_examines"`
+	AdminExamines []ProgrammeAdminExamine `db:"admin_examine" json:"adminExamine" field:"admin_examine"`
 }
