@@ -7,7 +7,7 @@ import (
 
 func AddDepExamines(programmeId int, data g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeDepExamineTbName)
+	sql := db.Table(config.ProgrammeExamineDepTbName)
 	sql.Data(data)
 	r, err := sql.Insert()
 	id, _ := r.LastInsertId()
@@ -16,7 +16,7 @@ func AddDepExamines(programmeId int, data g.Map) (int, error) {
 
 func GetDepExamines(programmeId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeDepExamineTbName + " d")
+	sql := db.Table(config.ProgrammeExamineDepTbName + " d")
 	sql.LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id")
 	sql.Fields("d.*,u.user_name")
 	sql.Where("d.programme_id=?", programmeId)

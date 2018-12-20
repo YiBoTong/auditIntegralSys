@@ -25,8 +25,8 @@ const (
 	ProgrammeBusinessTbName          = "programme_business"           // 审查方案业务范围表
 	ProgrammeEmphasesTbName          = "programme_emphases"           // 审查方案重点表
 	ProgrammeUserTbName              = "programme_user"               // 审查方案员工分工表
-	ProgrammeDepExamineTbName        = "programme_dep_examine"        // 审查方案负责人审核表
-	ProgrammeAdminExamineTbName      = "programme_admin_examine"      // 审查方案分管领导审核表
+	ProgrammeExamineDepTbName        = "programme_examine_dep"        // 审查方案负责人审核表
+	ProgrammeExamineAdminTbName      = "programme_examine_admin"      // 审查方案分管领导审核表
 	DraftTbName                      = "draft"                        // 工作底稿表
 	DraftContentTbName               = "draft_content"                // 工作底稿内容表
 	DraftAdminUserTbName             = "draft_admin_user"             // 工作底稿复查人索引表
