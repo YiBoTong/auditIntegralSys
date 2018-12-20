@@ -15,8 +15,15 @@ func add(tx *gdb.TX, data g.Map) (int, error) {
 	return int(id), err
 }
 
-func edit(tx *gdb.TX, id int, data g.Map) (int64, error) {
-	res, err := tx.Table(config.ProgrammeTbName).Data(data).Where("id=?", id).And("`delete`=?", 0).Update()
+func edit(tx *gdb.TX, id int, data g.Map, where ...g.Map) (int64, error) {
+	sql := tx.Table(config.ProgrammeTbName).Data(data).Where("id=?", id)
+	sql.And("`delete`=?", 0)
+	if len(where) > 0 {
+		for k, v := range where[0] {
+			sql.And(k, v)
+		}
+	}
+	res, err := sql.Update()
 	row, _ := res.RowsAffected()
 	return row, err
 }
@@ -76,14 +83,14 @@ func Add(programme g.Map, basis, content, step, business, emphases, user []g.Map
 	return id, err
 }
 
-func Edit(id int, programme g.Map, basis, content, step, business, emphases, user [2][]g.Map) (int, error) {
+func Edit(id int, programme g.Map, basis, content, step, business, emphases, user [2][]g.Map, where ...g.Map) (int, error) {
 	db := g.DB()
 	var rows int = 0
 	var row int = 0
 	tx, err := db.Begin()
 	if err == nil {
 		var r int64 = 0
-		r, err = edit(tx, id, programme)
+		r, err = edit(tx, id, programme, where[0])
 		rows += int(r)
 	}
 	if rows != 0 {
@@ -142,7 +149,9 @@ func Update(id int, data g.Map, where ...g.Map) (int, error) {
 	db := g.DB()
 	sql := db.Table(config.ProgrammeTbName).Data(data).Where("`delete`=?", 0).And("id=?", id)
 	if len(where) > 0 {
-		sql.And(where[0])
+		for k, v := range where[0] {
+			sql.And(k, v)
+		}
 	}
 	r, err := sql.Update()
 	row, _ := r.RowsAffected()

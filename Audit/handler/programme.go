@@ -205,6 +205,11 @@ func editCall(id int, json gjson.Json) (int, error) {
 		"order":   "int",
 	}
 
+	where := g.Map{
+		// 只有草稿、部门负责人驳回两种状态可以被修改
+		"state IN (?)": g.Slice{"draft", "dep_reject", "admin_reject"},
+	}
+
 	programme := g.Map{}
 	basis := [2][]g.Map{}
 	content := [2][]g.Map{}
@@ -261,7 +266,7 @@ func editCall(id int, json gjson.Json) (int, error) {
 		userList[index] = append(userList[index], itemMap)
 	})
 
-	rows, err = db_programme.Edit(id, programme, basis, content, step, business, emphases, userList)
+	rows, err = db_programme.Edit(id, programme, basis, content, step, business, emphases, userList, where)
 
 	//fmt.Println(programme)
 	//fmt.Println(basis)
@@ -285,8 +290,8 @@ func stateCall(id int, json gjson.Json) (int, error) {
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
 	// 只有草稿的数据才能上报
-	row, err := db_programme.Update(id, stateMap, g.Map{"state": "draft"})
-	if err == nil {
+	row, err := db_programme.Update(id, stateMap, g.Map{"state IN (?)": g.Slice{"draft", "dep_reject", "admin_reject"}})
+	if err == nil && row > 0 {
 		// 更新时间
 		_, _ = db_programme.Update(id, g.Map{"update_time": util.GetLocalNowTimeStr()})
 	}
@@ -306,8 +311,8 @@ func depExamineCall(id int, json gjson.Json) (int, error) {
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
 	// 只有上报的数据才能被部门负责人进行审核
-	row, err := db_programme.Update(id, stateMap, g.Map{"state": "publish"})
-	if err == nil {
+	row, err := db_programme.Update(id, stateMap, g.Map{"state": "report"})
+	if err == nil && row > 0 {
 		// 更新时间
 		_, _ = db_programme.Update(id, g.Map{"det_user_time": util.GetLocalNowTimeStr()})
 	}
@@ -328,7 +333,7 @@ func adminExamineCall(id int, json gjson.Json) (int, error) {
 	util.GetSqlMap(json, state, stateMap)
 	// 只有部门负责人审核通过的分管领导才能审核
 	row, err := db_programme.Update(id, stateMap, g.Map{"state": "dep_adopt"})
-	if err == nil {
+	if err == nil && row > 0 {
 		// 更新时间
 		_, _ = db_programme.Update(id, g.Map{"admin_user_time": util.GetLocalNowTimeStr()})
 	}
