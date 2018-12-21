@@ -19,6 +19,7 @@ const (
 func main() {
 	g.Config().SetFileName("config.json")
 	log.Init(config.WorkerNameSpace)
+	g.DB().SetDebug(true)
 	s := g.Server(config.WorkerNameSpace)
 	s.SetSessionIdName(config.CookieIdName)
 	_ = s.BindController(apiPath+"/user", new(handler.User))
@@ -29,7 +30,7 @@ func main() {
 		"BeforeServe": func(r *ghttp.Request) {
 			server := r.Server.GetName()
 			userId := util.GetUserIdByRequest(r.Cookie)
-			log.Instance().Debugfln("测试 %v", server)
+			log.Instance().Debugfln("server %v, userId %v, method %v, url %v", server, userId, r.Method, r.URL)
 			if userId == 0 {
 				if strings.Split(r.RequestURI, "?")[0] != "/api/worker/user/login" {
 					router.LoginTips(r)
