@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "e8ab73cf-d6b7-4cb1-b39b-ad939939cf12",
+		"_postman_id": "f9104a86-3a61-4cd0-8258-57cb2b6ea7be",
 		"name": "稽核管理",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -151,7 +151,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"id\": 1,\n        \"title\": \"方案11-改动\",\n        \"key\": \"system\",\n        \"queryDepartmentId\": 1,\n        \"userId\": 2,\n        \"queryPointId\": 3,\n        \"purpose\": \"方案目的\",\n        \"type\": \"type\",\n        \"startTime\": \"2018-10-10 10:10:10\",\n        \"endTime\": \"2018-10-10 11:10:10\",\n        \"planStartTime\": \"2018-10-12 10:10:10\",\n        \"planEndTime\": \"2018-10-13 10:10:10\",\n        \"state\": \"draft\",\n        \"basis\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"clauseId\": 1,\n                \"content\": \"这是依据内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"clauseId\": 2,\n                \"content\": \"这是依据内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"content\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"step\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"title\",\n                \"content\": \"这是方案实施步骤标题1+\",\n                \"order\": 1\n            },\n            {\n                \"id\": 27,\n                \"programmeId\": 13,\n                \"type\": \"content\",\n                \"content\": \"这是方案实施步骤内容1\",\n                \"order\": 2\n            }\n        ],\n        \"business\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"\",\n                \"content\": \"这\",\n                \"order\": 1\n            }\n        ],\n        \"emphases\": [\n            {\n                \"id\": 13,\n                \"programmeId\": 13,\n                \"content\": \"这1111\",\n                \"order\": 1\n            }\n        ],\n        \"userList\": [\n            {\n                \"id\": 11,\n                \"userId\": 1,\n                \"job\": \"techer\",\n                \"jobName\": \"\",\n                \"title\": \"标题\",\n                \"task\": \"任务\",\n                \"order\": 1\n            },\n            {\n                \"userId\": 3,\n                \"job\": \"student\",\n                \"jobName\": \"\",\n                \"title\": \"标题2\",\n                \"task\": \"任务2\",\n                \"order\": 2\n            }\n        ]\n    }"
+							"raw": "{\n        \"id\": 11,\n        \"title\": \"方案11-改动\",\n        \"key\": \"system\",\n        \"queryDepartmentId\": 1,\n        \"userId\": 2,\n        \"queryPointId\": 3,\n        \"purpose\": \"方案目的\",\n        \"type\": \"type\",\n        \"startTime\": \"2018-10-10 10:10:10\",\n        \"endTime\": \"2018-10-10 11:10:10\",\n        \"planStartTime\": \"2018-10-12 10:10:10\",\n        \"planEndTime\": \"2018-10-13 10:10:10\",\n        \"state\": \"draft\",\n        \"basis\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"clauseId\": 1,\n                \"content\": \"这是依据内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"clauseId\": 2,\n                \"content\": \"这是依据内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"content\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"step\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"title\",\n                \"content\": \"这是方案实施步骤标题1+\",\n                \"order\": 1\n            },\n            {\n                \"id\": 27,\n                \"programmeId\": 13,\n                \"type\": \"content\",\n                \"content\": \"这是方案实施步骤内容1\",\n                \"order\": 2\n            }\n        ],\n        \"business\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"\",\n                \"content\": \"这\",\n                \"order\": 1\n            }\n        ],\n        \"emphases\": [\n            {\n                \"id\": 13,\n                \"programmeId\": 13,\n                \"content\": \"这1111\",\n                \"order\": 1\n            }\n        ],\n        \"userList\": [\n            {\n                \"userId\": 1,\n                \"job\": \"techer\",\n                \"jobName\": \"\",\n                \"title\": \"标题\",\n                \"task\": \"任务\",\n                \"order\": 1\n            },\n            {\n                \"userId\": 3,\n                \"job\": \"student\",\n                \"jobName\": \"\",\n                \"title\": \"标题2\",\n                \"task\": \"任务2\",\n                \"order\": 2\n            }\n        ]\n    }"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/edit",
@@ -186,7 +186,10 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/delete?id=36",
 							"protocol": "http",
@@ -215,9 +218,6 @@
 				},
 				{
 					"name": "获取方案",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -228,7 +228,10 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/get?id=11",
 							"protocol": "http",
@@ -269,7 +272,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 13,\n    \"state\": \"draft\"\n}"
+							"raw": "{\n    \"id\": 11,\n    \"state\": \"report\"\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/state",
@@ -306,7 +309,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"state\": \"dep_adopt\",\n    \"content\": \"意见内容\"\n}"
+							"raw": "{\n    \"id\": 11,\n    \"state\": \"adopt\",\n    \"content\": \"意见内容1\"\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/dep_examine",
@@ -343,10 +346,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"state\": \"dep_adopt\",\n    \"content\": \"意见内容\"\n}"
+							"raw": "{\n    \"id\": 11,\n    \"state\": \"adopt\",\n    \"content\": \"意见内容2\"\n}"
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/programme/dep_examine",
+							"raw": "http://192.168.1.20:8093/api/audit/programme/admin_examine",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -359,7 +362,7 @@
 								"api",
 								"audit",
 								"programme",
-								"dep_examine"
+								"admin_examine"
 							]
 						},
 						"description": "获取字典列表"

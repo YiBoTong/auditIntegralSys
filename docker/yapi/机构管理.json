@@ -1,0 +1,906 @@
+{
+  "info": {
+    "_postman_id": "aed7d97c-19d0-4989-8ec5-e98a384ad82d",
+    "name": "机构管理",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "部门管理",
+      "item": [
+        {
+          "name": "添加部门",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\t\"parentId\":-1,\n\t\"name\":\"部门1\",\n\t\"code\":\"d1\",\n\t\"level\":1,\n\t\"address\":\"贵州贵阳\",\n\t\"phone\":\"\",\n\t\"userList\":[]\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/department/add",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "department",
+                "add"
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        },
+        {
+          "name": "获取部门信息",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/department/get?id=20",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "department",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "20"
+                }
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        },
+        {
+          "name": "获取部门列表",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"search\":{\n    \t\"parentId\":\"\",\n    \t\"title\":\"\",\n    \t\"code\":\"\",\n    \t\"level\":\"\"\n    }\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/department/list",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "department",
+                "list"
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        },
+        {
+          "name": "获取部门树",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/department/tree?parentId=-1",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "department",
+                "tree"
+              ],
+              "query": [
+                {
+                  "key": "parentId",
+                  "value": "-1"
+                }
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        },
+        {
+          "name": "修改部门信息",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"address\": \"贵州贵阳1\",\n    \"code\": \"d12\",\n    \"id\": 20,\n    \"level\": 1,\n    \"name\": \"部门1\",\n    \"parentId\": -1,\n    \"phone\": \"\",\n    \"updateTime\": \"0000-00-00 00:00:00\",\n    \"userList\": [\n        {\n            \"id\": 3,\n            \"type\": \"admins\",\n            \"typeName\": \"\",\n            \"userId\": 1,\n            \"userName\": \"小明\"\n        },\n        {\n            \"type\": \"admins\",\n            \"userId\": 2\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/department/edit",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "department",
+                "edit"
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        },
+        {
+          "name": "删除部门",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/department/delete?id=3",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "department",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "3"
+                }
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "人员管理",
+      "item": [
+        {
+          "name": "人员列表",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"userName\":\"\",\n    \t\"userCode\":\"\",\n    \t\"departmentId\":\"\",\n    \t\"sex\":\"\"\n    }\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/user/list",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "user",
+                "list"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "添加人员",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"userName\": \"1\",\n    \"userCode\": \"21\",\n    \"departmentId\": \"1\",\n    \"sex\": \"1\",\n    \"class\":\"汉\",\n    \"idCard\":\"123456578\"\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/user/add",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "user",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取人员",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/user/get?id=9",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "user",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "9"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "编辑人员",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/user/edit",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "user",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "删除人员",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/user/delete?id=8",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "user",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "8"
+                }
+              ]
+            },
+            "description": "获取字典列表"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "通知公告",
+      "item": [
+        {
+          "name": "通知公告列表",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20\n    },\n    \"search\": {\n        \"title\": \"\",\n        \"state\": \"\"\n    }\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/list",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "list"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "添加通知公告",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"content\": \"公告内容1\",\n    \"range\": 2,\n    \"informIds\": \"1\",\n    \"fileIds\": \"\",\n    \"state\": \"draft\"\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/add",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "编辑通知公告",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": 18,\n    \"departmentId\": 1,\n    \"title\": \"公告18\",\n    \"content\": \"公告内容18\",\n    \"range\": 2,\n    \"informIds\": \"1,2,5\",\n    \"fileIds\": \"\",\n    \"state\": \"draft\"\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/edit",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "编辑通知公告状态管理",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": 18,\n    \"state\": \"publish\"\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/state",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "state"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "获取通知公告",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/get?id=18",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "18"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "删除通知公告",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/delete?id=16",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "16"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "管理办法",
+      "item": [
+        {
+          "name": "获取管理办法",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "value": "application/x-www-form-urlencoded",
+                "type": "text"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/clause/get?id=5",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "clause",
+                "get"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "管理办法列表",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20\n    },\n    \"search\": {\n        \"title\": \"\",\n        \"state\": \"\",\n        \"userId\": \"\"\n    }\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/clause/list",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "clause",
+                "list"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "添加管理办法",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"fileIds\": \"5,6,7,8\",\n    \"state\": \"draft\",\n    \"content\": [\n        {\n            \"isTitle\": true,\n            \"titleLevel\": \"h1\",\n            \"content\": \"标题测试1\",\n            \"order\": 1\n        },\n         {\n            \"isTitle\": false,\n            \"titleLevel\": \"\",\n            \"content\": \"标题测试2\",\n            \"order\": 2\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/clause/add",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "clause",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "修改管理办法",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"fileIds\": \"5,6,7,8\",\n    \"state\": \"draft\",\n    \"content\": [\n        {\n            \"isTitle\": true,\n            \"titleLevel\": \"h1\",\n            \"content\": \"标题测试1\",\n            \"order\": 1\n        },\n         {\n            \"isTitle\": false,\n            \"titleLevel\": \"\",\n            \"content\": \"标题测试2\",\n            \"order\": 2\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/clause/edit",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "clause",
+                "edit"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "删除管理办法",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "body": {},
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/clause/delete?id=16",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "clause",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "16"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "办法状态管理",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "name": "Content-Type",
+                "type": "text",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"id\": 18,\n    \"state\": \"publish\"\n}"
+            },
+            "url": {
+              "raw": "http://192.168.1.20:8091/api/org/notice/state",
+              "protocol": "http",
+              "host": [
+                "192",
+                "168",
+                "1",
+                "20"
+              ],
+              "port": "8091",
+              "path": [
+                "api",
+                "org",
+                "notice",
+                "state"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
