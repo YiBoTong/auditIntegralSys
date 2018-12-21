@@ -27,45 +27,36 @@ func (r *User) List() {
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
-	userName := search.GetString("userName")
-	userCode := search.GetInt("userCode")
-	departmentId := search.GetInt("departmentId")
-	sex := search.GetInt("sex")
 
 	searchMap := g.Map{}
+	listSearchMap := g.Map{}
 
-	if userName != "" {
-		searchMap["user_name"] = userName
+	searchItem := map[string]interface{}{
+		"user_name":     "string",
+		"user_code":     "int",
+		"department_id": "int",
+		"sex":           "int",
 	}
 
-	if userCode != 0 {
-		searchMap["user_code"] = userCode
-	}
-
-	if departmentId != 0 {
-		searchMap["department_id"] = departmentId
-	}
-
-	if sex != 0 {
-		searchMap["sex"] = sex
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		// p.title:title String
+		util.GetSearchMapByReqJson(listSearchMap, *search, "u."+k+":"+k, gconv.String(v))
 	}
 
 	count, err := db_user.GetUserCount(searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_user.GetUsers(offset, size, searchMap)
+		listData, err = db_user.GetUsers(offset, size, listSearchMap)
 		for _, v := range listData {
-			rspData = append(rspData, entity.User{
-				UserId:       gconv.Int(v["user_id"]),
-				DepartmentId: gconv.Int(v["department_id"]),
-				UserName:     gconv.String(v["user_name"]),
-				UserCode:     gconv.Int(v["user_code"]),
-				Sex:          gconv.Int(v["sex"]),
-				Class:        gconv.String(v["class"]),
-				Phone:        gconv.String(v["phone"]),
-				IdCard:       gconv.String(v["id_card"]),
-				UpdateTime:   gconv.String(v["update_time"]),
-			})
+			item := entity.User{}
+			err = gconv.Struct(v, &item)
+			if err == nil {
+				rspData = append(rspData, item)
+			} else {
+				break
+			}
 		}
 	}
 	if err != nil {

@@ -12,7 +12,7 @@ func HasUserCode(userCode int) (bool, entity.User, error) {
 	hasUserCode := false
 	sql := db.Table(config.UserTbName).Where("`delete`=?", 0)
 	sql.And("user_code=?", userCode)
-	sql.Limit(0,1)
+	sql.Limit(0, 1)
 	r, err := sql.One()
 	_ = r.ToStruct(&user)
 	if err == nil && user.UserId > 0 {
@@ -33,11 +33,14 @@ func GetUserCount(where g.Map) (int, error) {
 
 func GetUsers(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.UserTbName).Where("`delete`=?", 0)
+	sql := db.Table(config.UserTbName + " u")
+	sql.LeftJoin(config.DepartmentTbName+" d", "u.department_id=d.id")
+	sql.Fields("u.*,d.name as department_name")
+	sql.Where("u.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
-	r, err := sql.Limit(offset, limit).OrderBy("user_id desc").Select()
+	r, err := sql.Limit(offset, limit).OrderBy("u.user_id desc").Select()
 	return r.ToList(), err
 }
 
@@ -55,7 +58,12 @@ func AddUser(user []g.Map) (int, error) {
 func GetUser(userId int) (entity.User, error) {
 	var user entity.User
 	db := g.DB()
-	r, err := db.Table(config.UserTbName).Where("user_id=?", userId).And("`delete`=?", 0).One()
+	sql := db.Table(config.UserTbName + " u")
+	sql.LeftJoin(config.DepartmentTbName+" d", "u.department_id=d.id")
+	sql.Fields("u.*,d.name as department_name")
+	sql.Where("u.user_id=?", userId)
+	sql.And("u.delete=?", 0)
+	r, err := sql.One()
 	_ = r.ToStruct(&user)
 	return user, err
 }

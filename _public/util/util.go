@@ -174,6 +174,9 @@ func GetSearchMapByReqJson(gMap g.Map, reqData gjson.Json, key string, typeStr s
 			jsonType = srcType[1]
 			val = gconv.Convert(val, jsonType) // json中传递的数据类型
 		}
+		if strings.Index(sqlKey, " like ") > 0 {
+			val = strings.Replace("%?%", "?", gconv.String(val), 1)
+		}
 		val = gconv.Convert(val, sqlType) // sql保存时的数据类型
 		gMap[sqlKeyReg.ReplaceAllString(sqlKey, "`$1`")] = val
 	}
