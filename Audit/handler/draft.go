@@ -6,3 +6,6 @@ type Draft struct {
 	gmvc.Controller
 }
 
+func List(r *Draft) {
+
+}
