@@ -17,6 +17,14 @@ func GetClauseContents(clauseId int, offset int, limit int, where g.Map) ([]map[
 	return r.ToList(), err
 }
 
+func SearchClauseContents(contentStr string) (g.List, error) {
+	db := g.DB()
+	sql := db.Table(config.ClauseContentTbName).Where("`delete`=?", 0)
+	sql.And("content like ?", "%"+contentStr+"%")
+	r, err := sql.Limit(0, 20).OrderBy("id asc").Select()
+	return r.ToList(), err
+}
+
 func GetClauseContent(id int) (entity.ClauseContent, error) {
 	var ClauseContent entity.ClauseContent
 	db := g.DB()

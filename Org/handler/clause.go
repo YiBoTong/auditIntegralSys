@@ -80,6 +80,36 @@ func (r *Clause) List() {
 	})
 }
 
+func (r *Clause) Search() {
+	var err error = nil
+	content := r.Request.GetString("content")
+	rspData := []entity.ClauseContent{}
+
+	if len(content) > 1 {
+		contentRes := g.List{}
+		contentRes, err = db_clause.SearchClauseContents(content)
+		// 查询内容
+		for _, v := range contentRes {
+			item := entity.ClauseContent{}
+			err = gconv.Struct(v, &item)
+			if err == nil {
+				rspData = append(rspData, item)
+			} else {
+				break
+			}
+		}
+	}
+
+	r.Response.WriteJson(app.Response{
+		Data: rspData,
+		Status: app.Status{
+			Code:  0,
+			Error: err != nil,
+			Msg:   config.GetTodoResMsg(config.ListStr, err != nil),
+		},
+	})
+}
+
 func (r *Clause) Add() {
 	reqData := r.Request.GetJson()
 	departmentId := reqData.GetInt("departmentId")
