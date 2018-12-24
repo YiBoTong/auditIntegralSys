@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "f9104a86-3a61-4cd0-8258-57cb2b6ea7be",
+		"_postman_id": "a8bf6332-c36f-4619-9c00-295f139bdd12",
 		"name": "稽核管理",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -366,6 +366,215 @@
 							]
 						},
 						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "工作底稿",
+			"item": [
+				{
+					"name": "获取列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"title\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/draft/list?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"draft",
+								"list"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "添加",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"projectName\": \"工作底稿2\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"content\": [\n        {\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/draft/add",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"draft",
+								"add"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "修改",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 14,\n    \"projectName\": \"工作底稿14\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"content\": [\n        {\n        \t\"id\":37,\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容-37\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/draft/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"draft",
+								"edit"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "删除",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/draft/delete?id=14",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"draft",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "14"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/draft/get?id=16",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"draft",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "16"
+								}
+							]
+						}
 					},
 					"response": []
 				}
