@@ -40,6 +40,7 @@ func initUrlMsgStr() {
 	temp["logout"] = "退出系统"
 	temp["upload"] = "上传"
 	temp["all"] = "获取全部$"
+	temp["search"] = "$搜索"
 	temp["password"] = "密码修改"
 	temp["systemSetup/dictionaries"] = "字典"
 	temp["systemSetup/log"] = "日志"
@@ -52,7 +53,15 @@ func initUrlMsgStr() {
 	temp["org/department"] = "部门/结构/网点"
 	temp["org/notice"] = "通知公告"
 	temp["org/user"] = "人员"
+	temp["org/clause"] = "管理办法"
 	temp["audit/programme"] = "审核方案"
+	temp["audit/draft"] = "工作底稿"
+	temp["audit/confirmation"] = "事实确认书"
+	temp["audit/punishNotice"] = "惩罚通知书"
+	temp["audit/rectify"] = "整改通知"
+	temp["audit/rectifyReport"] = "整改报告"
+	temp["audit/integral"] = "积分"
+	temp["audit/statistical"] = "统计分析"
 	UrlMsgStr = temp
 }
 
