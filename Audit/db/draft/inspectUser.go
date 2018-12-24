@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func addAdminUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
+func addInspectUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	userIdArr := strings.Split(userIds, ",")
 	list := []g.Map{}
 	for _, v := range userIdArr {
@@ -20,12 +20,12 @@ func addAdminUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	if len(list) == 0 {
 		return 0, nil
 	}
-	res, err := tx.BatchInsert(config.DraftAdminUserTbName, list, 5)
+	res, err := tx.BatchInsert(config.DraftInspectUserTbName, list, 5)
 	rows, _ := res.RowsAffected()
 	return int(rows), err
 }
 
-func updateAdminUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
+func updateInspectUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	userIdArr := strings.Split(userIds, ",")
 	userId := g.Slice{}
 	for _, v := range userIdArr {
@@ -37,7 +37,7 @@ func updateAdminUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	if len(userId) == 0 {
 		return 0, nil
 	}
-	sql := tx.Table(config.DraftAdminUserTbName).Data(g.Map{"delete": 0})
+	sql := tx.Table(config.DraftInspectUserTbName).Data(g.Map{"delete": 0})
 	sql.Where("draft_id=?", draftId)
 	sql.And("user_id IN ?", userId)
 	res, err := sql.Update()
@@ -45,15 +45,15 @@ func updateAdminUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	return int(row), err
 }
 
-func delAdminUser(tx *gdb.TX, draftId int) (int, error) {
-	r, err := tx.Table(config.DraftAdminUserTbName).Where("draft_id=?", draftId).Data(g.Map{"delete": 1}).Update()
+func delInspectUser(tx *gdb.TX, draftId int) (int, error) {
+	r, err := tx.Table(config.DraftInspectUserTbName).Where("draft_id=?", draftId).Data(g.Map{"delete": 1}).Update()
 	rows, _ := r.RowsAffected()
 	return int(rows), err
 }
 
-func GetAdminUser(draftId int) ([]map[string]interface{}, error) {
+func GetInspectUser(draftId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.DraftAdminUserTbName + " d")
+	sql := db.Table(config.DraftInspectUserTbName + " d")
 	sql.LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id")
 	sql.Fields("d.*,u.user_name")
 	sql.Where("d.draft_id=?", draftId)

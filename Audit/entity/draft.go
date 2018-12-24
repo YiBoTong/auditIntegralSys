@@ -6,8 +6,8 @@ import "auditIntegralSys/Worker/entity"
 type DraftItem struct {
 	Id                  int    `db:"id" json:"id" field:"id"`
 	ProgrammeId         int    `db:"programme_id" json:"programmeId" field:"programme_id"`
-	ProgrammeName       string `db:"programme_name" json:"programmeName" field:"programme_name"`
-	QueryDepartmentId   string `db:"query_department_id" json:"queryDepartmentId" field:"query_department_id"`
+	ProgrammeTitle      string `db:"programme_title" json:"programmeTitle" field:"programme_title"`
+	QueryDepartmentId   int    `db:"query_department_id" json:"queryDepartmentId" field:"query_department_id"`
 	QueryDepartmentName string `db:"query_department_name" json:"queryDepartmentName" field:"query_department_name"`
 	DepartmentId        int    `db:"department_id" json:"departmentId" field:"department_id"`
 	DepartmentName      string `db:"department_name" json:"departmentName" field:"department_name"`
@@ -62,10 +62,10 @@ type DraftReviewUser struct {
 
 type Draft struct {
 	DraftItem
-	ContentList []DraftContent     `db:"content_list" json:"contentList" field:"content_list"` // 内容
-	AdminUser   DraftAdminUser     `db:"admin_user" json:"adminUser" field:"admin_user"`       // 复查人
-	InspectUser []DraftInspectUser `db:"inspect_user" json:"inspectUser" field:"inspect_user"` // 被检查人
-	QueryUser   []DraftQueryUser   `db:"query_user" json:"queryUser" field:"query_user"`       // 检查人
-	ReviewUser  DraftReviewUser    `db:"review_user" json:"reviewUser" field:"review_user"`    // 负责人
-	FileList    []entity.File      `db:"file_list" json:"fileList" field:"file_list"`          // 附件
+	ContentList     []DraftContent     `db:"content_list" json:"contentList" field:"content_list"`               // 内容
+	AdminUserList   []DraftAdminUser   `db:"admin_user_list" json:"adminUserList" field:"admin_user_list"`       // 复查人
+	InspectUserList []DraftInspectUser `db:"inspect_user_list" json:"inspectUserList" field:"inspect_user_list"` // 被检查人
+	QueryUserList   []DraftQueryUser   `db:"query_user_list" json:"queryUserList" field:"query_user_list"`       // 检查人
+	ReviewUserList  []DraftReviewUser  `db:"review_user_list" json:"reviewUserList" field:"review_user_list"`    // 负责人
+	FileList        []entity.File      `db:"file_list" json:"fileList" field:"file_list"`                        // 附件
 }

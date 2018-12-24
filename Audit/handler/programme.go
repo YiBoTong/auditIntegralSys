@@ -18,7 +18,7 @@ type Programme struct {
 	gmvc.Controller
 }
 
-func checkId(id int) (bool, string) {
+func (r *Programme) checkId(id int) (bool, string) {
 	msg := ""
 	canEdit := true
 	if id == 0 { // 状态和ID都必须要有
@@ -28,26 +28,26 @@ func checkId(id int) (bool, string) {
 }
 
 // 检测状态是否合法
-func checkState(state string) (bool, string) {
+func (r *Programme) checkState(state string) (bool, string) {
 	hasState, msg := check.ProgrammeState(state).Has()
 	return hasState, msg
 }
 
-func checkIdAndState(id int, state string) (bool, string) {
-	canEdit, msg := checkId(id)
+func (r *Programme) checkIdAndState(id int, state string) (bool, string) {
+	canEdit, msg := r.checkId(id)
 	if canEdit {
-		canEdit, msg = checkState(state)
+		canEdit, msg = r.checkState(state)
 	}
 	return canEdit, msg
 }
 
-func beforeAdd(json gjson.Json) (bool, string) {
+func (r *Programme) beforeAdd(json gjson.Json) (bool, string) {
 	// 检测状态是否合法
-	canAdd, msg := checkState(json.GetString("state"))
+	canAdd, msg := r.checkState(json.GetString("state"))
 	return canAdd, msg
 }
 
-func addCall(json gjson.Json) (int, error) {
+func (r *Programme) addCall(json gjson.Json) (int, error) {
 	reqBasis := json.GetJson("basis")
 	reqContent := json.GetJson("content")
 	reqStep := json.GetJson("step")
@@ -140,13 +140,13 @@ func addCall(json gjson.Json) (int, error) {
 	return id, err
 }
 
-func beforeEdit(id int, json gjson.Json) (bool, string) {
+func (r *Programme) beforeEdit(id int, json gjson.Json) (bool, string) {
 	// 检测状态是否合法
-	canEdit, msg := checkIdAndState(id, json.GetString("state"))
+	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
 	return canEdit, msg
 }
 
-func editCall(id int, json gjson.Json) (int, error) {
+func (r *Programme) editCall(id int, json gjson.Json) (int, error) {
 	reqBasis := json.GetJson("basis")
 	reqContent := json.GetJson("content")
 	reqStep := json.GetJson("step")
@@ -278,12 +278,12 @@ func editCall(id int, json gjson.Json) (int, error) {
 	return rows, err
 }
 
-func beforeState(id int, json gjson.Json) (bool, string) {
-	canEdit, msg := checkIdAndState(id, json.GetString("state"))
+func (r *Programme) beforeState(id int, json gjson.Json) (bool, string) {
+	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
 	return canEdit, msg
 }
 
-func stateCall(id int, json gjson.Json) (int, error) {
+func (r *Programme) stateCall(id int, json gjson.Json) (int, error) {
 	state := map[string]interface{}{
 		"state": "string",
 	}
@@ -298,12 +298,12 @@ func stateCall(id int, json gjson.Json) (int, error) {
 	return row, err
 }
 
-func beforeDepExamine(id int, json gjson.Json) (bool, string) {
-	canEdit, msg := checkIdAndState(id, json.GetString("state"))
+func (r *Programme) beforeDepExamine(id int, json gjson.Json) (bool, string) {
+	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
 	return canEdit, msg
 }
 
-func depExamineCall(id int, json gjson.Json) (int, error) {
+func (r *Programme) depExamineCall(id int, json gjson.Json) (int, error) {
 	state := map[string]interface{}{
 		"state":           "string",
 		"content":         "string",
@@ -328,12 +328,12 @@ func depExamineCall(id int, json gjson.Json) (int, error) {
 	return row, err
 }
 
-func beforeAdminExamine(id int, json gjson.Json) (bool, string) {
-	canEdit, msg := checkIdAndState(id, json.GetString("state"))
+func (r *Programme) beforeAdminExamine(id int, json gjson.Json) (bool, string) {
+	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
 	return canEdit, msg
 }
 
-func adminExamineCall(id int, json gjson.Json) (int, error) {
+func (r *Programme) adminExamineCall(id int, json gjson.Json) (int, error) {
 	state := map[string]interface{}{
 		"state":           "string",
 		"content":         "string",
@@ -474,9 +474,9 @@ func (r *Programme) Add() {
 	id := 0
 	var err error = nil
 	reqData := r.Request.GetJson()
-	checkRes, msg := beforeAdd(*reqData)
+	checkRes, msg := r.beforeAdd(*reqData)
 	if checkRes {
-		id, err = addCall(*reqData)
+		id, err = r.addCall(*reqData)
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Programme Add]: %v", err)
@@ -604,9 +604,9 @@ func (r *Programme) Edit() {
 	var err error = nil
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
-	checkRes, msg := beforeEdit(id, *reqData)
+	checkRes, msg := r.beforeEdit(id, *reqData)
 	if checkRes {
-		rows, err = editCall(id, *reqData)
+		rows, err = r.editCall(id, *reqData)
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Programme Edit]: %v", err)
@@ -631,9 +631,9 @@ func (r *Programme) State() {
 	var err error = nil
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
-	checkRes, msg := beforeState(id, *reqData)
+	checkRes, msg := r.beforeState(id, *reqData)
 	if checkRes {
-		rows, err = stateCall(id, *reqData)
+		rows, err = r.stateCall(id, *reqData)
 	}
 	success := err == nil && rows > 0
 	if msg == "" {
@@ -655,9 +655,9 @@ func (r *Programme) Dep_examine() {
 	var err error = nil
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
-	checkRes, msg := beforeDepExamine(id, *reqData)
+	checkRes, msg := r.beforeDepExamine(id, *reqData)
 	if checkRes {
-		rows, err = depExamineCall(id, *reqData)
+		rows, err = r.depExamineCall(id, *reqData)
 	}
 	success := err == nil && rows > 0
 	if msg == "" {
@@ -679,9 +679,9 @@ func (r *Programme) Admin_examine() {
 	var err error = nil
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
-	checkRes, msg := beforeAdminExamine(id, *reqData)
+	checkRes, msg := r.beforeAdminExamine(id, *reqData)
 	if checkRes {
-		rows, err = adminExamineCall(id, *reqData)
+		rows, err = r.adminExamineCall(id, *reqData)
 	}
 	success := err == nil && rows > 0
 	if msg == "" {
