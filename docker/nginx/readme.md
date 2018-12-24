@@ -10,6 +10,7 @@ docker build -t ai_nginx:1.0 .
 运行镜像（内置配置）
 ```docker
 docker run --name ai_nginx --restart always -d -p 80:80 ai_nginx:1.0
+docker run -p 80:80 --name nginx -v $PWD/www:/www -v $PWD/conf:/etc/nginx/conf.d -d nginx
 ```
 运行镜像（外置配置）
 ```docker
