@@ -84,16 +84,16 @@ func Add(programme g.Map, basis, content, step, business, emphases, user []g.Map
 }
 
 func Edit(id int, programme g.Map, basis, content, step, business, emphases, user [2][]g.Map, where ...g.Map) (int, error) {
+	row := 0
+	rows := 0
 	db := g.DB()
-	var rows int = 0
-	var row int = 0
 	tx, err := db.Begin()
 	if err == nil {
 		var r int64 = 0
 		r, err = edit(tx, id, programme, where[0])
 		rows += int(r)
 	}
-	if rows != 0 {
+	if err == nil && rows > 0 {
 		if err == nil {
 			_, _ = delBasis(tx, id)
 			row, err = addBasis(tx, id, basis[0])
@@ -140,6 +140,7 @@ func Edit(id int, programme g.Map, basis, content, step, business, emphases, use
 	if err == nil {
 		err = tx.Commit()
 	} else {
+		rows = 0
 		err = tx.Rollback()
 	}
 	return rows, err
@@ -188,7 +189,6 @@ func Del(id int) (int, error) {
 		r, _ := tx.Table(config.ProgrammeTbName).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
 		rows, _ = r.RowsAffected()
 	}
-	fmt.Println(tx)
 	if err == nil && rows > 0 {
 		_, _ = delBasis(tx, id)
 		_, _ = delBusiness(tx, id)
@@ -198,6 +198,7 @@ func Del(id int) (int, error) {
 		_, _ = delUser(tx, id)
 		_ = tx.Commit()
 	} else {
+		rows = 0
 		_ = tx.Rollback()
 	}
 	return int(rows), err

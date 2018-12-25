@@ -23,6 +23,7 @@ type DraftItem struct {
 type DraftContent struct {
 	Id              int    `db:"id" json:"id" field:"id"`
 	DraftId         int    `db:"draft_id" json:"draftId" field:"draft_id"`
+	Order           int    `db:"order" json:"order" field:"order"`
 	Type            string `db:"type" json:"type" field:"type"`
 	BehaviorId      int    `db:"behavior_id" json:"behaviorId" field:"behavior_id"`
 	BehaviorContent string `db:"behavior_content" json:"behaviorContent" field:"behavior_content"`

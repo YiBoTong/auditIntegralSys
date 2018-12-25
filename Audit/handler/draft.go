@@ -51,7 +51,7 @@ func (r *Draft) beforeAdd(json gjson.Json) (bool, string) {
 }
 
 func (r *Draft) addCall(json gjson.Json) (int, error) {
-	reqContent := json.GetJson("content")
+	reqContent := json.GetJson("contentList")
 	queryUsers := json.GetString("queryUsers")
 	adminUsers := json.GetString("adminUsers")
 	inspectUsers := json.GetString("inspectUsers")
@@ -70,6 +70,7 @@ func (r *Draft) addCall(json gjson.Json) (int, error) {
 	}
 
 	addContentList := map[string]interface{}{
+		"order":            "int",
 		"type":             "string",
 		"behavior_id":      "int",
 		"behavior_content": "string",
@@ -101,7 +102,7 @@ func (r *Draft) beforeEdit(id int, json gjson.Json) (bool, string) {
 }
 
 func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
-	reqContent := json.GetJson("content")
+	reqContent := json.GetJson("contentList")
 	queryUsers := json.GetString("queryUsers")
 	adminUsers := json.GetString("adminUsers")
 	inspectUsers := json.GetString("inspectUsers")
@@ -121,6 +122,7 @@ func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
 
 	addContentList := map[string]interface{}{
 		"id":               "int",
+		"order":            "int",
 		"type":             "string",
 		"behavior_id":      "int",
 		"behavior_content": "string",

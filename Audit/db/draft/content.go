@@ -43,7 +43,7 @@ func GetContent(draftId int) ([]map[string]interface{}, error) {
 	db := g.DB()
 	sql := db.Table(config.DraftContentTbName).Where("draft_id=?", draftId)
 	sql.And("`delete`=?", 0)
-	sql.OrderBy("id asc")
+	sql.OrderBy("`order` asc")
 	res, err := sql.All()
 	return res.ToList(), err
 }

@@ -125,10 +125,10 @@ func Edit(id int, draft g.Map, content [2][]g.Map, queryUsers, adminUsers, inspe
 	if err == nil {
 		err = tx.Commit()
 	} else {
-		id = 0
+		rows = 0
 		err = tx.Rollback()
 	}
-	return id, err
+	return rows, err
 }
 
 func Get(id int) (entity.DraftItem, error) {
