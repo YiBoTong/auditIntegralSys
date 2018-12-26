@@ -18,6 +18,12 @@ type Clause struct {
 	State        string `db:"state" json:"state" field:"state"`
 }
 
+type ClauseTitle struct {
+	Id           int    `db:"id" json:"id" field:"id"`
+	DepartmentId int    `db:"department_id" json:"departmentId" field:"department_id"`
+	Title        string `db:"title" json:"title" field:"title"`
+}
+
 type ClauseContent struct {
 	Id         int    `db:"id" json:"id" field:"id"`
 	ClauseId   int    `db:"clause_id" json:"clauseId" field:"clause_id"`

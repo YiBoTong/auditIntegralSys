@@ -110,6 +110,37 @@ func (r *Clause) Search() {
 	})
 }
 
+func (r *Clause) Title() {
+	var err error = nil
+	title := r.Request.GetString("title")
+	departmentId := r.Request.GetInt("departmentId")
+	rspData := []entity.ClauseTitle{}
+
+	if len(title) > 1 {
+		contentRes := g.List{}
+		contentRes, err = db_clause.GetClauseTitle(0, 10, departmentId, title)
+		// 查询标题
+		for _, v := range contentRes {
+			item := entity.ClauseTitle{}
+			err = gconv.Struct(v, &item)
+			if err == nil {
+				rspData = append(rspData, item)
+			} else {
+				break
+			}
+		}
+	}
+
+	r.Response.WriteJson(app.Response{
+		Data: rspData,
+		Status: app.Status{
+			Code:  0,
+			Error: err != nil,
+			Msg:   config.GetTodoResMsg(config.ListStr, err != nil),
+		},
+	})
+}
+
 func (r *Clause) Add() {
 	reqData := r.Request.GetJson()
 	departmentId := reqData.GetInt("departmentId")

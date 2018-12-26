@@ -16,7 +16,7 @@ func GetClauseCount(where g.Map) (int, error) {
 	return r, err
 }
 
-func GetClauses(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
+func GetClauses(offset int, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
 	sql := db.Table(config.ClauseTbName + " c")
 	sql.LeftJoin(config.UserTbName+" u", "c.author_id=u.user_id")
@@ -25,6 +25,19 @@ func GetClauses(offset int, limit int, where g.Map) ([]map[string]interface{}, e
 	if len(where) > 0 {
 		sql.And(where)
 	}
+	r, err := sql.Limit(offset, limit).OrderBy("id desc").Select()
+	return r.ToList(), err
+}
+
+func GetClauseTitle(offset int, limit int, departmentId int, title string) (g.List, error) {
+	db := g.DB()
+	sql := db.Table(config.ClauseTbName)
+	if departmentId != 0 {
+		sql.Where("`delete`=? AND (department_id=? OR department_id=-1)", 0, departmentId)
+	} else {
+		sql.Where("`delete`=? AND department_id=-1", 0)
+	}
+	sql.And("title like ?", "%"+title+"%")
 	r, err := sql.Limit(offset, limit).OrderBy("id desc").Select()
 	return r.ToList(), err
 }
