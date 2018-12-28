@@ -360,7 +360,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8091/api/org/user/get?id=9",
+							"raw": "http://192.168.1.20:8091/api/org/user/get?id=3",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -378,7 +378,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "9"
+									"value": "3"
 								}
 							]
 						}
@@ -399,7 +399,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n    \"userId\": 12,\n    \"departmentId\": 50,\n    \"userName\": \"测试\",\n    \"userCode\": 21,\n    \"sex\": 1,\n    \"class\": \"汉\",\n    \"phone\": \"\",\n    \"idCard\": \"123456578\"\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8091/api/org/user/edit",
@@ -984,6 +984,52 @@
 								{
 									"key": "content",
 									"value": "办法"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "搜索管理办法标题",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/title?title=普定&departmentId=2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"title"
+							],
+							"query": [
+								{
+									"key": "title",
+									"value": "普定"
+								},
+								{
+									"key": "departmentId",
+									"value": "2"
 								}
 							]
 						}

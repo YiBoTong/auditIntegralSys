@@ -114,7 +114,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"方案22\",\n    \"key\": \"system\",\n    \"queryDepartmentId\": 1,\n    \"userId\": 2,\n    \"queryPointId\": 3,\n    \"purpose\": \"方案目的\",\n    \"type\": \"type\",\n    \"startTime\": \"2018-10-10 10:10:10\",\n    \"endTime\": \"2018-10-10 11:10:10\",\n    \"planStartTime\": \"2018-10-12 10:10:10\",\n    \"planEndTime\": \"2018-10-13 10:10:10\",\n    \"state\": \"draft\",\n    \"basis\": [\n        {\n            \"clauseId\": 1,\n            \"content\": \"这是依据内容1\",\n            \"order\": 1\n        },\n        {\n            \"clauseId\": 2,\n            \"content\": \"这是依据内容2\",\n            \"order\": 2\n        }\n    ],\n    \"content\": [\n        {\n            \"content\": \"这是方案主要内容1\",\n            \"order\": 1\n        },\n        {\n            \"content\": \"这是方案主要内容2\",\n            \"order\": 2\n        }\n    ],\n    \"step\": [\n        {\n            \"type\": \"title\",\n            \"content\": \"这是方案实施步骤标题1\",\n            \"order\": 1\n        },\n        {\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容1\",\n            \"order\": 2\n        }\n    ],\n    \"business\": [\n        {\n            \"content\": \"这是方案业务范围1\",\n            \"order\": 1\n        },\n        {\n            \"content\": \"这是方案业务范围2\",\n            \"order\": 2\n        }\n    ],\n    \"emphases\": [\n        {\n            \"content\": \"这是方案重点1\",\n            \"order\": 1\n        },\n        {\n            \"content\": \"这是方案重点2\",\n            \"order\": 2\n        }\n    ],\n    \"userList\": [\n        {\n            \"userId\": 1,\n            \"job\": \"techer\",\n            \"title\": \"标题\",\n            \"task\": \"任务\",\n            \"order\": 1\n        },\n        {\n            \"userId\": 2,\n            \"job\": \"student\",\n            \"title\": \"标题2\",\n            \"task\": \"任务2\",\n            \"order\": 2\n        }\n    ]\n}"
+							"raw": "{\n    \"title\": \"方案70\",\n    \"key\": \"system\",\n    \"queryDepartmentId\": 1,\n    \"userId\": 2,\n    \"queryPointId\": 3,\n    \"purpose\": \"方案目的\",\n    \"type\": \"type\",\n    \"startTime\": \"2018-10-10 10:10:10\",\n    \"endTime\": \"2018-10-10 11:10:10\",\n    \"planStartTime\": \"2018-10-12 10:10:10\",\n    \"planEndTime\": \"2018-10-13 10:10:10\",\n    \"state\": \"draft\",\n    \"basis\": [\n        {\n            \"clauseId\": 1,\n            \"content\": \"这是依据内容1\",\n            \"order\": 1\n        },\n        {\n            \"clauseId\": 2,\n            \"content\": \"这是依据内容2\",\n            \"order\": 2\n        }\n    ],\n    \"content\": [\n        {\n            \"content\": \"这是方案主要内容1\",\n            \"order\": 1\n        },\n        {\n            \"content\": \"这是方案主要内容2\",\n            \"order\": 2\n        }\n    ],\n    \"step\": [\n        {\n            \"type\": \"title\",\n            \"content\": \"这是方案实施步骤标题1\",\n            \"order\": 1\n        },\n        {\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容1\",\n            \"order\": 2\n        }\n    ],\n    \"business\": [\n        {\n            \"content\": \"这是方案业务范围1\",\n            \"order\": 1\n        },\n        {\n            \"content\": \"这是方案业务范围2\",\n            \"order\": 2\n        }\n    ],\n    \"emphases\": [\n        {\n            \"content\": \"这是方案重点1\",\n            \"order\": 1\n        },\n        {\n            \"content\": \"这是方案重点2\",\n            \"order\": 2\n        }\n    ],\n    \"userList\": [\n        {\n            \"userId\": 1,\n            \"job\": \"techer\",\n            \"title\": \"标题\",\n            \"task\": \"任务\",\n            \"order\": 1\n        },\n        {\n            \"userId\": 2,\n            \"job\": \"student\",\n            \"title\": \"标题2\",\n            \"task\": \"任务2\",\n            \"order\": 2\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/add",
@@ -151,7 +151,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"id\": 11,\n        \"title\": \"方案11-改动\",\n        \"key\": \"system\",\n        \"queryDepartmentId\": 1,\n        \"userId\": 2,\n        \"queryPointId\": 3,\n        \"purpose\": \"方案目的\",\n        \"type\": \"type\",\n        \"startTime\": \"2018-10-10 10:10:10\",\n        \"endTime\": \"2018-10-10 11:10:10\",\n        \"planStartTime\": \"2018-10-12 10:10:10\",\n        \"planEndTime\": \"2018-10-13 10:10:10\",\n        \"state\": \"draft\",\n        \"basis\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"clauseId\": 1,\n                \"content\": \"这是依据内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"clauseId\": 2,\n                \"content\": \"这是依据内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"content\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"step\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"title\",\n                \"content\": \"这是方案实施步骤标题1+\",\n                \"order\": 1\n            },\n            {\n                \"id\": 27,\n                \"programmeId\": 13,\n                \"type\": \"content\",\n                \"content\": \"这是方案实施步骤内容1\",\n                \"order\": 2\n            }\n        ],\n        \"business\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"\",\n                \"content\": \"这\",\n                \"order\": 1\n            }\n        ],\n        \"emphases\": [\n            {\n                \"id\": 13,\n                \"programmeId\": 13,\n                \"content\": \"这1111\",\n                \"order\": 1\n            }\n        ],\n        \"userList\": [\n            {\n                \"userId\": 1,\n                \"job\": \"techer\",\n                \"jobName\": \"\",\n                \"title\": \"标题\",\n                \"task\": \"任务\",\n                \"order\": 1\n            },\n            {\n                \"userId\": 3,\n                \"job\": \"student\",\n                \"jobName\": \"\",\n                \"title\": \"标题2\",\n                \"task\": \"任务2\",\n                \"order\": 2\n            }\n        ]\n    }"
+							"raw": "{\n        \"id\": 73,\n        \"title\": \"方案19-改动-73--\",\n        \"key\": \"system\",\n        \"queryDepartmentId\": 1,\n        \"userId\": 2,\n        \"queryPointId\": 3,\n        \"purpose\": \"方案目的\",\n        \"type\": \"type\",\n        \"startTime\": \"2018-10-10 10:10:10\",\n        \"endTime\": \"2018-10-10 11:10:10\",\n        \"planStartTime\": \"2018-10-12 10:10:10\",\n        \"planEndTime\": \"2018-10-13 10:10:10\",\n        \"state\": \"draft\",\n        \"basis\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"clauseId\": 1,\n                \"content\": \"这是依据内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"clauseId\": 2,\n                \"content\": \"这是依据内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"content\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"step\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"title\",\n                \"content\": \"这是方案实施步骤标题1+\",\n                \"order\": 1\n            },\n            {\n                \"id\": 27,\n                \"programmeId\": 13,\n                \"type\": \"content\",\n                \"content\": \"这是方案实施步骤内容1\",\n                \"order\": 2\n            }\n        ],\n        \"business\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"\",\n                \"content\": \"这\",\n                \"order\": 1\n            }\n        ],\n        \"emphases\": [\n            {\n                \"id\": 13,\n                \"programmeId\": 13,\n                \"content\": \"这1111\",\n                \"order\": 1\n            }\n        ],\n        \"userList\": [\n            {\n                \"userId\": 1,\n                \"job\": \"techer\",\n                \"jobName\": \"\",\n                \"title\": \"标题\",\n                \"task\": \"任务\",\n                \"order\": 1\n            },\n            {\n                \"userId\": 3,\n                \"job\": \"student\",\n                \"jobName\": \"\",\n                \"title\": \"标题2\",\n                \"task\": \"任务2\",\n                \"order\": 2\n            }\n        ]\n    }"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/edit",
@@ -233,7 +233,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/programme/get?id=11",
+							"raw": "http://192.168.1.20:8093/api/audit/programme/get?id=73",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -251,7 +251,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "11"
+									"value": "73"
 								}
 							]
 						}
@@ -434,7 +434,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"projectName\": \"工作底稿2\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"content\": [\n        {\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
+							"raw": "{\n    \"projectName\": \"工作底稿2\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"contentList\": [\n        {\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/draft/add",
@@ -471,7 +471,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 14,\n    \"projectName\": \"工作底稿14\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"content\": [\n        {\n        \t\"id\":37,\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容-37\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
+							"raw": "{\n    \"id\": 23,\n    \"projectName\": \"工作底稿23-1\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"contentList\": [\n        {\n            \"order\": 1,\n            \"type\": \"title\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是分类标题\"\n        },\n        {\n            \"id\": 37,\n            \"order\": 2,\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容-37\"\n        },\n        {\n            \"order\": 3,\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容-38\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/draft/edit",
@@ -553,7 +553,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/draft/get?id=16",
+							"raw": "http://192.168.1.20:8093/api/audit/draft/get?id=23",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -571,10 +571,684 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "16"
+									"value": "23"
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "发布（创建者使用）",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 55,\n    \"state\": \"publish\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/draft/state",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"draft",
+								"state"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "事实确认书",
+			"item": [
+				{
+					"name": "列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"title\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/confirmation/list?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"confirmation",
+								"list"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/confirmation/get?id=2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"confirmation",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "已读",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/confirmation/read",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"confirmation",
+								"read"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "设置依据",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 2,\n    \"basisIds\": \"129,130\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/confirmation/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"confirmation",
+								"edit"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "发布（创建者使用） Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"state\": \"publish\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/confirmation/state",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"confirmation",
+								"state"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "违规积分通知书",
+			"item": [
+				{
+					"name": "列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"title\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/list?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"punishNotice",
+								"list"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/get?id=2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"punishNotice",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "填写分数",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/edit_score",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"punishNotice",
+								"edit_score"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "填写编号",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/edit_number",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"punishNotice",
+								"edit_number"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "领导签署",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/edit_author",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"punishNotice",
+								"edit_author"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "状态变更",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"state\": \"publish\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/rectify/state",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"rectify",
+								"state"
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "整改通知",
+			"item": [
+				{
+					"name": "列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"title\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/rectify/list?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"rectify",
+								"list"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/rectify/get?id=2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"rectify",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "填写意见",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "10",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/rectify/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"rectify",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "发布（创建者使用） Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"state\": \"publish\"\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/rectify/state",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"rectify",
+								"state"
+							]
+						},
+						"description": "获取字典列表"
 					},
 					"response": []
 				}
