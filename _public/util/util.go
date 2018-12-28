@@ -41,6 +41,8 @@ func initUrlMsgStr() {
 	temp["upload"] = "上传"
 	temp["all"] = "获取全部$"
 	temp["search"] = "$搜索"
+	temp["title"] = "$搜索"
+	temp["read"] = "$已读"
 	temp["password"] = "密码修改"
 	temp["systemSetup/dictionaries"] = "字典"
 	temp["systemSetup/log"] = "日志"
@@ -178,7 +180,7 @@ func GetSearchMapByReqJson(gMap g.Map, reqData gjson.Json, key string, typeStr s
 		jsonKey = srcKey[1] // json中的键
 	}
 	val = reqData.Get(CamelCase(jsonKey)) // 获取到json中对应的值
-	if val != "" {
+	if val != nil && val != "" {
 		if len(srcType) > 1 {
 			jsonType = srcType[1]
 			val = gconv.Convert(val, jsonType) // json中传递的数据类型
