@@ -22,16 +22,17 @@ func Count(where g.Map) (int, error) {
 
 func List(offset int, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(table.PunishNotice + " p")
-	sql.LeftJoin(table.Draft+" d", "p.draft_id=d.id")
-	sql.LeftJoin(table.Programme+" pt", "d.department_id=pt.id")
-	sql.LeftJoin(table.Programme+" pq", "d.query_department_id=pq.id")
-	sql.Fields("d.*,p.*,pt.title as department_name,pq.title as query_department_name")
-	sql.Where("p.delete=?", 0)
+	sql := db.Table(table.PunishNotice + " pn")
+	sql.LeftJoin(table.Draft+" d", "pn.draft_id=d.id")
+	sql.LeftJoin(table.Programme+" p", "d.programme_id=p.id")
+	sql.LeftJoin(table.Department+" dt", "d.department_id=dt.id")
+	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
+	sql.Fields("d.*,pn.*,dt.name as department_name,dq.name as query_department_name,p.title as programme_title")
+	sql.Where("pn.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
-	r, err := sql.Limit(offset, limit).OrderBy("p.id desc").Select()
+	r, err := sql.Limit(offset, limit).OrderBy("pn.id desc").Select()
 	return r.ToList(), err
 }
 
