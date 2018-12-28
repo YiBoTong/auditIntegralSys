@@ -1,13 +1,13 @@
 package db_log
 
 import (
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
 func GetLogCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.LogTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.Log).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -17,7 +17,7 @@ func GetLogCount(where g.Map) (int, error) {
 
 func GetLogs(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.LogTbName + " l").LeftJoin(config.UserTbName+" u", "l.user_id=u.user_id")
+	sql := db.Table(table.Log + " l").LeftJoin(table.User+" u", "l.user_id=u.user_id")
 	sql.Fields("l.*,u.user_name")
 	sql.Where("l.delete=?", 0)
 	if len(where) > 0 {
@@ -30,7 +30,7 @@ func GetLogs(offset int, limit int, where g.Map) ([]map[string]interface{}, erro
 func DelLog(logId int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.LogTbName).Where("id=?", logId).Data(g.Map{"delete": 1}).Update()
+	r, err := db.Table(table.Log).Where("id=?", logId).Data(g.Map{"delete": 1}).Update()
 	if err == nil {
 		rows, err = r.RowsAffected()
 	}
@@ -40,7 +40,7 @@ func DelLog(logId int) (int, error) {
 func AddLog(log g.Map) (int, error) {
 	db := g.DB()
 	var lastId int64 = 0
-	r, err := db.Table(config.LogTbName).Data(log).Insert()
+	r, err := db.Table(table.Log).Data(log).Insert()
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}

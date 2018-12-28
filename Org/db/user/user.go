@@ -2,7 +2,7 @@ package db_user
 
 import (
 	"auditIntegralSys/Org/entity"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
@@ -10,7 +10,7 @@ func HasUserCode(userCode int) (bool, entity.User, error) {
 	db := g.DB()
 	var user entity.User
 	hasUserCode := false
-	sql := db.Table(config.UserTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.User).Where("`delete`=?", 0)
 	sql.And("user_code=?", userCode)
 	sql.Limit(0, 1)
 	r, err := sql.One()
@@ -23,7 +23,7 @@ func HasUserCode(userCode int) (bool, entity.User, error) {
 
 func GetUserCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.UserTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.User).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -33,8 +33,8 @@ func GetUserCount(where g.Map) (int, error) {
 
 func GetUsers(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.UserTbName + " u")
-	sql.LeftJoin(config.DepartmentTbName+" d", "u.department_id=d.id")
+	sql := db.Table(table.User + " u")
+	sql.LeftJoin(table.Department+" d", "u.department_id=d.id")
 	sql.Fields("u.*,d.name as department_name")
 	sql.Where("u.delete=?", 0)
 	if len(where) > 0 {
@@ -48,7 +48,7 @@ func AddUser(user []g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
 	// 批次5条数据写入
-	r, err := db.BatchInsert(config.UserTbName, user, 5)
+	r, err := db.BatchInsert(table.User, user, 5)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -58,8 +58,8 @@ func AddUser(user []g.Map) (int, error) {
 func GetUser(userId int) (entity.User, error) {
 	var user entity.User
 	db := g.DB()
-	sql := db.Table(config.UserTbName + " u")
-	sql.LeftJoin(config.DepartmentTbName+" d", "u.department_id=d.id")
+	sql := db.Table(table.User + " u")
+	sql.LeftJoin(table.Department+" d", "u.department_id=d.id")
 	sql.Fields("u.*,d.name as department_name")
 	sql.Where("u.user_id=?", userId)
 	sql.And("u.delete=?", 0)
@@ -71,7 +71,7 @@ func GetUser(userId int) (entity.User, error) {
 func UpdateUser(userId int, user g.Map) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
-	r, err := db.Table(config.UserTbName).Where("user_id=?", userId).Data(user).Update()
+	r, err := db.Table(table.User).Where("user_id=?", userId).Data(user).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}
@@ -81,7 +81,7 @@ func UpdateUser(userId int, user g.Map) (int, error) {
 func DelUser(userId int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.UserTbName).Where("user_id=?", userId).Data(g.Map{"delete": 1}).Update()
+	r, err := db.Table(table.User).Where("user_id=?", userId).Data(g.Map{"delete": 1}).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}

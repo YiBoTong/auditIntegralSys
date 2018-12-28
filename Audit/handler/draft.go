@@ -9,6 +9,7 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/table"
 	"auditIntegralSys/_public/util"
 	"fmt"
 	"gitee.com/johng/gf/g"
@@ -95,6 +96,32 @@ func (r *Draft) addCall(json gjson.Json) (int, error) {
 	return id, err
 }
 
+func (r *Draft) beforeState(id int, json gjson.Json) (bool, string) {
+	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
+	return canEdit, msg
+}
+
+func (r *Draft) stateCall(id int, json gjson.Json) (int, error) {
+	state := map[string]interface{}{
+		"state": "string",
+	}
+	stateMap := g.Map{}
+	util.GetSqlMap(json, state, stateMap)
+	row := 0
+	var err error = nil
+	// 只有草稿的数据才能上报
+	if stateMap["state"] == check.D_publish { // 发布
+		row, err = db_draft.Publish(id)
+	} else {
+		row, err = db_draft.Update(id, stateMap, g.Map{"state IN (?)": g.Slice{check.D_draft}})
+	}
+	if err == nil && row > 0 {
+		// 更新时间
+		_, _ = db_draft.Update(id, g.Map{"update_time": util.GetLocalNowTimeStr()})
+	}
+	return row, err
+}
+
 func (r *Draft) beforeEdit(id int, json gjson.Json) (bool, string) {
 	// 检测状态是否合法
 	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
@@ -171,7 +198,8 @@ func (r *Draft) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"title": "string",
+		"project_name": "string",
+		"state": "string",
 	}
 
 	for k, v := range searchItem {
@@ -258,7 +286,7 @@ func (r *Draft) Get() {
 		inspectUserList, _ := db_draft.GetInspectUser(id)
 		queryUserList, _ := db_draft.GetQueryUser(id)
 		reviewUserList, _ := db_draft.GetReviewUser(id)
-		fileList, _ := db_file.GetFilesByFrom(id, config.DraftTbName)
+		fileList, _ := db_file.GetFilesByFrom(id, table.Draft)
 
 		for _, cv := range contentList {
 			item := entity.DraftContent{}
@@ -318,6 +346,30 @@ func (r *Draft) Get() {
 			Code:  0,
 			Error: !success,
 			Msg:   config.GetTodoResMsg(config.GetStr, !success),
+		},
+	})
+}
+
+// 创建者改变状态
+func (r *Draft) State() {
+	rows := 0
+	var err error = nil
+	reqData := r.Request.GetJson()
+	id := reqData.GetInt("id")
+	checkRes, msg := r.beforeState(id, *reqData)
+	if checkRes {
+		rows, err = r.stateCall(id, *reqData)
+	}
+	success := err == nil && rows > 0
+	if msg == "" {
+		msg = config.GetTodoResMsg(config.EditStr, !success)
+	}
+	r.Response.WriteJson(app.Response{
+		Data: id,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   msg,
 		},
 	})
 }

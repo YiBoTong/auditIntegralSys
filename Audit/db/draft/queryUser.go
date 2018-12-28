@@ -1,7 +1,7 @@
 package db_draft
 
 import (
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -20,7 +20,7 @@ func addQueryUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	if len(list) == 0 {
 		return 0, nil
 	}
-	res, err := tx.BatchInsert(config.DraftQueryUserTbName, list, 5)
+	res, err := tx.BatchInsert(table.DraftQueryUser, list, 5)
 	rows, _ := res.RowsAffected()
 	return int(rows), err
 }
@@ -37,7 +37,7 @@ func updateQueryUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 	if len(userId) == 0 {
 		return 0, nil
 	}
-	sql := tx.Table(config.DraftQueryUserTbName).Data(g.Map{"delete": 0})
+	sql := tx.Table(table.DraftQueryUser).Data(g.Map{"delete": 0})
 	sql.Where("draft_id=?", draftId)
 	sql.And("user_id IN ?", userId)
 	res, err := sql.Update()
@@ -46,15 +46,15 @@ func updateQueryUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
 }
 
 func delQueryUser(tx *gdb.TX, draftId int) (int, error) {
-	r, err := tx.Table(config.DraftQueryUserTbName).Where("draft_id=?", draftId).Data(g.Map{"delete": 1}).Update()
+	r, err := tx.Table(table.DraftQueryUser).Where("draft_id=?", draftId).Data(g.Map{"delete": 1}).Update()
 	rows, _ := r.RowsAffected()
 	return int(rows), err
 }
 
 func GetQueryUser(draftId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.DraftQueryUserTbName + " d")
-	sql.LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id")
+	sql := db.Table(table.DraftQueryUser + " d")
+	sql.LeftJoin(table.User+" u", "d.user_id=u.user_id")
 	sql.Fields("d.*,u.user_name")
 	sql.Where("d.draft_id=?", draftId)
 	sql.And("d.delete=?", 0)

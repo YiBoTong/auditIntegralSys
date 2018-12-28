@@ -1,13 +1,13 @@
 package db_programme
 
 import (
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
 func AddDepExamines(programmeId int, data g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeExamineDepTbName)
+	sql := db.Table(table.ProgrammeExamineDep)
 	sql.Data(data)
 	r, err := sql.Insert()
 	id, _ := r.LastInsertId()
@@ -16,8 +16,8 @@ func AddDepExamines(programmeId int, data g.Map) (int, error) {
 
 func GetDepExamines(programmeId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeExamineDepTbName + " d")
-	sql.LeftJoin(config.UserTbName+" u", "d.user_id=u.user_id")
+	sql := db.Table(table.ProgrammeExamineDep + " d")
+	sql.LeftJoin(table.User+" u", "d.user_id=u.user_id")
 	sql.Fields("d.*,u.user_name")
 	sql.Where("d.programme_id=?", programmeId)
 	sql.OrderBy("d.id asc")

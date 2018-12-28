@@ -2,13 +2,13 @@ package db_department
 
 import (
 	"auditIntegralSys/Org/entity"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
 func GetDepartmentsByParentId(parentId int, search g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.DepartmentTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.Department).Where("`delete`=?", 0)
 	sql.And("parent_id=?", parentId)
 	if len(search) > 0 {
 		sql.And(search)
@@ -20,14 +20,14 @@ func GetDepartmentsByParentId(parentId int, search g.Map) ([]map[string]interfac
 
 func HasDepartment(departmentId int) (bool, error) {
 	db := g.DB()
-	sql := db.Table(config.DepartmentTbName).Where("`delete`=?", 0).And("id=?", departmentId)
+	sql := db.Table(table.Department).Where("`delete`=?", 0).And("id=?", departmentId)
 	count, err := sql.Count()
 	return count > 0, err
 }
 
 func HadChildByParentId(parintId int) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.DepartmentTbName).Where("`delete`=?", 0).And("parent_id=?", parintId)
+	sql := db.Table(table.Department).Where("`delete`=?", 0).And("parent_id=?", parintId)
 	count, err := sql.Count()
 	return count, err
 }
@@ -35,7 +35,7 @@ func HadChildByParentId(parintId int) (int, error) {
 func AddDepartment(department g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
-	r, err := db.Insert(config.DepartmentTbName, department)
+	r, err := db.Insert(table.Department, department)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -45,7 +45,7 @@ func AddDepartment(department g.Map) (int, error) {
 func GetDepartment(id int) (entity.Department, error) {
 	var department entity.Department
 	db := g.DB()
-	r, err := db.Table(config.DepartmentTbName).Where("id=?", id).And("`delete`=?", 0).One()
+	r, err := db.Table(table.Department).Where("id=?", id).And("`delete`=?", 0).One()
 	_ = r.ToStruct(&department)
 	return department, err
 }
@@ -53,7 +53,7 @@ func GetDepartment(id int) (entity.Department, error) {
 func UpdateDepartment(id int, department g.Map) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
-	r, err := db.Table(config.DepartmentTbName).Where("id=?", id).Data(department).Update()
+	r, err := db.Table(table.Department).Where("id=?", id).Data(department).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}
@@ -63,7 +63,7 @@ func UpdateDepartment(id int, department g.Map) (int, error) {
 func DelDepartment(departmentId int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.DepartmentTbName).Where("id=?", departmentId).Data(g.Map{"delete": 1}).Update()
+	r, err := db.Table(table.Department).Where("id=?", departmentId).Data(g.Map{"delete": 1}).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}

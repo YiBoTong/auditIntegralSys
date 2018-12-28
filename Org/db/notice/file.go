@@ -2,7 +2,7 @@ package db_notice
 
 import (
 	"auditIntegralSys/Worker/db/file"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/util/gconv"
 	"strings"
@@ -10,8 +10,8 @@ import (
 
 func GetNoticeFile(noticeId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.NoticeFileTbName + " ni")
-	sql.LeftJoin(config.FileTbName+" f", "ni.file_id=f.id")
+	sql := db.Table(table.NoticeFile + " ni")
+	sql.LeftJoin(table.File+" f", "ni.file_id=f.id")
 	sql.Fields("f.*,ni.id as nid")
 	sql.Where("ni.notice_id=?", noticeId)
 	sql.And("f.delete=?", 0)
@@ -23,7 +23,7 @@ func AddNoticeFile(add []g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
 	// 批次5条数据写入
-	r, err := db.BatchInsert(config.NoticeFileTbName, add, 5)
+	r, err := db.BatchInsert(table.NoticeFile, add, 5)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -43,7 +43,7 @@ func AddNoticeFiles(noticeId int, fileIds string) error {
 					"file_id":   fId,
 				})
 				_, err = db_file.UpdateFile(fId, g.Map{
-					"form":    config.NoticeTbName,
+					"form":    table.Notice,
 					"form_id": noticeId,
 					"delete":  0,
 				})
@@ -62,10 +62,10 @@ func AddNoticeFiles(noticeId int, fileIds string) error {
 func DelNoticeFile(noticeId int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.NoticeFileTbName).Where("notice_id=?", noticeId).Delete()
+	r, err := db.Table(table.NoticeFile).Where("notice_id=?", noticeId).Delete()
 	if err == nil {
 		rows, _ = r.RowsAffected()
-		_, _ = db_file.DelFilesByFrom(noticeId, config.NoticeTbName)
+		_, _ = db_file.DelFilesByFrom(noticeId, table.Notice)
 	}
 	return int(rows), err
 }

@@ -2,13 +2,13 @@ package db_clause
 
 import (
 	"auditIntegralSys/Org/entity"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
 func GetClauseCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.ClauseTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.Clause).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -18,8 +18,8 @@ func GetClauseCount(where g.Map) (int, error) {
 
 func GetClauses(offset int, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(config.ClauseTbName + " c")
-	sql.LeftJoin(config.UserTbName+" u", "c.author_id=u.user_id")
+	sql := db.Table(table.Clause + " c")
+	sql.LeftJoin(table.User+" u", "c.author_id=u.user_id")
 	sql.Fields("c.*,u.user_name as author_name")
 	sql.Where("c.delete=?", 0)
 	if len(where) > 0 {
@@ -31,7 +31,7 @@ func GetClauses(offset int, limit int, where g.Map) (g.List, error) {
 
 func GetClauseTitle(offset int, limit int, departmentId int, title string) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(config.ClauseTbName)
+	sql := db.Table(table.Clause)
 	if departmentId != 0 {
 		sql.Where("`delete`=? AND (department_id=? OR department_id=-1)", 0, departmentId)
 	} else {
@@ -46,8 +46,8 @@ func GetClauseTitle(offset int, limit int, departmentId int, title string) (g.Li
 func GetClause(id int) (entity.Clause, error) {
 	var Clause entity.Clause
 	db := g.DB()
-	sql := db.Table(config.ClauseTbName + " c")
-	sql.LeftJoin(config.UserTbName+" u", "c.author_id=u.user_id")
+	sql := db.Table(table.Clause + " c")
+	sql.LeftJoin(table.User+" u", "c.author_id=u.user_id")
 	sql.Fields("c.*,u.user_name as author_name")
 	sql.Where("c.delete=?", 0)
 	sql.And("c.id=?", id)
@@ -59,7 +59,7 @@ func GetClause(id int) (entity.Clause, error) {
 func AddClause(Clause g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
-	r, err := db.Insert(config.ClauseTbName, Clause)
+	r, err := db.Insert(table.Clause, Clause)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -69,7 +69,7 @@ func AddClause(Clause g.Map) (int, error) {
 func UpdateClause(id int, Clause g.Map) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
-	r, err := db.Table(config.ClauseTbName).Where("id=?", id).Data(Clause).Update()
+	r, err := db.Table(table.Clause).Where("id=?", id).Data(Clause).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}
@@ -79,7 +79,7 @@ func UpdateClause(id int, Clause g.Map) (int, error) {
 func DelClause(id int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.ClauseTbName).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+	r, err := db.Table(table.Clause).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}

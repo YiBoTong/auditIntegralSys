@@ -373,6 +373,7 @@ func (r *Programme) List() {
 
 	searchItem := map[string]interface{}{
 		"title": "string",
+		"state": "string",
 	}
 
 	for k, v := range searchItem {
@@ -429,6 +430,7 @@ func (r *Programme) Select() {
 
 	searchItem := map[string]interface{}{
 		"title": "string",
+		"state": "string",
 	}
 
 	for k, v := range searchItem {

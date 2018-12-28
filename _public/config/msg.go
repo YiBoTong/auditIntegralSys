@@ -5,6 +5,7 @@ const (
 	ListStr           = "获取列表"
 	DelStr            = "删除"
 	GetStr            = "获取"
+	ReadStr           = "已读"
 	AddStr            = "添加"
 	EditStr           = "编辑"
 	UploadStr         = "上传"

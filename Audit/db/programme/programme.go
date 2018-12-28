@@ -2,7 +2,7 @@ package db_programme
 
 import (
 	"auditIntegralSys/Audit/entity"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"fmt"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
@@ -10,13 +10,13 @@ import (
 )
 
 func add(tx *gdb.TX, data g.Map) (int, error) {
-	res, err := tx.Table(config.ProgrammeTbName).Data(data).Insert()
+	res, err := tx.Table(table.Programme).Data(data).Insert()
 	id, _ := res.LastInsertId()
 	return int(id), err
 }
 
 func edit(tx *gdb.TX, id int, data g.Map, where ...g.Map) (int64, error) {
-	sql := tx.Table(config.ProgrammeTbName).Data(data).Where("id=?", id)
+	sql := tx.Table(table.Programme).Data(data).Where("id=?", id)
 	sql.And("`delete`=?", 0)
 	if len(where) > 0 {
 		for k, v := range where[0] {
@@ -30,7 +30,7 @@ func edit(tx *gdb.TX, id int, data g.Map, where ...g.Map) (int64, error) {
 
 func Count(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.Programme).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -40,7 +40,7 @@ func Count(where g.Map) (int, error) {
 
 func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeTbName + " p")
+	sql := db.Table(table.Programme + " p")
 	sql.Where("p.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
@@ -148,7 +148,7 @@ func Edit(id int, programme g.Map, basis, content, step, business, emphases, use
 
 func Update(id int, data g.Map, where ...g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.ProgrammeTbName).Data(data).Where("`delete`=?", 0).And("id=?", id)
+	sql := db.Table(table.Programme).Data(data).Where("`delete`=?", 0).And("id=?", id)
 	if len(where) > 0 {
 		for k, v := range where[0] {
 			sql.And(k, v)
@@ -168,9 +168,9 @@ func Get(id int) (entity.ProgrammeItem, error) {
 		"qd.name as query_department_name",
 		"qp.name as query_point_name",
 	}
-	sql := db.Table(config.ProgrammeTbName + " p")
-	sql.LeftJoin(config.DepartmentTbName+" qd", "p.query_department_id=qd.id")
-	sql.LeftJoin(config.DepartmentTbName+" qp", "p.query_point_id=qp.id")
+	sql := db.Table(table.Programme + " p")
+	sql.LeftJoin(table.Department+" qd", "p.query_department_id=qd.id")
+	sql.LeftJoin(table.Department+" qp", "p.query_point_id=qp.id")
 	sql.Fields(strings.Join(fields, ","))
 	sql.Where("p.delete=?", 0)
 	sql.And("p.id=?", id)
@@ -186,7 +186,7 @@ func Del(id int) (int, error) {
 	var rows int64 = 0
 	tx, err := db.Begin()
 	if err == nil {
-		r, _ := tx.Table(config.ProgrammeTbName).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+		r, _ := tx.Table(table.Programme).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
 		rows, _ = r.RowsAffected()
 	}
 	if err == nil && rows > 0 {

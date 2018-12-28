@@ -2,7 +2,7 @@ package db_clause
 
 import (
 	"auditIntegralSys/Worker/db/file"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/util/gconv"
 	"strings"
@@ -10,8 +10,8 @@ import (
 
 func GetClauseFile(ClauseId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.ClauseFileTbName + " cf")
-	sql.LeftJoin(config.FileTbName+" f", "cf.file_id=f.id")
+	sql := db.Table(table.ClauseFile + " cf")
+	sql.LeftJoin(table.File+" f", "cf.file_id=f.id")
 	sql.Fields("f.*,cf.id as nid")
 	sql.Where("cf.clause_id=?", ClauseId)
 	sql.And("f.delete=?", 0)
@@ -23,7 +23,7 @@ func AddClauseFile(add []g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
 	// 批次5条数据写入
-	r, err := db.BatchInsert(config.ClauseFileTbName, add, 5)
+	r, err := db.BatchInsert(table.ClauseFile, add, 5)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -43,7 +43,7 @@ func AddClauseFiles(ClauseId int, fileIds string) error {
 					"file_id":   fId,
 				})
 				_, err = db_file.UpdateFile(fId, g.Map{
-					"form":    config.ClauseTbName,
+					"form":    table.Clause,
 					"form_id": ClauseId,
 					"delete":  0,
 				})
@@ -62,10 +62,10 @@ func AddClauseFiles(ClauseId int, fileIds string) error {
 func DelClauseFile(ClauseId int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.ClauseFileTbName).Where("clause_id=?", ClauseId).Delete()
+	r, err := db.Table(table.ClauseFile).Where("clause_id=?", ClauseId).Delete()
 	if err == nil {
 		rows, _ = r.RowsAffected()
-		_, _ = db_file.DelFilesByFrom(ClauseId, config.ClauseTbName)
+		_, _ = db_file.DelFilesByFrom(ClauseId, table.Clause)
 	}
 	return int(rows), err
 }

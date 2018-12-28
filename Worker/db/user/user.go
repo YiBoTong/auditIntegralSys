@@ -3,7 +3,7 @@ package db_user
 import (
 	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/Worker/check"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
@@ -11,8 +11,8 @@ func Login(userCode int, password string) (bool, entity.LoginInfo, error) {
 	db := g.DB()
 	var userLoginInfo entity.LoginInfo
 	checkPd := false
-	sql := db.Table(config.LoginTbName + " l")
-	sql.InnerJoin(config.UserTbName+" u", "l.user_code=u.user_code")
+	sql := db.Table(table.Login + " l")
+	sql.InnerJoin(table.User+" u", "l.user_code=u.user_code")
 	sql.Fields("l.*,u.user_id")
 	sql.Where("l.delete=?", 0)
 	sql.And("u.delete=?", 0)

@@ -1,7 +1,7 @@
 package db_file
 
 import (
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"database/sql"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
@@ -12,7 +12,7 @@ import (
 func AddFile(fileInfo g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
-	r, err := db.Insert(config.FileTbName, fileInfo)
+	r, err := db.Insert(table.File, fileInfo)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -39,10 +39,10 @@ func UpdateFile(fileId int, update g.Map, tx ...*gdb.TX) (int, error) {
 	var r sql.Result
 	var err error = nil
 	if len(tx) > 0 {
-		r, err = tx[0].Table(config.FileTbName).Where("id=?", fileId).Data(update).Update()
+		r, err = tx[0].Table(table.File).Where("id=?", fileId).Data(update).Update()
 	} else {
 		db := g.DB()
-		r, err = db.Table(config.FileTbName).Where("id=?", fileId).Data(update).Update()
+		r, err = db.Table(table.File).Where("id=?", fileId).Data(update).Update()
 	}
 	rows, _ = r.RowsAffected()
 	return int(rows), err
@@ -50,7 +50,7 @@ func UpdateFile(fileId int, update g.Map, tx ...*gdb.TX) (int, error) {
 
 func GetFilesByFrom(formId int, form string) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(config.FileTbName).Where(g.Map{"`delete`": 0})
+	sql := db.Table(table.File).Where(g.Map{"`delete`": 0})
 	sql.And("form_id=?", formId)
 	sql.And("`form`=?", form)
 	r, err := sql.OrderBy("id asc").All()
@@ -60,7 +60,7 @@ func GetFilesByFrom(formId int, form string) (g.List, error) {
 func DelFilesByFrom(formId int, form string, tx ...*gdb.TX) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
-	sql := db.Table(config.FileTbName).Data(g.Map{
+	sql := db.Table(table.File).Data(g.Map{
 		"delete": 1,
 	})
 	sql.Where("form_id=?", formId)
@@ -74,7 +74,7 @@ func DelFilesByFrom(formId int, form string, tx ...*gdb.TX) (int, error) {
 
 func DelFilesByFromTx(formId int, form string, tx *gdb.TX) (int, error) {
 	var rows int64 = 0
-	sql := tx.Table(config.FileTbName).Data(g.Map{
+	sql := tx.Table(table.File).Data(g.Map{
 		"delete": 1,
 	})
 	sql.Where("form_id=?", formId)

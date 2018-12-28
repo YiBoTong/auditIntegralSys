@@ -2,13 +2,13 @@ package db_notice
 
 import (
 	"auditIntegralSys/Org/entity"
-	"auditIntegralSys/_public/config"
+	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 )
 
 func GetNoticeCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(config.NoticeTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.Notice).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -18,7 +18,7 @@ func GetNoticeCount(where g.Map) (int, error) {
 
 func GetNotices(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(config.NoticeTbName).Where("`delete`=?", 0)
+	sql := db.Table(table.Notice).Where("`delete`=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
 	}
@@ -29,7 +29,7 @@ func GetNotices(offset int, limit int, where g.Map) ([]map[string]interface{}, e
 func GetNotice(id int) (entity.Notice, error) {
 	var Notice entity.Notice
 	db := g.DB()
-	r, err := db.Table(config.NoticeTbName).Where("id=?", id).And("`delete`=?", 0).One()
+	r, err := db.Table(table.Notice).Where("id=?", id).And("`delete`=?", 0).One()
 	_ = r.ToStruct(&Notice)
 	return Notice, err
 }
@@ -37,7 +37,7 @@ func GetNotice(id int) (entity.Notice, error) {
 func AddNotice(Notice g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
-	r, err := db.Insert(config.NoticeTbName, Notice)
+	r, err := db.Insert(table.Notice, Notice)
 	if err == nil {
 		lastId, err = r.LastInsertId()
 	}
@@ -47,7 +47,7 @@ func AddNotice(Notice g.Map) (int, error) {
 func UpdateNotice(id int, Notice g.Map) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
-	r, err := db.Table(config.NoticeTbName).Where("id=?", id).Data(Notice).Update()
+	r, err := db.Table(table.Notice).Where("id=?", id).Data(Notice).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}
@@ -57,7 +57,7 @@ func UpdateNotice(id int, Notice g.Map) (int, error) {
 func DelNotice(id int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
-	r, err := db.Table(config.NoticeTbName).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+	r, err := db.Table(table.Notice).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
 	if err == nil {
 		rows, _ = r.RowsAffected()
 	}
