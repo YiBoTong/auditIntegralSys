@@ -24,9 +24,10 @@ func List(offset int, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
 	sql := db.Table(table.Rectify + " r")
 	sql.LeftJoin(table.Draft+" d", "r.draft_id=d.id")
-	sql.LeftJoin(table.Programme+" pt", "d.department_id=pt.id")
-	sql.LeftJoin(table.Programme+" pq", "d.query_department_id=pq.id")
-	sql.Fields("d.*,r.*,pt.title as department_name,pq.title as query_department_name")
+	sql.LeftJoin(table.Programme+" p", "d.programme_id=p.id")
+	sql.LeftJoin(table.Department+" dt", "d.department_id=dt.id")
+	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
+	sql.Fields("d.*,r.*,dt.name as department_name,dq.name as query_department_name,p.title as programme_title")
 	sql.Where("r.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)

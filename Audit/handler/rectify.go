@@ -31,14 +31,14 @@ func (r *Rectify) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"title": "string",
+		"project_name": "string",
 	}
 
 	for k, v := range searchItem {
 		// title String
-		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchMap, *search, "d."+k+":"+k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "p."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
 	}
 
 	count, err := db_rectify.Count(searchMap)
