@@ -37,6 +37,7 @@ func GetClauseTitle(offset int, limit int, departmentId int, title string) (g.Li
 	} else {
 		sql.Where("`delete`=? AND department_id=-1", 0)
 	}
+	sql.And("state=?", "publish")
 	sql.And("title like ?", "%"+title+"%")
 	r, err := sql.Limit(offset, limit).OrderBy("id desc").Select()
 	return r.ToList(), err
