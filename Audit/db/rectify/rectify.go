@@ -77,3 +77,15 @@ func Add(tx gdb.TX, confirmationId, draftId int) (int, error) {
 	id, _ := r.LastInsertId()
 	return int(id), err
 }
+
+func Update(id int, data g.Map, where ...g.Map) (int, error) {
+	db := g.DB()
+	sql := db.Table(table.Rectify).Data(data)
+	sql.Where("id=? AND `delete`=?", id, 0)
+	if len(where) > 0 {
+		sql.And(where[0])
+	}
+	r, err := sql.Update()
+	row, _ := r.RowsAffected()
+	return int(row), err
+}

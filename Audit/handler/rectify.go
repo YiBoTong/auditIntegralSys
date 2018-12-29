@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"auditIntegralSys/Audit/check"
 	"auditIntegralSys/Audit/db/draft"
 	"auditIntegralSys/Audit/db/programme"
 	"auditIntegralSys/Audit/db/rectify"
@@ -8,14 +9,55 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/encoding/gjson"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
 )
 
 type Rectify struct {
 	gmvc.Controller
+}
+
+func (r *Rectify) checkId(id int) (bool, string) {
+	msg := ""
+	canEdit := true
+	if id == 0 { // 状态和ID都必须要有
+		canEdit = false
+	}
+	return canEdit, msg
+}
+
+// 检测状态是否合法
+func (r *Rectify) checkState(state string) (bool, string) {
+	hasState, msg := check.PublicState(state).Has()
+	return hasState, msg
+}
+
+func (r *Rectify) checkIdAndState(id int, state string) (bool, string) {
+	canEdit, msg := r.checkId(id)
+	if canEdit {
+		canEdit, msg = r.checkState(state)
+	}
+	return canEdit, msg
+}
+
+func (r *Rectify) editCall(id, todoUserId int, stateStr string, json gjson.Json) (int, error) {
+	suggest := json.GetString("suggest")
+	data := g.Map{
+		"suggest":     suggest,
+		"user_id":     todoUserId,
+		"update_time": util.GetLocalNowTimeStr(),
+	}
+	// 只有草稿状态的才能填写违规行为
+	row, err := db_rectify.Update(id, data, g.Map{"state": state.Draft})
+	// 如果提交状态是发布则更新状态为稽核草稿
+	if row != 0 && stateStr == state.Publish && err == nil {
+		_, err = db_rectify.Update(id, g.Map{"state": state.Publish})
+	}
+	return row, err
 }
 
 func (r *Rectify) List() {
@@ -119,6 +161,34 @@ func (r *Rectify) Get() {
 			Code:  0,
 			Error: !success,
 			Msg:   config.GetTodoResMsg(config.GetStr, !success),
+		},
+	})
+}
+
+func (r *Rectify) Edit() {
+	rows := 0
+	var err error = nil
+	reqData := r.Request.GetJson()
+	id := reqData.GetInt("id")
+	stateStr := reqData.GetString("state")
+	todoUserId := util.GetUserIdByRequest(r.Request.Cookie)
+	checkRes, msg := r.checkIdAndState(id, stateStr)
+	if checkRes {
+		rows, err = r.editCall(id, todoUserId, stateStr, *reqData)
+	}
+	if err != nil {
+		log.Instance().Errorfln("[PunishNotice Edit]: %v", err)
+	}
+	success := err == nil && rows > 0
+	if msg == "" {
+		msg = config.GetTodoResMsg(config.EditStr, !success)
+	}
+	r.Response.WriteJson(app.Response{
+		Data: id,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   msg,
 		},
 	})
 }
