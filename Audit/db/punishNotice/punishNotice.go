@@ -1,7 +1,9 @@
 package db_punishNotice
 
 import (
+	"auditIntegralSys/Audit/db/integral"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
@@ -114,4 +116,40 @@ func Update(id int, data g.Map, where ...g.Map) (int, error) {
 	r, err := sql.Update()
 	row, _ := r.RowsAffected()
 	return int(row), err
+}
+
+func Publish(id int, number string, where g.Map) (int, error) {
+	db := g.DB()
+	rows := 0
+	tx, err := db.Begin()
+	punishNoticeWidthScore := entity.PunishNoticeWidthScore{}
+
+	if err == nil {
+		sql := tx.Table(table.PunishNotice).Data(g.Map{"number": number, "state": state.Publish})
+		sql.Where("id=? AND `delete`=?", id, 0).And(where)
+		r, _ := sql.Update()
+		row, _ := r.RowsAffected()
+		rows = int(row)
+	}
+	if err == nil && rows != 0 {
+		punishNoticeWidthScore, err = getScoreWidthPunishNotice(id)
+	}
+	if err == nil && punishNoticeWidthScore.Id != 0 {
+		data := g.Map{
+			"cognizance_user_id": punishNoticeWidthScore.CognizanceUserId, // 认定人ID
+			"user_id":            punishNoticeWidthScore.UserId,           // 责任人ID
+			"draft_id":           punishNoticeWidthScore.DraftId,          // 工作底稿ID
+			"punish_notice_id":   id,                                      // 处罚通知ID
+			"score":              punishNoticeWidthScore.Score,            // 分数
+			"time":               punishNoticeWidthScore.UpdateTime,       // 认定时间
+		}
+		// 分数记录到档案中（积分表）
+		_, err = db_integral.AddScore(*tx, data)
+	}
+	if err == nil {
+		_ = tx.Commit()
+	} else {
+		_ = tx.Rollback()
+	}
+	return rows, err
 }

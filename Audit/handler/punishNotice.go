@@ -105,12 +105,16 @@ func (r *PunishNotice) editAuthorCall(id int, stateStr string) (int, error) {
 }
 
 func (r *PunishNotice) editNumberCall(id int, stateStr string, json gjson.Json) (int, error) {
+	row := 0
+	var err error = nil
 	number := json.GetString("number")
-	// 只能更新状态为办公室草稿的数据
-	row, err := db_punishNotice.Update(id, g.Map{"number": number}, g.Map{"state": "bgs_" + state.Draft})
+	where := g.Map{"state": "bgs_" + state.Draft}
 	// 如果提交状态是发布则更新状态为发布状态
-	if row != 0 && stateStr == state.Publish && err == nil {
-		_, err = db_punishNotice.Update(id, g.Map{"state": state.Publish})
+	if stateStr == state.Publish {
+		row, err = db_punishNotice.Publish(id, number, where)
+	} else {
+		// 只有草稿状态的才能填写
+		row, err = db_punishNotice.Update(id, g.Map{"number": number}, where)
 	}
 	return row, err
 }

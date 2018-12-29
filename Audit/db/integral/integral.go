@@ -3,6 +3,7 @@ package db_integral
 import (
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/database/gdb"
 	"gitee.com/johng/gf/g/util/gconv"
 	"time"
 )
@@ -25,4 +26,10 @@ func GetSumScore(punishNoticeId, userId int) (int, error) {
 		}
 	}
 	return 0, err
+}
+
+func AddScore(tx gdb.TX, data g.Map) (int, error) {
+	r, err := tx.Table(table.Integral).Data(data).Insert()
+	row, _ := r.RowsAffected()
+	return int(row), err
 }

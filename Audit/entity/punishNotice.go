@@ -6,7 +6,6 @@ type PunishNoticeItem struct {
 	UserName            string `db:"user_name" json:"userName" field:"user_name"` // 被通知人员姓名
 	ConfirmationId      int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
 	DraftId             int    `db:"draft_id" json:"draftId" field:"draft_id"`
-	IntegralId          int    `db:"integral_id" json:"integralId" field:"integral_id"`
 	ProgrammeId         int    `db:"programme_id" json:"programmeId" field:"programme_id"`
 	ProgrammeTitle      string `db:"programme_title" json:"programmeTitle" field:"programme_title"`
 	QueryDepartmentId   int    `db:"query_department_id" json:"queryDepartmentId" field:"query_department_id"`
@@ -42,6 +41,16 @@ type PunishNoticeBasisBehaviorItem struct {
 
 type PunishNoticeScore struct {
 	Score int `db:"score" json:"score" field:"score"` // 本次扣分
+}
+
+type PunishNoticeWidthScore struct {
+	Id               int    `db:"id" json:"id" field:"id"`                                               // 通知ID
+	ConfirmationId   int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`         // 确认书ID
+	DraftId          int    `db:"draft_id" json:"draftId" field:"draft_id"`                              // 工作底稿ID
+	UserId           int    `db:"user_id" json:"userId" field:"user_id"`                                 // 被处罚人ID
+	CognizanceUserId int    `db:"cognizance_user_id" json:"cognizanceUserId" field:"cognizance_user_id"` // 处罚人员ID
+	UpdateTime       string `db:"update_time" json:"updateTime" field:"update_time"`                     // 处罚时间
+	Score            int    `db:"score" json:"score" field:"score"`                                      // 本次扣分
 }
 
 type PunishNotice struct {

@@ -57,3 +57,15 @@ func GetScore(punishNoticeId int) (entity.PunishNoticeScore, error) {
 	_ = res.ToStruct(&punishNoticeScore)
 	return punishNoticeScore, err
 }
+
+func getScoreWidthPunishNotice(punishNoticeId int) (entity.PunishNoticeWidthScore, error) {
+	db := g.DB()
+	sql := db.Table(table.PunishNotice + " p")
+	sql.LeftJoin(table.PunishNoticeScore+" ps", "p.id=ps.punish_notice_id")
+	sql.Where("ps.delete=? AND p.id=?", 0, punishNoticeId)
+	sql.Fields("p.*,ps.cognizance_user_id,ps.score,ps.update_time")
+	punishNoticeWidthScore := entity.PunishNoticeWidthScore{}
+	res, err := sql.One()
+	_ = res.ToStruct(&punishNoticeWidthScore)
+	return punishNoticeWidthScore, err
+}
