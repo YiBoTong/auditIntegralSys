@@ -2,6 +2,8 @@ package entity
 
 type PunishNoticeItem struct {
 	Id                  int    `db:"id" json:"id" field:"id"`
+	UserId              int    `db:"user_id" json:"userId" field:"user_id"`       // 被通知人员id
+	UserName            string `db:"user_name" json:"userName" field:"user_name"` // 被通知人员姓名
 	ConfirmationId      int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
 	DraftId             int    `db:"draft_id" json:"draftId" field:"draft_id"`
 	IntegralId          int    `db:"integral_id" json:"integralId" field:"integral_id"`
@@ -28,9 +30,24 @@ type PunishNoticeBasisItem struct {
 	Content          string `db:"content" json:"content" field:"content"`                                // 方案依据内容
 }
 
+// 违规行为
+type PunishNoticeBasisBehaviorItem struct {
+	Id         int    `db:"id" json:"id" field:"id"`
+	UserId     int    `db:"user_id" json:"userId" field:"user_id"`
+	UserName   string `db:"user_name" json:"userName" field:"user_name"`
+	BehaviorId int    `db:"behavior_id" json:"behaviorId" field:"behavior_id"`
+	Content    string `db:"content" json:"content" field:"content"`
+	UpdateTime string `db:"update_time" json:"updateTime" field:"update_time"`
+}
+
+type PunishNoticeScore struct {
+	Score int `db:"score" json:"score" field:"score"` // 本次扣分
+}
+
 type PunishNotice struct {
 	PunishNoticeItem
-	Score     int                     `db:"score" json:"score" field:"score"`            // 本次扣分
-	SumScore  int                     `db:"sum_score" json:"sumScore" field:"sum_score"` // 总扣分（不含本次扣分）
-	BasisList []PunishNoticeBasisItem `db:"basis_list" json:"basisList" field:"basis_list"`
+	PunishNoticeScore
+	SumScore     int                             `db:"sum_score" json:"sumScore" field:"sum_score"` // 总扣分（不含本次扣分）
+	BasisList    []PunishNoticeBasisItem         `db:"basis_list" json:"basisList" field:"basis_list"`
+	BehaviorList []PunishNoticeBasisBehaviorItem `db:"behavior_list" json:"behaviorList" field:"behavior_list"`
 }
