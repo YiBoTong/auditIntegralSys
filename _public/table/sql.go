@@ -39,7 +39,8 @@ const (
 	ConfirmationReceipt        = "confirmation_receipt"         // 确认书回执表
 	ConfirmationReceiptContent = "confirmation_receipt_content" // 确认书回执内容表
 	PunishNotice               = "punish_notice"                // 处罚通知表
-	PunishNoticeBasis          = "punish_notice_basis"          // 处罚通知处罚依据表
+	PunishNoticeBehavior       = "punish_notice_behavior"       // 处罚通知违规行为表
+	PunishNoticeScore          = "punish_notice_score"          // 处罚通知处罚分数表
 	Integral                   = "integral"                     // 积分表
 	IntegralEdit               = "integral_edit"                // 积分修改表
 	Rectify                    = "rectify"                      // 整改通知表
