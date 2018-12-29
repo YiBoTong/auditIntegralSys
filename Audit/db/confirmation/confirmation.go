@@ -8,7 +8,18 @@ import (
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
 )
+
+func getInspectUser(draftId int) ([]map[string]interface{}, error) {
+	db := g.DB()
+	sql := db.Table(table.DraftInspectUser + " d")
+	sql.Where("d.draft_id=?", draftId)
+	sql.And("d.delete=?", 0)
+	sql.OrderBy("d.id asc")
+	res, err := sql.All()
+	return res.ToList(), err
+}
 
 func Count(where g.Map) (int, error) {
 	db := g.DB()
@@ -95,7 +106,17 @@ func Publish(id int) (int, error) {
 	}
 	if row != 0 && confirmation.Id != 0 && err == nil {
 		// 生成惩罚通知书
-		_, err = db_punishNotice.Add(*tx, confirmation.Id, confirmation.DraftId)
+		userIdArr := []int{}
+		userList, _ := getInspectUser(confirmation.DraftId)
+		for _, v := range userList {
+			userId := gconv.Int(v["user_id"])
+			if userId == 0 {
+				continue
+			}
+			// 对每一个被检查人创建一个惩罚通知书
+			userIdArr = append(userIdArr, userId)
+		}
+		_, err = db_punishNotice.Add(*tx, confirmation.Id, confirmation.DraftId, userIdArr)
 		rows += 1
 	}
 	if err == nil {

@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"auditIntegralSys/Audit/db/draft"
 	"auditIntegralSys/Audit/db/programme"
 	"auditIntegralSys/Audit/db/rectify"
 	"auditIntegralSys/Audit/entity"
@@ -19,7 +20,7 @@ type Rectify struct {
 
 func (r *Rectify) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.PunishNoticeItem
+	var rspData []entity.RectifyListItem
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -46,7 +47,7 @@ func (r *Rectify) List() {
 		var listData []map[string]interface{}
 		listData, err = db_rectify.List(offset, size, listSearchMap)
 		for _, v := range listData {
-			item := entity.PunishNoticeItem{}
+			item := entity.RectifyListItem{}
 			err = gconv.Struct(v, &item)
 			if err == nil {
 				rspData = append(rspData, item)
@@ -75,9 +76,10 @@ func (r *Rectify) List() {
 
 func (r *Rectify) Get() {
 	id := r.Request.GetQueryInt("id")
-	BasisList := []entity.PunishNoticeBasisItem{}
 	DraftItem := entity.DraftItem{}
 	DraftContent := []entity.DraftContent{}
+	Programme := entity.ProgrammeItem{}
+	ProgrammeBusiness := []entity.ProgrammeBusiness{}
 
 	RectifyItem, err := db_rectify.Get(id)
 
@@ -86,11 +88,20 @@ func (r *Rectify) Get() {
 	}
 
 	if RectifyItem.Id != 0 {
-		basisList, _ := db_programme.GetBasis(id)
-		for _, bv := range basisList {
-			item := entity.PunishNoticeBasisItem{}
+		DraftItem, _ = db_draft.Get(RectifyItem.DraftId)
+		Programme, _ = db_programme.Get(RectifyItem.ProgrammeId)
+		contentList, _ := db_draft.GetContent(RectifyItem.DraftId)
+		programmeBusinessList, _ := db_programme.GetBusiness(RectifyItem.ProgrammeId)
+		for _, bv := range contentList {
+			item := entity.DraftContent{}
 			if ok := gconv.Struct(bv, &item); ok == nil {
-				BasisList = append(BasisList, item)
+				DraftContent = append(DraftContent, item)
+			}
+		}
+		for _, bv := range programmeBusinessList {
+			item := entity.ProgrammeBusiness{}
+			if ok := gconv.Struct(bv, &item); ok == nil {
+				ProgrammeBusiness = append(ProgrammeBusiness, item)
 			}
 		}
 	}
@@ -98,9 +109,11 @@ func (r *Rectify) Get() {
 	success := err == nil && RectifyItem.Id != 0
 	r.Response.WriteJson(app.Response{
 		Data: entity.Rectify{
-			RectifyItem:  RectifyItem,
-			Draft:        DraftItem,
-			DraftContent: DraftContent,
+			RectifyItem:       RectifyItem,
+			Programme:         Programme,
+			Draft:             DraftItem,
+			DraftContent:      DraftContent,
+			ProgrammeBusiness: ProgrammeBusiness,
 		},
 		Status: app.Status{
 			Code:  0,

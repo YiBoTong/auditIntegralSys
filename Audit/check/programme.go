@@ -2,6 +2,7 @@ package check
 
 import "auditIntegralSys/_public/config"
 
+type PublicState string
 type DraftState string
 type ProgrammeState string
 type ProgrammeUserRole string
@@ -41,6 +42,11 @@ const (
 const (
 	c_draft   ConfirmationState = "draft"   // 草稿
 	c_publish ConfirmationState = "publish" // 发布
+)
+
+const (
+	draft   PublicState = "draft"   // 草稿
+	publish PublicState = "publish" // 发布
 )
 
 const (
@@ -96,6 +102,20 @@ func (this ConfirmationState) Has() (bool, string) {
 	switch this {
 	// 草稿、发布
 	case c_draft, c_publish:
+		hasState = true
+	default:
+		hasState = false
+		msg = config.StateStr + config.NoHad
+	}
+	return hasState, msg
+}
+
+func (this PublicState) Has() (bool, string) {
+	msg := ""
+	hasState := false
+	switch this {
+	// 草稿、发布
+	case draft, publish:
 		hasState = true
 	default:
 		hasState = false

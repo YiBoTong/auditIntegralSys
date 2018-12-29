@@ -1,7 +1,9 @@
 package entity
 
-type RectifyItem struct {
+type RectifyListItem struct {
 	Id                  int    `db:"id" json:"id" field:"id"`
+	DraftId             int    `db:"draft_id" json:"draftId" field:"draft_id"`
+	ConfirmationId      int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
 	ProgrammeId         int    `db:"programme_id" json:"programmeId" field:"programme_id"`
 	ProgrammeTitle      string `db:"programme_title" json:"programmeTitle" field:"programme_title"`
 	QueryDepartmentId   int    `db:"query_department_id" json:"queryDepartmentId" field:"query_department_id"`
@@ -18,8 +20,22 @@ type RectifyItem struct {
 	UpdateTime          string `db:"update_time" json:"updateTime" field:"update_time"`
 }
 
+type RectifyItem struct {
+	Id             int    `db:"id" json:"id" field:"id"`
+	DraftId        int    `db:"draft_id" json:"draftId" field:"draft_id"`
+	ConfirmationId int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
+	ProgrammeId    int    `db:"programme_id" json:"programmeId" field:"programme_id"`
+	UserId         int    `db:"user_id" json:"userId" field:"user_id"`
+	UserName       string `db:"user_name" json:"userName" field:"user_name"`
+	Suggest        string `db:"suggest" json:"suggest" field:"suggest"`
+	UpdateTime     string `db:"update_time" json:"updateTime" field:"update_time"`
+	State          string `db:"state" json:"state" field:"state"`
+}
+
 type Rectify struct {
 	RectifyItem
-	Draft        DraftItem      `db:"draft" json:"draft" field:"draft"`                        // 工作底稿
-	DraftContent []DraftContent `db:"draft_content" json:"draftContent" field:"draft_content"` // 工作底稿违规内容
+	Programme         ProgrammeItem       `db:"programme" json:"programme" field:"programme"`                           // 方案
+	Draft             DraftItem           `db:"draft" json:"draft" field:"draft"`                                       // 工作底稿
+	DraftContent      []DraftContent      `db:"draft_content" json:"draftContent" field:"draft_content"`                // 工作底稿违规内容
+	ProgrammeBusiness []ProgrammeBusiness `db:"programme_business" json:"programmeBusiness" field:"programme_business"` // 方案业务范围
 }
