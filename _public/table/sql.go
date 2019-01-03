@@ -45,4 +45,6 @@ const (
 	IntegralEdit               = "integral_edit"                // 积分修改表
 	Rectify                    = "rectify"                      // 整改通知表
 	RectifyReport              = "rectify_report"               // 整改报告表
+	RectifyReportContent       = "rectify_report_content"       // 整改报告内容表
+	RectifyReportFile          = "rectify_report_file"          // 整改报告附件表
 )
