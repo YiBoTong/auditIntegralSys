@@ -10,7 +10,6 @@ func GetUserCount(where g.Map) (int, error) {
 	db := g.DB()
 	// SELECT COUNT(1) FROM login l INNER JOIN users u ON (l.user_code=u.user_code) WHERE l.delete=0 AND u.delete=0
 	sql := db.Table(table.Login + " l").InnerJoin(table.User+" u", "l.user_code=u.user_code")
-	sql.Fields("COUNT(1)")
 	sql.Where("l.delete=?", 0)
 	sql.And("u.delete=?", 0)
 	if len(where) > 0 {
