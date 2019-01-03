@@ -13,8 +13,12 @@ func addChangeScore(tx gdb.TX, data g.Map) (int, error) {
 	return int(id), err
 }
 
-func updateChangeScore(tx gdb.TX, changeScoreId int, data g.Map) (int, error) {
-	r, err := tx.Table(table.IntegralEdit).Data(data).Where("id=? AND `delete`=0", changeScoreId).Update()
+func updateChangeScore(tx gdb.TX, changeScoreId int, data g.Map, where ...g.Map) (int, error) {
+	sql := tx.Table(table.IntegralEdit).Data(data).Where("id=? AND `delete`=0", changeScoreId)
+	if len(where) > 0 {
+		sql.And(where[0])
+	}
+	r, err := sql.Update()
 	row, _ := r.RowsAffected()
 	return int(row), err
 }

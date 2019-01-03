@@ -104,19 +104,22 @@ func ChangeScore(id int, data g.Map) (int, error) {
 	return changeId, err
 }
 
-func AdoptChangeScore(id, changeScoreId int) (int, error) {
+func AdoptChangeScore(changeScoreId int, stateStr, suggestion string) (int, error) {
 	row := 0
 	db := g.DB()
 	integralChangeScore := entity.IntegralChangeScore{}
 	tx, err := db.Begin()
 	if err == nil {
-		row, err = updateChangeScore(*tx, changeScoreId, g.Map{"state": state.Adopt})
+		row, err = updateChangeScore(*tx, changeScoreId,
+			g.Map{"state": stateStr, "suggestion": suggestion},
+			g.Map{"state":state.Report},
+		)
 	}
-	if row != 0 && err != nil {
+	if row != 0 && err != nil && stateStr == state.Adopt {
 		integralChangeScore, err = GetChangeScore(changeScoreId)
 	}
 	if integralChangeScore.Id != 0 && err != nil {
-		row, err = update(*tx, id, g.Map{
+		row, err = update(*tx, integralChangeScore.Id, g.Map{
 			"score": integralChangeScore.Score,
 			"time":  integralChangeScore.UpdateTime,
 		})

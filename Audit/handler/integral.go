@@ -8,6 +8,7 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/util"
 	"fmt"
 	"gitee.com/johng/gf/g"
@@ -45,7 +46,21 @@ func (r *Integral) checkIdAndState(id int, state string) (bool, string) {
 
 func (r *Integral) beforeEdit(id int, json gjson.Json) (bool, string) {
 	// 检测状态是否合法
-	canEdit, msg := r.checkIdAndState(id, json.GetString("state"))
+	stateStr := json.GetString("state")
+	canEdit, msg := r.checkId(id)
+	if canEdit && !(stateStr != state.Draft || stateStr != state.Report) {
+		msg = config.StateStr + config.NoHad
+	}
+	return canEdit, msg
+}
+
+func (r *Integral) beforeEditAuthor(id int, json gjson.Json) (bool, string) {
+	// 检测状态是否合法
+	stateStr := json.GetString("state")
+	canEdit, msg := r.checkId(id)
+	if canEdit && !(stateStr != state.Reject || stateStr != state.Adopt) {
+		msg = config.StateStr + config.NoHad
+	}
 	return canEdit, msg
 }
 
@@ -67,19 +82,10 @@ func (r *Integral) editCall(id int, json gjson.Json) (int, error) {
 	return rows, err
 }
 
-func (r *Integral) editAuthorCall(id int, json gjson.Json) (int, error) {
-	add := map[string]interface{}{
-		"state":       "string",
-		"update_time": "nowTime", // 当前时间
-	}
-
-	data := g.Map{}
-	util.GetSqlMap(json, add, data)
-
-	fmt.Println(data)
-
-	rows, err := db_integral.AdoptChangeScore(id, c)
-
+func (r *Integral) editAuthorCall(changeScoreId int, json gjson.Json) (int, error) {
+	state := json.GetString("state")
+	suggestion := json.GetString("suggestion")
+	rows, err := db_integral.AdoptChangeScore(changeScoreId, state, suggestion)
 	return rows, err
 }
 
@@ -144,6 +150,7 @@ func (r *Integral) Get() {
 	id := r.Request.GetQueryInt("id")
 	IntegralItem := entity.IntegralItem{}
 	SumScore := 0
+	ChangeScore := entity.IntegralChangeScore{}
 	BehaviorList := []entity.PunishNoticeBasisBehaviorItem{}
 
 	IntegralItem, err := db_integral.Get(id)
@@ -153,6 +160,7 @@ func (r *Integral) Get() {
 	}
 
 	if IntegralItem.Id != 0 {
+		ChangeScore, err = db_integral.GetChangeScore(IntegralItem.Id)
 		SumScore, err = db_integral.GetSumScore(IntegralItem.PunishNoticeId, IntegralItem.UserId)
 		behaviorList, _ := db_punishNotice.GetBehavior(IntegralItem.PunishNoticeId)
 		for _, bv := range behaviorList {
@@ -167,6 +175,7 @@ func (r *Integral) Get() {
 	r.Response.WriteJson(app.Response{
 		Data: entity.Integral{
 			IntegralItem: IntegralItem,
+			ChangeScore:  ChangeScore,
 			SumScore:     SumScore,
 			BehaviorList: BehaviorList,
 		},
@@ -208,10 +217,10 @@ func (r *Integral) Edit_author() {
 	rows := 0
 	var err error = nil
 	reqData := r.Request.GetJson()
-	id := reqData.GetInt("id")
-	checkRes, msg := r.beforeEdit(id, *reqData)
+	changeScoreId := reqData.GetInt("changeScoreId")
+	checkRes, msg := r.beforeEditAuthor(changeScoreId, *reqData)
 	if checkRes {
-		rows, err = r.editAuthorCall(id, *reqData)
+		rows, err = r.editAuthorCall(changeScoreId, *reqData)
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Draft Edit]: %v", err)
@@ -221,7 +230,7 @@ func (r *Integral) Edit_author() {
 		msg = config.GetTodoResMsg(config.EditStr, !success)
 	}
 	r.Response.WriteJson(app.Response{
-		Data: id,
+		Data: changeScoreId,
 		Status: app.Status{
 			Code:  0,
 			Error: !success,

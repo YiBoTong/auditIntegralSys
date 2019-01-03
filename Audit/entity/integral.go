@@ -38,11 +38,13 @@ type IntegralChangeScore struct {
 	Score      int    `db:"score" json:"score" field:"score"`
 	UserId     int    `db:"user_id" json:"userId" field:"user_id"`
 	Describe   string `db:"describe" json:"describe" field:"describe"`
+	Suggestion string `db:"suggestion" json:"suggestion" field:"suggestion"`
 	UpdateTime string `db:"update_time" json:"updateTime" field:"update_time"`
 }
 
 type Integral struct {
 	IntegralItem
+	ChangeScore  IntegralChangeScore             `db:"change_score" json:"changeScore" field:"change_score"`
 	SumScore     int                             `db:"sum_score" json:"sumScore" field:"sum_score"`
 	BehaviorList []PunishNoticeBasisBehaviorItem `db:"behavior_list" json:"behaviorList" field:"behavior_list"`
 }
