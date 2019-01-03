@@ -74,3 +74,15 @@ func (c *Rbac) Get() {
 		},
 	})
 }
+
+func (c *Rbac) Delete() {
+	db_rbac.RemoveOldData()
+	c.Response.WriteJson(app.Response{
+		Data: "清除废弃数据",
+		Status: app.Status{
+			Code:  0,
+			Error: false,
+			Msg:   "",
+		},
+	})
+}
