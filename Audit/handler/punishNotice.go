@@ -175,6 +175,49 @@ func (r *PunishNotice) List() {
 	})
 }
 
+// 问责
+func (r *PunishNotice) Get_accountability() {
+	confirmationId := r.Request.GetQueryInt("confirmationId")
+	resData := []entity.PunishNoticeAccountability{}
+
+	list, err := db_punishNotice.GetUsersByConfirmationId(confirmationId)
+
+	if err != nil {
+		log.Instance().Errorfln("[PunishNotice Get]: %v", err)
+	}
+
+	if len(list) != 0 {
+		for _, v := range list {
+			item := entity.PunishNoticeAccountabilityUserItem{}
+			BehaviorList := []entity.PunishNoticeAccountabilityUserBehaviorItem{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				behaviorList, _ := db_punishNotice.GetBehavior(item.Id)
+				for _, bv := range behaviorList {
+					bItem := entity.PunishNoticeAccountabilityUserBehaviorItem{}
+					if ok := gconv.Struct(bv, &bItem); ok == nil {
+						BehaviorList = append(BehaviorList, bItem)
+					}
+				}
+				punishNoticeAccountability := entity.PunishNoticeAccountability{
+					PunishNoticeAccountabilityUserItem: item,
+					BehaviorList:                       BehaviorList,
+				}
+				resData = append(resData, punishNoticeAccountability)
+			}
+		}
+	}
+
+	success := err == nil
+	r.Response.WriteJson(app.Response{
+		Data: resData,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   config.GetTodoResMsg(config.GetStr, !success),
+		},
+	})
+}
+
 func (r *PunishNotice) Get() {
 	id := r.Request.GetQueryInt("id")
 	BasisList := []entity.PunishNoticeBasisItem{}

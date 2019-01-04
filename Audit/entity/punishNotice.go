@@ -60,3 +60,24 @@ type PunishNotice struct {
 	BasisList    []PunishNoticeBasisItem         `db:"basis_list" json:"basisList" field:"basis_list"`
 	BehaviorList []PunishNoticeBasisBehaviorItem `db:"behavior_list" json:"behaviorList" field:"behavior_list"`
 }
+
+type PunishNoticeAccountabilityUserItem struct {
+	Id             int    `db:"id" json:"id" field:"id"`
+	ConfirmationId int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
+	DraftId        int    `db:"draft_id" json:"draftId" field:"draft_id"`
+	UserId         int    `db:"user_id" json:"userId" field:"user_id"`
+	UserName       string `db:"user_name" json:"userName" field:"user_name"`
+	Time           string `db:"time" json:"time" field:"time"`
+	UpdateTime     string `db:"update_time" json:"updateTime" field:"update_time"`
+	Score          int    `db:"score" json:"score" field:"score"`
+}
+
+type PunishNoticeAccountabilityUserBehaviorItem struct {
+	BehaviorId int    `db:"behavior_id" json:"behaviorId" field:"behavior_id"`
+	Content    string `db:"content" json:"content" field:"content"`
+}
+
+type PunishNoticeAccountability struct {
+	PunishNoticeAccountabilityUserItem
+	BehaviorList []PunishNoticeAccountabilityUserBehaviorItem `db:"behavior_list" json:"behaviorList" field:"behavior_list"`
+}

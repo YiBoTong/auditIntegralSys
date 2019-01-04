@@ -86,6 +86,26 @@ func Get(id int, where ...g.Map) (entity.PunishNoticeItem, error) {
 	return confirmation, err
 }
 
+func GetUsersByConfirmationId(confirmationId int, where ...g.Map) (g.List, error) {
+	db := g.DB()
+	fields := []string{
+		"pn.*",
+		"ps.score,ps.update_time",
+		"u.user_name",
+	}
+	sql := db.Table(table.PunishNotice + " pn")
+	sql.LeftJoin(table.PunishNoticeScore+" ps", "ps.punish_notice_id=pn.id")
+	sql.LeftJoin(table.User+" u", "pn.user_id=u.user_id")
+	sql.Fields(strings.Join(fields, ","))
+	sql.Where("pn.delete=?", 0)
+	sql.And("pn.confirmation_id=?", confirmationId)
+	if len(where) > 0 {
+		sql.And(where[0])
+	}
+	r, err := sql.OrderBy("pn.id asc").All()
+	return r.ToList(), err
+}
+
 func Add(tx gdb.TX, confirmationId, draftId int, userIds []int) (int, error) {
 	data := g.List{}
 	nowTime := util.GetLocalNowTimeStr()
