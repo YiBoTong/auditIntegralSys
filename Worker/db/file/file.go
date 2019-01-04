@@ -1,6 +1,7 @@
 package db_file
 
 import (
+	"auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/table"
 	"database/sql"
 	"gitee.com/johng/gf/g"
@@ -24,11 +25,13 @@ func UpdateFileByIds(tbName, fileIds string, tbId int, tx ...*gdb.TX) (int, erro
 	var row int = 0
 	var err error = nil
 	fileIdArr := strings.Split(fileIds, ",")
-	for _, v := range fileIdArr {
-		fId := gconv.Int(v)
-		if fId != 0 {
-			row, _ = UpdateFile(fId, g.Map{"form": tbName, "form_id": tbId, "delete": 0}, tx[0])
-			rows += row
+	if len(fileIds) > 0 && len(fileIds) > 0 {
+		for _, v := range fileIdArr {
+			fId := gconv.Int(v)
+			if fId != 0 {
+				row, _ = UpdateFile(fId, g.Map{"form": tbName, "form_id": tbId, "delete": 0}, tx...)
+				rows += row
+			}
 		}
 	}
 	return rows, err
@@ -55,6 +58,15 @@ func GetFilesByFrom(formId int, form string) (g.List, error) {
 	sql.And("`form`=?", form)
 	r, err := sql.OrderBy("id asc").All()
 	return r.ToList(), err
+}
+
+func Get(formId int) (entity.File, error) {
+	db := g.DB()
+	sql := db.Table(table.File).Where(g.Map{"`delete`": 0, "id": formId})
+	r, err := sql.One()
+	file := entity.File{}
+	_ = r.ToStruct(&file)
+	return file, err
 }
 
 func DelFilesByFrom(formId int, form string, tx ...*gdb.TX) (int, error) {
