@@ -76,7 +76,7 @@ func (r *Statistical) List() {
 
 func (r *Statistical) Get() {
 	id := r.Request.GetQueryInt("id")
-	BasisList := []entity.ProgrammeBasis{}
+	BusinessList := []entity.ProgrammeBusiness{}
 
 	StatisticalListItem, err := db_statistical.Get(id)
 
@@ -85,11 +85,11 @@ func (r *Statistical) Get() {
 	}
 
 	if StatisticalListItem.Id != 0 {
-		basisList, _ := db_programme.GetBasis(StatisticalListItem.ProgrammeId)
+		basisList, _ := db_programme.GetBusiness(StatisticalListItem.ProgrammeId)
 		for _, bv := range basisList {
-			item := entity.ProgrammeBasis{}
+			item := entity.ProgrammeBusiness{}
 			if ok := gconv.Struct(bv, &item); ok == nil {
-				BasisList = append(BasisList, item)
+				BusinessList = append(BusinessList, item)
 			}
 		}
 	}
@@ -98,7 +98,7 @@ func (r *Statistical) Get() {
 	r.Response.WriteJson(app.Response{
 		Data: entity.Statistical{
 			StatisticalListItem: StatisticalListItem,
-			BasisList:           BasisList,
+			BusinessList:        BusinessList,
 		},
 		Status: app.Status{
 			Code:  0,

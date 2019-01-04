@@ -15,5 +15,5 @@ type StatisticalListItem struct {
 
 type Statistical struct {
 	StatisticalListItem
-	BasisList []ProgrammeBasis `db:"basis_list" json:"basisList" field:"basis_list"`
+	BusinessList []ProgrammeBusiness `db:"business_list" json:"businessList" field:"business_list"`
 }
