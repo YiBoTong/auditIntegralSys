@@ -211,7 +211,7 @@ func Del(id int) (int, error) {
 		_, _ = delInspectUser(tx, id)
 		_, _ = delQueryUser(tx, id)
 		_, _ = delReviewUser(tx, id)
-		_, _ = db_file.DelFilesByFrom(id, table.Draft, tx)
+		_, _ = db_file.DelFilesByFromTx(id, table.Draft, tx)
 		_ = tx.Commit()
 	} else {
 		_ = tx.Rollback()

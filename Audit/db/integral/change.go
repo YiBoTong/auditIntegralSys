@@ -36,3 +36,11 @@ func GetChangeScore(integralId int) (entity.IntegralChangeScore, error) {
 	_ = r.ToStruct(&integralChangeScore)
 	return integralChangeScore, err
 }
+
+func GetChange(id int) (entity.IntegralChangeScore, error) {
+	db := g.DB()
+	integralChangeScore := entity.IntegralChangeScore{}
+	r, err := db.Table(table.IntegralEdit).Where("id=? AND `delete`=0", id).One()
+	_ = r.ToStruct(&integralChangeScore)
+	return integralChangeScore, err
+}

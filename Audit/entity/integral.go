@@ -18,6 +18,7 @@ type IntegralListItem struct {
 	Number              string `db:"number" json:"number" field:"number"`
 	ProjectName         string `db:"project_name" json:"projectName" field:"project_name"`
 	Time                string `db:"time" json:"time" field:"time"`
+	State               string `db:"state" json:"state" field:"state"`
 }
 
 type IntegralItem struct {

@@ -70,7 +70,7 @@ func Add(rectifyId int, fileIds string, data g.Map, content g.List) (int, error)
 		_, err = addContent(*tx, id, content)
 	}
 	if err == nil {
-		_, err = db_file.DelFilesByFrom(rectifyReportItem.Id, table.RectifyReport, tx)
+		_, err = db_file.DelFilesByFromTx(rectifyReportItem.Id, table.RectifyReport, tx)
 	}
 	if err == nil {
 		_, err = db_file.UpdateFileByIds(table.RectifyReport, fileIds, id, tx)

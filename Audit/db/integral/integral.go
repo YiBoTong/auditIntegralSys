@@ -4,6 +4,7 @@ import (
 	"auditIntegralSys/Audit/entity"
 	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
+	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -56,7 +57,8 @@ func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) 
 	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
 	sql.LeftJoin(table.User+" u", "i.user_id=u.user_id")
 	sql.LeftJoin(table.User+" uc", "i.cognizance_user_id=uc.user_id")
-	sql.Fields("d.*,i.*,u.user_name,uc.user_name as cognizance_user_name,dd.name as department_name,dq.name as query_department_name")
+	sql.LeftJoin(table.IntegralEdit + " ie","ie.integral_id=i.id AND ie.delete=0")
+	sql.Fields("d.*,i.*,ie.state,u.user_name,uc.user_name as cognizance_user_name,dd.name as department_name,dq.name as query_department_name")
 	sql.Where("d.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
@@ -111,15 +113,15 @@ func AdoptChangeScore(changeScoreId int, stateStr, suggestion string) (int, erro
 	tx, err := db.Begin()
 	if err == nil {
 		row, err = updateChangeScore(*tx, changeScoreId,
-			g.Map{"state": stateStr, "suggestion": suggestion},
-			g.Map{"state":state.Report},
+			g.Map{"state": stateStr, "suggestion": suggestion, "update_time": util.GetLocalNowTimeStr()},
+			g.Map{"state": state.Report},
 		)
 	}
-	if row != 0 && err != nil && stateStr == state.Adopt {
-		integralChangeScore, err = GetChangeScore(changeScoreId)
+	if row != 0 && err == nil && stateStr == state.Adopt {
+		integralChangeScore, err = GetChange(changeScoreId)
 	}
-	if integralChangeScore.Id != 0 && err != nil {
-		row, err = update(*tx, integralChangeScore.Id, g.Map{
+	if integralChangeScore.Id != 0 && err == nil {
+		row, err = update(*tx, integralChangeScore.IntegralId, g.Map{
 			"score": integralChangeScore.Score,
 			"time":  integralChangeScore.UpdateTime,
 		})
