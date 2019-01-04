@@ -2,6 +2,7 @@ package entity
 
 type RectifyListItem struct {
 	Id                  int    `db:"id" json:"id" field:"id"`
+	RectifyReportId     int    `db:"rectify_report_id" json:"rectifyReportId" field:"rectify_report_id"`
 	DraftId             int    `db:"draft_id" json:"draftId" field:"draft_id"`
 	ConfirmationId      int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
 	ProgrammeId         int    `db:"programme_id" json:"programmeId" field:"programme_id"`

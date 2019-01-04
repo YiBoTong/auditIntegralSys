@@ -32,12 +32,14 @@ func List(offset int, limit int, where g.Map) (g.List, error) {
 		"p.end_time",
 		"p.plan_start_time",
 		"p.plan_end_time",
+		"rr.id as rectify_report_id",
 	}
 	sql := db.Table(table.Rectify + " r")
 	sql.LeftJoin(table.Draft+" d", "r.draft_id=d.id")
 	sql.LeftJoin(table.Programme+" p", "d.programme_id=p.id")
 	sql.LeftJoin(table.Department+" dt", "d.department_id=dt.id")
 	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
+	sql.LeftJoin(table.RectifyReport+" rr", "rr.rectify_id=r.id AND rr.delete=0")
 	sql.Fields(strings.Join(fields, ","))
 	sql.Where("r.delete=?", 0)
 	if len(where) > 0 {
