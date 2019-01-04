@@ -69,12 +69,10 @@ func Get(formId int) (entity.File, error) {
 	return file, err
 }
 
-func DelFilesByFrom(formId int, form string, tx ...*gdb.TX) (int, error) {
+func DelFilesByFrom(formId int, form string) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
-	sql := db.Table(table.File).Data(g.Map{
-		"delete": 1,
-	})
+	sql := db.Table(table.File).Data(g.Map{"delete": 1})
 	sql.Where("form_id=?", formId)
 	sql.And("form=?", form)
 	r, err := sql.Update()
@@ -86,9 +84,7 @@ func DelFilesByFrom(formId int, form string, tx ...*gdb.TX) (int, error) {
 
 func DelFilesByFromTx(formId int, form string, tx *gdb.TX) (int, error) {
 	var rows int64 = 0
-	sql := tx.Table(table.File).Data(g.Map{
-		"delete": 1,
-	})
+	sql := tx.Table(table.File).Data(g.Map{"delete": 1})
 	sql.Where("form_id=?", formId)
 	sql.And("form=?", form)
 	r, err := sql.Update()

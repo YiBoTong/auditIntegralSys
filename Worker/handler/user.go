@@ -129,7 +129,11 @@ func (r *User) Edit() {
 
 	rows, err := db_org_user.UpdateUser(userId, Update)
 	if err == nil {
-		_, err = db_file.UpdateFileByIds(table.User, gconv.String(Update["portrait_id"]), userId)
+		if Update["portrait_id"] != 0 {
+			_, err = db_file.UpdateFileByIds(table.User, gconv.String(Update["portrait_id"]), userId)
+		} else {
+			_, err = db_file.DelFilesByFrom(userId, table.User)
+		}
 	}
 
 	if err != nil {
