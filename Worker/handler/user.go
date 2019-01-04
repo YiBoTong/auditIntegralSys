@@ -6,10 +6,13 @@ import (
 	"auditIntegralSys/SystemSetup/db/login"
 	ss_entity "auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/Worker/check"
+	"auditIntegralSys/Worker/db/file"
 	"auditIntegralSys/Worker/db/user"
+	entity2 "auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/table"
 	"auditIntegralSys/_public/token"
 	"auditIntegralSys/_public/util"
 	"errors"
@@ -29,9 +32,10 @@ func (u *User) Login() {
 	msg := ""
 	checkPd := false
 	userId := 0
-	var loginUser ss_entity.LoginInfo
+	userInfo := entity.User{}
+	loginUser := ss_entity.LoginInfo{}
+	portraitFile := entity2.File{}
 	var err error = nil
-	var userInfo entity.User
 	if password == "" {
 		msg = "密码不能为空"
 	} else if userCode == 0 {
@@ -48,6 +52,7 @@ func (u *User) Login() {
 	}
 	if msg == "" && err == nil {
 		userInfo, err = db_org_user.GetUser(userId)
+		portraitFile, _ = db_file.Get(userInfo.PortraitId)
 	}
 	if msg != "" {
 		err = errors.New(msg)
@@ -71,7 +76,10 @@ func (u *User) Login() {
 		token.Del(u.Request)
 	}
 	u.Response.WriteJson(app.Response{
-		Data: userInfo,
+		Data: entity.LoginUserInfo{
+			User:         userInfo,
+			PortraitFile: portraitFile,
+		},
 		Status: app.Status{
 			Code:  0,
 			Error: !success,
@@ -82,9 +90,9 @@ func (u *User) Login() {
 
 func (u *User) Get() {
 	userId := util.GetUserIdByRequest(u.Cookie)
-	log.Instance().Infofln("userId %v", userId)
 
 	userInfo, err := db_org_user.GetUser(userId)
+	portraitFile, _ := db_file.Get(userInfo.PortraitId)
 	if err != nil {
 		log.Instance().Errorfln("[User Get]: %v", err)
 	}
@@ -93,11 +101,47 @@ func (u *User) Get() {
 		token.Set(userId, u.Request, false)
 	}
 	u.Response.WriteJson(app.Response{
-		Data: userInfo,
+		Data: entity.LoginUserInfo{
+			User:         userInfo,
+			PortraitFile: portraitFile,
+		},
 		Status: app.Status{
 			Code:  0,
 			Error: !success,
 			Msg:   config.GetTodoResMsg(config.GetStr+config.UserInfoStr, !success),
+		},
+	})
+}
+
+func (r *User) Edit() {
+	reqData := r.Request.GetJson()
+	userId := util.GetUserIdByRequest(r.Cookie)
+
+	Update := g.Map{}
+	update := g.Map{
+		"phone":       "string",
+		"portrait_id": "int",
+	}
+
+	for k, v := range update {
+		util.GetSearchMapByReqJson(Update, *reqData, k, gconv.String(v))
+	}
+
+	rows, err := db_org_user.UpdateUser(userId, Update)
+	if err == nil {
+		_, err = db_file.UpdateFileByIds(table.User, gconv.String(Update["portrait_id"]), userId)
+	}
+
+	if err != nil {
+		log.Instance().Errorfln("[Clause Edit]: %v", err)
+	}
+	success := err == nil && rows > 0
+	r.Response.WriteJson(app.Response{
+		Data: userId,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   config.GetTodoResMsg(config.EditStr, !success),
 		},
 	})
 }
