@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "631f5abd-14d3-4cad-a30e-bf8432a1c171",
+		"_postman_id": "233545da-5d94-45b4-ba5b-990b6040876f",
 		"name": "系统管理",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -137,7 +137,10 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/delete?id=82",
 							"protocol": "http",
@@ -212,7 +215,10 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8090/api/systemSetup/dictionaries/is-use?id=80&isUse=true",
 							"protocol": "http",
@@ -371,7 +377,10 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8090/api/systemSetup/login/delete?userCode=10001",
 							"protocol": "http",
@@ -453,7 +462,10 @@
 								"value": "application/x-www-form-urlencoded"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8090/api/systemSetup/log/delete?id=10",
 							"protocol": "http",
@@ -489,7 +501,7 @@
 				{
 					"name": "获取所有菜单",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -498,9 +510,12 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://192.168.1.20:8090/api/systemSetup/menu/all",
+							"raw": "http://192.168.1.20:8090/api/systemSetup/menu/all?rnd=1",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -514,6 +529,12 @@
 								"systemSetup",
 								"menu",
 								"all"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
 							]
 						},
 						"description": "获取字典列表"
@@ -559,22 +580,22 @@
 				},
 				{
 					"name": "添加菜单",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
+								"value": "application/json",
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
-							"raw": "http://192.168.1.20:8092/api/worker/menu/all",
+							"raw": "http://192.168.1.20:8092/api/worker/menu/add",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -587,7 +608,7 @@
 								"api",
 								"worker",
 								"menu",
-								"all"
+								"add"
 							]
 						},
 						"description": "获取字典列表"
@@ -637,9 +658,6 @@
 				},
 				{
 					"name": "获取可用菜单的权限",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -650,7 +668,10 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8090/api/systemSetup/rbac/get?key=management",
 							"protocol": "http",
@@ -672,6 +693,42 @@
 									"key": "key",
 									"value": "management"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "清除废弃数据（前端不使用）",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8090/api/systemSetup/rbac/delete",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8090",
+							"path": [
+								"api",
+								"systemSetup",
+								"rbac",
+								"delete"
 							]
 						}
 					},

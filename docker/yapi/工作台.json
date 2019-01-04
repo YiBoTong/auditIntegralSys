@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "a79e8760-34c0-45aa-88d4-b62a64aa7e4f",
+		"_postman_id": "88e19552-94ad-4dec-b3b3-c019aaaf04fc",
 		"name": "工作台",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -46,9 +46,6 @@
 				},
 				{
 					"name": "获取当前登录员工的信息",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -59,7 +56,10 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8092/api/worker/user/get?rnd=123",
 							"protocol": "http",
@@ -212,9 +212,6 @@
 			"item": [
 				{
 					"name": "获取自己的菜单",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
@@ -225,7 +222,10 @@
 								"type": "text"
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "http://192.168.1.20:8092/api/worker/menu/get?rnd=1",
 							"protocol": "http",
