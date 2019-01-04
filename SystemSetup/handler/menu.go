@@ -6,6 +6,7 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -23,6 +24,33 @@ func (r *Menu) All() {
 	}
 	r.Response.WriteJson(app.Response{
 		Data: allMenu,
+		Status: app.Status{
+			Code:  0,
+			Error: false,
+			Msg:   config.GetTodoResMsg(config.GetStr, false),
+		},
+	})
+}
+
+func (r *Menu) Add() {
+	reqData := r.Request.GetJson()
+	addMenu := g.Map{}
+	add := map[string]interface{}{
+		"path":      "string",
+		"name":      "string",
+		"title":     "string",
+		"icon":      "string",
+		"no_cache":  "boolean:int",
+		"parent_id": "int",
+		"order":     "int",
+	}
+	util.GetSqlMap(*reqData, add, addMenu)
+	id, err := db_menu.Add(addMenu)
+	if err != nil {
+		log.Instance().Errorfln("[Menu All]: %v", err)
+	}
+	r.Response.WriteJson(app.Response{
+		Data: id,
 		Status: app.Status{
 			Code:  0,
 			Error: false,
