@@ -35,6 +35,8 @@ func main() {
 	_ = s.BindController(apiPath+"/rectifyReport", new(handler.RectifyReport))
 	// 积分
 	_ = s.BindController(apiPath+"/integral", new(handler.Integral))
+	// 审计报告
+	_ = s.BindController(apiPath+"/auditReport", new(handler.AuditReport))
 	// 统计分析
 	_ = s.BindController(apiPath+"/statistical", new(handler.Statistical))
 	_ = s.BindHandler("/*", router.Index)

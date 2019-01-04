@@ -137,15 +137,16 @@ func (r *RectifyReport) Edit() {
 	rows := 0
 	var err error = nil
 	reqData := r.Request.GetJson()
-	id := reqData.GetInt("id")
+	//id := reqData.GetInt("id")
 	rectifyId := reqData.GetInt("rectifyId")
 	stateStr := reqData.GetString("state")
 	todoUserId := util.GetUserIdByRequest(r.Request.Cookie)
 	checkRes, msg := r.checkState(stateStr)
 	if checkRes {
-		if id != 0 {
-			rows, err = r.editCall(id, todoUserId, stateStr, *reqData)
-		} else if rectifyId != 0 {
+		//if id != 0 {
+		//	rows, err = r.editCall(id, todoUserId, stateStr, *reqData)
+		//} else
+		if rectifyId != 0 {
 			rows, err = r.addCall(rectifyId, todoUserId, stateStr, *reqData)
 		}
 	}
@@ -157,7 +158,7 @@ func (r *RectifyReport) Edit() {
 		msg = config.GetTodoResMsg(config.EditStr, !success)
 	}
 	r.Response.WriteJson(app.Response{
-		Data: id,
+		Data: rectifyId,
 		Status: app.Status{
 			Code:  0,
 			Error: !success,

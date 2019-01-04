@@ -47,4 +47,8 @@ const (
 	RectifyReport              = "rectify_report"               // 整改报告表
 	RectifyReportContent       = "rectify_report_content"       // 整改报告内容表
 	RectifyReportFile          = "rectify_report_file"          // 整改报告附件表
+	AuditReport                = "audit_report"                 // 审计报告表
+	AuditReportBasicInfo       = "audit_report_basic_info"      // 审计报告基本信息表
+	AuditReportReason          = "audit_report_reason"          // 审计报告问题原因表
+	AuditReportPlan            = "audit_report_plan"            // 审计报告下一步计划表
 )

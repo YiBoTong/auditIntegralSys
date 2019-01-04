@@ -1,9 +1,14 @@
 package db_rectifyReport
 
 import (
+	"auditIntegralSys/Audit/db/AuditReport"
+	"auditIntegralSys/Audit/db/draft"
+	"auditIntegralSys/Audit/db/rectify"
 	"auditIntegralSys/Audit/entity"
 	"auditIntegralSys/Worker/db/file"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
+	"errors"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 )
@@ -52,6 +57,10 @@ func Add(rectifyId int, fileIds string, data g.Map, content g.List) (int, error)
 	id := 0
 	tx, err := db.Begin()
 	rectifyReportItem, _ := GetByRectifyId(rectifyId)
+	if rectifyReportItem.State == state.Publish {
+		// 此整改通知已经被填写并上报了
+		err = errors.New("has been filled in")
+	}
 	if err == nil {
 		_, _ = del(*tx, rectifyId)
 		_, _ = delContent(*tx, rectifyReportItem.Id)
@@ -69,6 +78,17 @@ func Add(rectifyId int, fileIds string, data g.Map, content g.List) (int, error)
 	if err == nil {
 		_, _ = delRectifyReportFile(*tx, rectifyReportItem.Id)
 		_, err = addRectifyReportFiles(*tx, id, fileIds)
+	}
+	if err == nil && data["state"] == state.Publish {
+		// 生成审计报告
+		rectifyItem, _ := db_rectify.Get(rectifyId)
+		draftItem, _ := db_draft.Get(rectifyItem.DraftId)
+		_, err = db_auditReport.Add(*tx, g.Map{
+			"programme_id":      draftItem.ProgrammeId,      // 方案ID
+			"draft_id":          rectifyItem.DraftId,        // 工作底稿ID
+			"confirmation_id":   rectifyItem.ConfirmationId, // 事实确认书ID
+			"rectify_report_id": id,                         // 整改报告ID
+		})
 	}
 	if err == nil {
 		_ = tx.Commit()
