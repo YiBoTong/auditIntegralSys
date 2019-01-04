@@ -2,6 +2,7 @@ package db_programme
 
 import (
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"fmt"
 	"gitee.com/johng/gf/g"
@@ -186,7 +187,7 @@ func Del(id int) (int, error) {
 	var rows int64 = 0
 	tx, err := db.Begin()
 	if err == nil {
-		r, _ := tx.Table(table.Programme).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+		r, _ := tx.Table(table.Programme).Where("id=? AND state=?", id, state.Draft).Data(g.Map{"delete": 1}).Update()
 		rows, _ = r.RowsAffected()
 	}
 	if err == nil && rows > 0 {
