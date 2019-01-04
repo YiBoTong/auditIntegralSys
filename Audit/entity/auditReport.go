@@ -6,6 +6,8 @@ type AuditReportListItem struct {
 	ProgrammeTitle  string `db:"programme_title" json:"programmeTitle" field:"programme_title"`
 	StartTime       string `db:"start_time" json:"startTime" field:"start_time"`
 	EndTime         string `db:"end_time" json:"endTime" field:"end_time"`
+	Time            string `db:"time" json:"time" field:"time"`
+	UpdateTime      string `db:"update_time" json:"updateTime" field:"update_time"`
 	DraftId         int    `db:"draft_id" json:"draftId" field:"draft_id"`
 	ProjectName     string `db:"project_name" json:"projectName" field:"project_name"`
 	Number          string `db:"number" json:"number" field:"number"`

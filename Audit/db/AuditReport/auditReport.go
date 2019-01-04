@@ -30,7 +30,7 @@ func List(offset int, limit int, where g.Map) (g.List, error) {
 	sql.LeftJoin(table.Programme+" p", "ar.programme_id=p.id")
 	sql.LeftJoin(table.Department+" dd", "d.department_id=dd.id")
 	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
-	sql.Fields("d.*,ar.*,p.start_time,p.end_time,dd.name as department_name,dq.name as query_department_name,p.title as programme_title")
+	sql.Fields("d.*,ar.*,p.start_time,d.time,p.end_time,dd.name as department_name,dq.name as query_department_name,p.title as programme_title")
 	sql.Where("ar.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)
