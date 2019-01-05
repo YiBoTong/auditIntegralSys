@@ -58,7 +58,7 @@ func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) 
 	sql.LeftJoin(table.User+" u", "i.user_id=u.user_id")
 	sql.LeftJoin(table.User+" uc", "i.cognizance_user_id=uc.user_id")
 	sql.LeftJoin(table.IntegralEdit + " ie","ie.integral_id=i.id AND ie.delete=0")
-	sql.Fields("d.*,i.*,ie.state,u.user_name,uc.user_name as cognizance_user_name,dd.name as department_name,dq.name as query_department_name")
+	sql.Fields("d.*,i.*,ie.state,ie.id as integral_edit_id,u.user_name,uc.user_name as cognizance_user_name,dd.name as department_name,dq.name as query_department_name")
 	sql.Where("d.delete=?", 0)
 	if len(where) > 0 {
 		sql.And(where)

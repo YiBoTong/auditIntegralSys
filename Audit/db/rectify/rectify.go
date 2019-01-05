@@ -33,6 +33,7 @@ func List(offset int, limit int, where g.Map) (g.List, error) {
 		"p.plan_start_time",
 		"p.plan_end_time",
 		"rr.id as rectify_report_id",
+		"rr.state as report_state",
 	}
 	sql := db.Table(table.Rectify + " r")
 	sql.LeftJoin(table.Draft+" d", "r.draft_id=d.id")

@@ -14,6 +14,7 @@ type IntegralListItem struct {
 	QueryDepartmentName string `db:"query_department_name" json:"queryDepartmentName" field:"query_department_name"`
 	DepartmentId        int    `db:"department_id" json:"departmentId" field:"department_id"`
 	DepartmentName      string `db:"department_name" json:"departmentName" field:"department_name"`
+	IntegralEditId      int    `db:"integral_edit_id" json:"integralEditId" field:"integral_edit_id"`
 	Score               int    `db:"score" json:"score" field:"score"`
 	Number              string `db:"number" json:"number" field:"number"`
 	ProjectName         string `db:"project_name" json:"projectName" field:"project_name"`
@@ -41,6 +42,7 @@ type IntegralChangeScore struct {
 	Describe   string `db:"describe" json:"describe" field:"describe"`
 	Suggestion string `db:"suggestion" json:"suggestion" field:"suggestion"`
 	UpdateTime string `db:"update_time" json:"updateTime" field:"update_time"`
+	State      string `db:"state" json:"state" field:"state"`
 }
 
 type Integral struct {

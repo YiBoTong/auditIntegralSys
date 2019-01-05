@@ -54,9 +54,9 @@ func (r *PunishNotice) editCall(id, todoUserId int, stateStr string, json gjson.
 		"content":     "string",
 	}
 	// 只有草稿状态的才能填写违规行为
+	updateTime := util.GetLocalNowTimeStr()
 	punishNotice, err := db_punishNotice.Get(id, g.Map{"pn.state": state.Draft})
 	if punishNotice.Id != 0 {
-		updateTime := util.GetLocalNowTimeStr()
 		util.GetSqlMapItemFun(*behaviorList, editBehavior, func(itemMap g.Map) {
 			index := 1
 			if itemMap["id"] == nil {

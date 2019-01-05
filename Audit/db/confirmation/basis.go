@@ -1,7 +1,9 @@
 package db_confirmation
 
 import (
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
+	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -25,7 +27,7 @@ func addBasis(tx *gdb.TX, confirmationId int, confirmationBasisIds string) (int,
 	return int(rows), err
 }
 
-func EditBasis(confirmationId int, confirmationBasisIds string) (int, error) {
+func EditBasis(confirmationId int, confirmationBasisIds, stateStr string) (int, error) {
 	row := 0
 	rows := 0
 	db := g.DB()
@@ -37,6 +39,19 @@ func EditBasis(confirmationId int, confirmationBasisIds string) (int, error) {
 	if err == nil {
 		row, err = addBasis(tx, confirmationId, confirmationBasisIds)
 		rows += row
+	}
+	if err == nil {
+		if stateStr == state.Publish {
+			_, err = Publish(confirmationId, tx)
+		} else {
+			_, err = UpdateTX(tx, confirmationId,
+				g.Map{
+					"state":       stateStr,
+					"update_time": util.GetLocalNowTimeStr(),
+				},
+				g.Map{"state": state.Draft},
+			)
+		}
 	}
 	if err == nil {
 		_ = tx.Commit()

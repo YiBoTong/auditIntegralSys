@@ -25,6 +25,7 @@ type ConfirmationItem struct {
 	ConfirmationReceiptId int    `db:"confirmation_receipt_id" json:"confirmationReceiptId" field:"confirmation_receipt_id"` // 回执ID
 	HasRead               uint8  `db:"has_read" json:"hasRead" field:"has_read"`                                             // 是否已读
 	HasReadTime           string `db:"has_read_time" json:"hasReadTime" field:"has_read_time"`                               // 已读时间
+	State                 string `db:"state" json:"state" field:"state"`
 }
 
 type Confirmation struct {

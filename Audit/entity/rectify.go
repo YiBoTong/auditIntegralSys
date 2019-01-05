@@ -19,6 +19,8 @@ type RectifyListItem struct {
 	PlanEndTime         string `db:"plan_end_time" json:"planEndTime" field:"plan_end_time"`
 	Time                string `db:"time" json:"time" field:"time"`
 	UpdateTime          string `db:"update_time" json:"updateTime" field:"update_time"`
+	State               string `db:"state" json:"state" field:"state"`
+	ReportState         string `db:"report_state" json:"reportState" field:"report_state"`
 }
 
 type RectifyItem struct {

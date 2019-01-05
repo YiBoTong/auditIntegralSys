@@ -220,11 +220,12 @@ func (r *Confirmation) Edit() {
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	basisIds := reqData.GetString("basisIds")
+	state := reqData.GetString("state")
 
 	// 只有草稿的才能设置依据
 	Confirmation, _ := db_confirmation.Get(id, g.Map{"state": check.D_draft})
 	if Confirmation.Id != 0 {
-		rows, err = db_confirmation.EditBasis(Confirmation.Id, basisIds)
+		rows, err = db_confirmation.EditBasis(Confirmation.Id, basisIds,state)
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Draft Edit]: %v", err)

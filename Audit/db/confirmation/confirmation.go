@@ -81,12 +81,28 @@ func Update(id int, data g.Map, where ...g.Map) (int, error) {
 	return int(row), err
 }
 
-func Publish(id int) (int, error) {
+func UpdateTX(tx *gdb.TX,id int, data g.Map, where ...g.Map) (int, error) {
+	sql := tx.Table(table.Confirmation).Data(data).Where("id=? AND `delete`=?", id, 0)
+	if len(where) > 0 {
+		sql.And(where[0])
+	}
+	r, err := sql.Update()
+	row, _ := r.RowsAffected()
+	return int(row), err
+}
+
+func Publish(id int, TX ...*gdb.TX) (int, error) {
 	db := g.DB()
 	row := 0
 	rows := 0
 	confirmation := entity.ConfirmationItem{}
-	tx, err := db.Begin()
+	var err error = nil
+	tx := &gdb.TX{}
+	if len(TX) == 0 {
+		tx, err = db.Begin()
+	} else {
+		tx = TX[0]
+	}
 	if err == nil {
 		var rowNum int64 = 0
 		// 只有草稿的数据才能发布
@@ -119,11 +135,13 @@ func Publish(id int) (int, error) {
 		_, err = db_punishNotice.Add(*tx, confirmation.Id, confirmation.DraftId, userIdArr)
 		rows += 1
 	}
-	if err == nil {
-		_ = tx.Commit()
-	} else {
-		row = 0
-		_ = tx.Rollback()
+	if len(TX) == 0 {
+		if err == nil {
+			_ = tx.Commit()
+		} else {
+			row = 0
+			_ = tx.Rollback()
+		}
 	}
 	return int(row), err
 }
