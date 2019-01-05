@@ -5,6 +5,7 @@ import (
 	"auditIntegralSys/Audit/db/confirmation"
 	"auditIntegralSys/Audit/entity"
 	"auditIntegralSys/Worker/db/file"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
@@ -77,6 +78,10 @@ func Add(draft g.Map, content []g.Map, queryUsers, adminUsers, inspectUsers, fil
 		if err == nil {
 			_, err = db_file.UpdateFileByIds(table.Draft, fileIds, id, tx)
 		}
+		if err == nil && draft["state"] == state.Publish {
+			// 生成事实确认书
+			_, err = db_confirmation.Add(*tx, id)
+		}
 	}
 	if err == nil {
 		err = tx.Commit()
@@ -123,6 +128,10 @@ func Edit(id int, draft g.Map, content [2][]g.Map, queryUsers, adminUsers, inspe
 			row, err = db_file.UpdateFileByIds(table.Draft, fileIds, id, tx)
 			rows += row
 		}
+		if err == nil && draft["state"] == state.Publish {
+			// 生成事实确认书
+			_, err = db_confirmation.Add(*tx, id)
+		}
 	}
 	if err == nil {
 		err = tx.Commit()
@@ -155,7 +164,7 @@ func Publish(id int) (int, error) {
 		var rowNum int64 = 0
 		// 只有草稿的数据才能发布
 		r, _ := tx.Table(table.Draft).Data(g.Map{
-			"state":       check.D_publish,
+			"state": check.D_publish,
 		}).Where("`delete`=? AND state IN (?)", 0, g.Slice{check.D_draft}).And("id=?", id).Update()
 		rowNum, _ = r.RowsAffected()
 		row = int(rowNum)
