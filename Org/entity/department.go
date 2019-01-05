@@ -1,14 +1,15 @@
 package entity
 
 type Department struct {
-	Id         int    `db:"id" json:"id" field:"id"`
-	Name       string `db:"name" json:"name" field:"name"`
-	ParentId   int    `db:"parent_id" json:"parentId" field:"parent_id"`
-	Code       string `db:"code" json:"code" field:"code"`
-	Level      int    `db:"level" json:"level" field:"level"`
-	Address    string `db:"address" json:"address" field:"address"`
-	Phone      string `db:"phone" json:"phone" field:"phone"`
-	UpdateTime string `db:"update_time" json:"updateTime" field:"update_time"`
+	Id            int    `db:"id" json:"id" field:"id"`
+	Name          string `db:"name" json:"name" field:"name"`
+	ParentId      int    `db:"parent_id" json:"parentId" field:"parent_id"`
+	ParentDepName string `db:"parent_dep_name" json:"parentDepName" field:"parent_dep_name"`
+	Code          string `db:"code" json:"code" field:"code"`
+	Level         int    `db:"level" json:"level" field:"level"`
+	Address       string `db:"address" json:"address" field:"address"`
+	Phone         string `db:"phone" json:"phone" field:"phone"`
+	UpdateTime    string `db:"update_time" json:"updateTime" field:"update_time"`
 }
 
 type DepartmentTreeInfo struct {

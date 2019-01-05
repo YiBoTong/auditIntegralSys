@@ -45,7 +45,12 @@ func AddDepartment(department g.Map) (int, error) {
 func GetDepartment(id int) (entity.Department, error) {
 	var department entity.Department
 	db := g.DB()
-	r, err := db.Table(table.Department).Where("id=?", id).And("`delete`=?", 0).One()
+	sql := db.Table(table.Department+" d")
+	sql.LeftJoin(table.Department+" dd","d.parent_id=dd.id")
+	sql.Fields("d.*,dd.name as parent_dep_name")
+	sql.Where("d.id=?", id)
+	sql.And("d.delete=?", 0)
+	r, err := sql.One()
 	_ = r.ToStruct(&department)
 	return department, err
 }
