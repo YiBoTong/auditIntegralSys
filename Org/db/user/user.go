@@ -6,7 +6,7 @@ import (
 	"gitee.com/johng/gf/g"
 )
 
-func HasUserCode(userCode int) (bool, entity.User, error) {
+func HasUserCode(userCode string) (bool, entity.User, error) {
 	db := g.DB()
 	var user entity.User
 	hasUserCode := false
@@ -15,7 +15,7 @@ func HasUserCode(userCode int) (bool, entity.User, error) {
 	sql.Limit(0, 1)
 	r, err := sql.One()
 	_ = r.ToStruct(&user)
-	if err == nil && user.UserId > 0 {
+	if err == nil && user.UserId != 0 {
 		hasUserCode = true
 	}
 	return hasUserCode, user, err

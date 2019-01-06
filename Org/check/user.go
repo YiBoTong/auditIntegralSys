@@ -6,10 +6,10 @@ import (
 )
 
 // 检测员工好是否存在（传userId将排除此userId后检测）
-func HasUserCode(userCode int, userId int) (bool, string, error) {
+func HasUserCode(userCode string, userId int) (bool, string, error) {
 	msg := ""
 	hasCode, userInfo, err := db_user.HasUserCode(userCode)
-	if userId > 0 && userInfo.UserId == userId {
+	if userId != 0 && userInfo.UserId == userId {
 		hasCode = false
 	} else if err == nil {
 		msg = config.UserCode

@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"auditIntegralSys/Org/db/department"
+	"auditIntegralSys/Org/entity"
 	"auditIntegralSys/Worker/db/menu"
 	"auditIntegralSys/Worker/fun"
 	"auditIntegralSys/_public/app"
@@ -9,6 +11,7 @@ import (
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
+	"gitee.com/johng/gf/g/util/gconv"
 )
 
 type Menu struct {
@@ -16,7 +19,18 @@ type Menu struct {
 }
 
 func (r *Menu) Get() {
-	allMenu, err := fun.GetRbacMenu(-1, "management")
+	userId := util.GetUserIdByRequest(r.Cookie)
+	userRbacs := g.Slice{}
+
+	departmentList, _ := db_department.GetUserDepartmentByUserId(userId)
+	for _, v := range departmentList {
+		item := entity.LoginUserDepartmentItem{}
+		if ok := gconv.Struct(v, &item); ok == nil {
+			userRbacs = append(userRbacs, item.Type)
+		}
+	}
+
+	allMenu, err := fun.GetRbacMenu(-1, userRbacs)
 	if err != nil {
 		allMenu = nil
 		log.Instance().Errorfln("[Worker Menu Get]: %v", err)

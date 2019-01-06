@@ -7,7 +7,7 @@ type User struct {
 	DepartmentId   int    `db:"department_id" json:"departmentId" field:"department_id"`
 	DepartmentName string `db:"department_name" json:"departmentName" field:"department_name"`
 	UserName       string `db:"user_name" json:"userName" field:"user_name"`
-	UserCode       int    `db:"user_code" json:"userCode" field:"user_code"`
+	UserCode       string `db:"user_code" json:"userCode" field:"user_code"`
 	Sex            int    `db:"sex" json:"sex" field:"sex"`
 	Class          string `db:"class" json:"class" field:"class"`
 	Phone          string `db:"phone" json:"phone" field:"phone"`
@@ -16,7 +16,15 @@ type User struct {
 	UpdateTime     string `db:"update_time" json:"updateTime" field:"update_time"`
 }
 
+type LoginUserDepartmentItem struct {
+	DepartmentId   int    `db:"department_id" json:"departmentId" field:"department_id"`
+	DepartmentName string `db:"department_name" json:"departmentName" field:"department_name"`
+	Type           string `db:"type" json:"type" field:"type"`
+}
+
 type LoginUserInfo struct {
 	User
-	PortraitFile entity.File `db:"portrait_file" json:"portraitFile" field:"portrait_file"`
+	RbacList     []entity.RbacListItem     `db:"rbac_list" json:"rbacList" field:"rbac_list"`
+	Departments  []LoginUserDepartmentItem `db:"departments" json:"departments" field:"departments"`
+	PortraitFile entity.File               `db:"portrait_file" json:"portraitFile" field:"portrait_file"`
 }

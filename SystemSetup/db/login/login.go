@@ -60,7 +60,7 @@ func GetLoginUserInfoByUserId(userId int) (entity.LoginInfo, error) {
 	return loginInfo, err
 }
 
-func UpdateLogin(user g.Map, userCode int, deleted int) (int, error) {
+func UpdateLogin(user g.Map, userCode string, deleted int) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
 	sql := db.Table(table.Login).Data(user).Where("user_code=?", userCode)
@@ -72,7 +72,7 @@ func UpdateLogin(user g.Map, userCode int, deleted int) (int, error) {
 	return int(rows), err
 }
 
-func HasUserCode(userCode int, checkAll bool) (bool, entity.LoginInfo, error) {
+func HasUserCode(userCode string, checkAll bool) (bool, entity.LoginInfo, error) {
 	db := g.DB()
 	hasUserCode := false
 	var info entity.LoginInfo
@@ -88,7 +88,7 @@ func HasUserCode(userCode int, checkAll bool) (bool, entity.LoginInfo, error) {
 	return hasUserCode, info, err
 }
 
-func DelLogin(userCode int) (int, error) {
+func DelLogin(userCode string) (int, error) {
 	db := g.DB()
 	var rows int64 = 0
 	r, err := db.Table(table.Login).Where("user_code=?", userCode).Data(g.Map{"delete": 1}).Update()

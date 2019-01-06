@@ -7,7 +7,7 @@ import (
 	"gitee.com/johng/gf/g"
 )
 
-func Login(userCode int, password string) (bool, entity.LoginInfo, error) {
+func Login(userCode string, password string) (bool, entity.LoginInfo, error) {
 	db := g.DB()
 	var userLoginInfo entity.LoginInfo
 	checkPd := false

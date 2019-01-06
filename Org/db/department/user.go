@@ -30,6 +30,16 @@ func GetDepartmentUser(departmentId int) ([]map[string]interface{}, error) {
 	return r.ToList(), err
 }
 
+func GetUserDepartmentByUserId(userId int) (g.List, error) {
+	db := g.DB()
+	sql := db.Table(table.DepartmentUser + " du")
+	sql.LeftJoin(table.Department+" d", "du.department_id=d.id")
+	sql.Fields("du.*,d.name as department_name")
+	sql.Where("du.department_id=d.id AND du.user_id=? AND du.delete=0", userId)
+	r, err := sql.All()
+	return r.ToList(), err
+}
+
 func UpdateDepartmentUser(departmentId int, add []g.Map, update []g.Map, updateIds []int) (bool, error) {
 	db := g.DB()
 	ctx, err := db.Begin()

@@ -12,6 +12,7 @@ type Menu struct {
 }
 
 type Meta struct {
+	Id      int    `db:"id" json:"id" field:"id"`
 	Icon    string `db:"icon" json:"icon" field:"icon"`
 	NoCache bool   `db:"no_cache" json:"noCache" field:"no_cache"`
 	Title   string `db:"title" json:"title" field:"title"`

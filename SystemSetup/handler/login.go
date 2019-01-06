@@ -54,7 +54,7 @@ func (l *Login) List() {
 				UserName:   gconv.String(v["user_name"]),
 				AuthorName: gconv.String(v["author_name"]),
 				LoginInfo: entity.LoginInfo{
-					UserCode:     gconv.Int(v["user_code"]),
+					UserCode:     gconv.String(v["user_code"]),
 					IsUse:        gconv.Bool(v["is_use"]),
 					LoginTime:    gconv.String(v["login_time"]),
 					LoginNum:     gconv.Int(v["login_num"]),
@@ -84,7 +84,7 @@ func (l *Login) List() {
 
 func (l *Login) Add() {
 	reqData := l.Request.GetJson()
-	userCode := reqData.GetInt("userCode")
+	userCode := reqData.GetString("userCode")
 	isUse := reqData.GetBool("isUse")
 
 	id := 0
@@ -138,7 +138,7 @@ func (l *Login) Add() {
 
 func (l *Login) Edit() {
 	reqData := l.Request.GetJson()
-	userCode := reqData.GetInt("userCode")
+	userCode := reqData.GetString("userCode")
 	isUse :=  reqData.GetBool("isUse")
 	rows, err := db_login.UpdateLogin(g.Map{"is_use": gconv.Int(isUse)}, userCode, 0)
 	if err != nil {
@@ -156,7 +156,7 @@ func (l *Login) Edit() {
 }
 
 func (l *Login) Delete() {
-	userCode := l.Request.GetQueryInt("userCode")
+	userCode := l.Request.GetQueryString("userCode")
 	rows, err := db_login.DelLogin(userCode)
 	if err != nil {
 		log.Instance().Errorfln("[Login Delete]: %v", err)

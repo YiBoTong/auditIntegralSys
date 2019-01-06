@@ -10,15 +10,17 @@ import (
 	"strings"
 )
 
+const tkPrefix = "AI_"
+
 func Make() string {
-	return strings.ToUpper(strconv.FormatInt(gtime.Nanosecond(), 32) + grand.RandStr(5))
+	return tkPrefix + strings.ToUpper(strconv.FormatInt(gtime.Nanosecond(), 32)+grand.RandStr(5))
 }
 
-func Set(userId int, r *ghttp.Request,isLogin bool) {
+func Set(userId int, r *ghttp.Request, isLogin bool) {
 	token := ""
 	if isLogin {
 		token = Make()
-	}else {
+	} else {
 		token = r.Cookie.Get(config.CookieIdName)
 	}
 	_, _ = g.Redis().Do("Set", token, userId)

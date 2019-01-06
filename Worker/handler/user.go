@@ -1,12 +1,14 @@
 package handler
 
 import (
+	"auditIntegralSys/Org/db/department"
 	db_org_user "auditIntegralSys/Org/db/user"
 	"auditIntegralSys/Org/entity"
 	"auditIntegralSys/SystemSetup/db/login"
 	ss_entity "auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/Worker/check"
 	"auditIntegralSys/Worker/db/file"
+	"auditIntegralSys/Worker/db/rbac"
 	"auditIntegralSys/Worker/db/user"
 	entity2 "auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/app"
@@ -27,7 +29,7 @@ type User struct {
 
 func (u *User) Login() {
 	reqData := u.Request.GetJson()
-	userCode := reqData.GetInt("userCode")
+	userCode := reqData.GetString("userCode")
 	password := reqData.GetString("password")
 	msg := ""
 	checkPd := false
@@ -35,10 +37,14 @@ func (u *User) Login() {
 	userInfo := entity.User{}
 	loginUser := ss_entity.LoginInfo{}
 	portraitFile := entity2.File{}
+
+	Departments := []entity.LoginUserDepartmentItem{}
+	RbacList := []entity2.RbacListItem{}
+
 	var err error = nil
 	if password == "" {
 		msg = "密码不能为空"
-	} else if userCode == 0 {
+	} else if userCode == "" {
 		msg = "员工号不能为空"
 	}
 	if msg == "" {
@@ -51,8 +57,28 @@ func (u *User) Login() {
 		}
 	}
 	if msg == "" && err == nil {
+		userRbacs := g.Slice{}
 		userInfo, err = db_org_user.GetUser(userId)
 		portraitFile, _ = db_file.Get(userInfo.PortraitId)
+		departmentList, _ := db_department.GetUserDepartmentByUserId(userId)
+		for _, v := range departmentList {
+			item := entity.LoginUserDepartmentItem{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				userRbacs = append(userRbacs, item.Type)
+				Departments = append(Departments, item)
+			}
+		}
+		if len(userRbacs) >0 {
+			rbacList, _ := db_rbac.GetUserRbacByKeys(userRbacs)
+			for _, rv := range rbacList {
+				item := entity2.RbacListItem{}
+				if ok := gconv.Struct(rv, &item); ok == nil {
+					RbacList = append(RbacList, item)
+				}
+			}
+		}else{
+			msg = "当前员工号无任何角色，不能进入系统"
+		}
 	}
 	if msg != "" {
 		err = errors.New(msg)
@@ -66,7 +92,7 @@ func (u *User) Login() {
 			"login_num":  loginUser.LoginNum + 1,
 		}, userInfo.UserCode, 0)
 	}
-	success := err == nil && userId > 0 && checkPd
+	success := err == nil && userId != 0 && checkPd
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.LoginStr, !success)
 	}
@@ -78,6 +104,8 @@ func (u *User) Login() {
 	u.Response.WriteJson(app.Response{
 		Data: entity.LoginUserInfo{
 			User:         userInfo,
+			RbacList:     RbacList,
+			Departments:  Departments,
 			PortraitFile: portraitFile,
 		},
 		Status: app.Status{
@@ -93,16 +121,40 @@ func (u *User) Get() {
 
 	userInfo, err := db_org_user.GetUser(userId)
 	portraitFile, _ := db_file.Get(userInfo.PortraitId)
+	departmentList, _ := db_department.GetUserDepartmentByUserId(userId)
+
+	userRbacs := g.Slice{}
+	Departments := []entity.LoginUserDepartmentItem{}
+	RbacList := []entity2.RbacListItem{}
+
+	for _, v := range departmentList {
+		item := entity.LoginUserDepartmentItem{}
+		if ok := gconv.Struct(v, &item); ok == nil {
+			userRbacs = append(userRbacs, item.Type)
+			Departments = append(Departments, item)
+		}
+	}
+
+	rbacList, _ := db_rbac.GetUserRbacByKeys(userRbacs)
+	for _, rv := range rbacList {
+		item := entity2.RbacListItem{}
+		if ok := gconv.Struct(rv, &item); ok == nil {
+			RbacList = append(RbacList, item)
+		}
+	}
+
 	if err != nil {
 		log.Instance().Errorfln("[User Get]: %v", err)
 	}
-	success := err == nil && userInfo.UserId > 0
+	success := err == nil && userInfo.UserId != 0
 	if success {
 		token.Set(userId, u.Request, false)
 	}
 	u.Response.WriteJson(app.Response{
 		Data: entity.LoginUserInfo{
 			User:         userInfo,
+			RbacList:     RbacList,
+			Departments:  Departments,
 			PortraitFile: portraitFile,
 		},
 		Status: app.Status{

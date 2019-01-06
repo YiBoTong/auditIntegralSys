@@ -79,7 +79,7 @@ func (r *User) List() {
 
 func (r *User) Add() {
 	reqData := r.Request.GetJson()
-	userCode := reqData.GetInt("userCode")
+	userCode := reqData.GetString("userCode")
 	departmentId := reqData.GetInt("departmentId")
 
 	id := 0
@@ -129,7 +129,7 @@ func (r *User) Get() {
 	if err != nil {
 		log.Instance().Errorfln("[User Get]: %v", err)
 	}
-	success := err == nil && userInfo.UserId > 0
+	success := err == nil && userInfo.UserId != 0
 	r.Response.WriteJson(app.Response{
 		Data: userInfo,
 		Status: app.Status{
@@ -143,7 +143,7 @@ func (r *User) Get() {
 func (r *User) Edit() {
 	reqData := r.Request.GetJson()
 	userId := reqData.GetInt("userId")
-	userCode := reqData.GetInt("userCode")
+	userCode := reqData.GetString("userCode")
 	departmentId := reqData.GetInt("departmentId")
 
 	rows := 0
