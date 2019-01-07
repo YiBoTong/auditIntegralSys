@@ -44,6 +44,7 @@ func initUrlMsgStr() {
 	temp["title"] = "$搜索"
 	temp["read"] = "$已读"
 	temp["read"] = "$已读"
+	temp["import"] = "$导入数据"
 	temp["get_accountability"] = "$问责情况"
 	temp["edit_number"] = "$填写文件编号"
 	temp["edit_score"] = "$填写稽核积分"

@@ -4,19 +4,66 @@ import (
 	"auditIntegralSys/Org/check"
 	"auditIntegralSys/Org/db/clause"
 	"auditIntegralSys/Org/entity"
+	"auditIntegralSys/Org/fun"
+	"auditIntegralSys/Worker/db/file"
 	entity2 "auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/util"
 	"errors"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
+	"regexp"
 )
 
 type Clause struct {
 	gmvc.Controller
+}
+
+var h1Regexp = regexp.MustCompile(`^第\S{1,2}章`)
+var h2Regexp = regexp.MustCompile(`^第\S{1,2}节`)
+
+var docxRegexp = regexp.MustCompile(`^docx$`)
+
+func (r *Clause) importCall(departmentId int, listArr g.SliceStr) (g.Map, g.List) {
+	add := g.Map{
+		"department_id": departmentId,
+		"title":         "",
+		"number":        "",
+		"author_id":     util.GetUserIdByRequest(r.Cookie),
+		"update_time":   util.GetLocalNowTimeStr(),
+		"state":         state.Draft,
+	}
+	addContent := g.List{}
+	for i, v := range listArr {
+		if v == "" {
+			continue
+		}
+		if i == 0 {
+			add["title"] = v
+			continue
+		}
+		if i == 1 {
+			add["number"] = v
+			continue
+		}
+		titleLevel := ""
+		if h1Regexp.MatchString(v) {
+			titleLevel = "h1"
+		}
+		if titleLevel == "" && h2Regexp.MatchString(v) {
+			titleLevel = "h2"
+		}
+		addContent = append(addContent, g.Map{
+			"title_level": titleLevel,
+			"is_title":    gconv.Bool(titleLevel),
+			"content":     v,
+		})
+	}
+	return add, addContent
 }
 
 func (r *Clause) List() {
@@ -51,15 +98,10 @@ func (r *Clause) List() {
 		var listData []map[string]interface{}
 		listData, err = db_clause.GetClauses(offset, size, searchMap)
 		for _, v := range listData {
-			rspData = append(rspData, entity.Clause{
-				Id:           gconv.Int(v["id"]),
-				DepartmentId: gconv.Int(v["department_id"]),
-				Title:        gconv.String(v["title"]),
-				AuthorId:     gconv.Int(v["author_id"]),
-				AuthorName:   gconv.String(v["author_name"]),
-				UpdateTime:   gconv.String(v["update_time"]),
-				State:        gconv.String(v["state"]),
-			})
+			item := entity.Clause{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				rspData = append(rspData, item)
+			}
 		}
 	}
 	if err != nil {
@@ -176,6 +218,7 @@ func (r *Clause) Add() {
 		id, err = db_clause.AddClause(g.Map{
 			"department_id": departmentId,
 			"title":         reqData.GetString("title"),
+			"number":        reqData.GetString("number"),
 			"author_id":     util.GetUserIdByRequest(r.Cookie),
 			"update_time":   util.GetLocalNowTimeStr(),
 			"state":         state,
@@ -206,6 +249,57 @@ func (r *Clause) Add() {
 	success := err == nil && id > 0
 	if msg == "" {
 		msg = config.GetTodoResMsg(config.AddStr, !success)
+	}
+	r.Response.WriteJson(app.Response{
+		Data: id,
+		Status: app.Status{
+			Code:  0,
+			Error: !success,
+			Msg:   msg,
+		},
+	})
+}
+
+func (r *Clause) Import() {
+	fileId := r.Request.GetQueryInt("fileId")
+	departmentId := r.Request.GetQueryInt("departmentId")
+	id := 0
+	msg := ""
+	listArr := g.SliceStr{}
+	file := entity2.File{}
+	var err error
+	if departmentId == 0 || departmentId == -1 {
+		departmentId = -1
+	} else {
+		// 检测是否部门是否存在
+		hasDepartment := false
+		hasDepartment, msg, err = check.HasDepartment(departmentId)
+		if !hasDepartment {
+			err = errors.New(msg)
+		}
+	}
+	if err == nil {
+		file, err = db_file.Get(fileId)
+	}
+	if err == nil && file.Id != 0 {
+		filePath := g.Config().GetString("filePath") + file.Path + file.FileName + "." + file.Suffix
+		if docxRegexp.MatchString(file.Suffix) {
+			listArr, err = fun.ReadWord(filePath)
+		}
+	}
+	if err == nil {
+		if len(listArr) > 0 {
+			addData, addContents := r.importCall(departmentId, listArr)
+			if len(addContents) > 0 {
+				id, err = db_clause.AddByTX(addData, addContents, fileId)
+			}
+		} else {
+			msg = config.ImportStr + config.ErrorStr
+		}
+	}
+	success := err == nil && id > 0
+	if msg == "" {
+		msg = config.GetTodoResMsg(config.ImportStr, !success)
 	}
 	r.Response.WriteJson(app.Response{
 		Data: id,
@@ -332,6 +426,7 @@ func (r *Clause) Edit() {
 		rows, err = db_clause.UpdateClause(clauseId, g.Map{
 			"department_id": departmentId,
 			"title":         reqData.GetString("title"),
+			"number":        reqData.GetString("number"),
 			"author_id":     util.GetUserIdByRequest(r.Cookie),
 			"update_time":   util.GetLocalNowTimeStr(),
 			"state":         state,

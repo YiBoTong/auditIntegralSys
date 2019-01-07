@@ -7,6 +7,7 @@ const (
 	GetStr            = "获取"
 	ReadStr           = "已读"
 	AddStr            = "保存"
+	ImportStr         = "导入"
 	EditStr           = "保存"
 	UploadStr         = "上传"
 	SuccessStr        = "成功"

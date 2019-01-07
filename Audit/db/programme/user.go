@@ -56,9 +56,12 @@ func delUser(tx *gdb.TX, programmeId int) (int, error) {
 
 func GetUser(programmeId int) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(table.ProgrammeUser).Where("programme_id=?", programmeId)
-	sql.And("`delete`=?", 0)
-	sql.OrderBy("`order` asc")
+	sql := db.Table(table.ProgrammeUser + " p")
+	sql.LeftJoin(table.User+" u", "p.user_id=u.user_id")
+	sql.Where("p.programme_id=?", programmeId)
+	sql.And("p.delete=?", 0)
+	sql.Fields("p.*,u.user_name")
+	sql.OrderBy("p.order asc")
 	res, err := sql.All()
 	return res.ToList(), err
 }

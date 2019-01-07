@@ -4,6 +4,7 @@ import (
 	"auditIntegralSys/Org/entity"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/database/gdb"
 )
 
 func GetClauseContents(clauseId int, offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
@@ -53,6 +54,12 @@ func AddClauseContents(ClauseContentList []g.Map) (int, error) {
 	return int(lastId), err
 }
 
+func AddClauseContentsTX(tx gdb.TX, ClauseContentList []g.Map) (int, error) {
+	r, err := tx.BatchInsert(table.ClauseContent, ClauseContentList, 5)
+	lastId, _ := r.LastInsertId()
+	return int(lastId), err
+}
+
 func UpdateClauseContent(id int, ClauseContent g.Map) (int, error) {
 	var rows int64 = 0
 	db := g.DB()
@@ -73,13 +80,9 @@ func UpdateClauseContents(ClauseContentList []g.Map) (int, error) {
 	return int(rows), err
 }
 
-func DelClauseContent(id int) (int, error) {
-	db := g.DB()
-	var rows int64 = 0
-	r, err := db.Table(table.ClauseContent).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
-	if err == nil {
-		rows, _ = r.RowsAffected()
-	}
+func DelClauseContentByTx(tx gdb.TX, id int) (int, error) {
+	r, err := tx.Table(table.ClauseContent).Where("clause_id=?", id).Data(g.Map{"delete": 1}).Update()
+	rows, _ := r.RowsAffected()
 	return int(rows), err
 }
 

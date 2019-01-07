@@ -109,6 +109,7 @@ type ProgrammeUser struct {
 	Id          int    `db:"id" json:"id" field:"id"`
 	ProgrammeId int    `db:"programme_id" json:"programmeId" field:"programme_id"`
 	UserId      int    `db:"user_id" json:"userId" field:"user_id"`
+	UserName    string `db:"user_name" json:"userName" field:"user_name"`
 	Job         string `db:"job" json:"job" field:"job"`
 	JobName     string `db:"job_name" json:"jobName" field:"job_name"`
 	Title       string `db:"title" json:"title" field:"title"`

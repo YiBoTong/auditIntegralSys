@@ -2,7 +2,9 @@ package db_clause
 
 import (
 	"auditIntegralSys/Org/entity"
+	"auditIntegralSys/Worker/db/file"
 	"auditIntegralSys/_public/table"
+	"database/sql"
 	"gitee.com/johng/gf/g"
 )
 
@@ -56,6 +58,34 @@ func GetClause(id int) (entity.Clause, error) {
 	return Clause, err
 }
 
+func AddByTX(Clause g.Map, content g.List, fileId int) (int, error) {
+	db := g.DB()
+	tx, err := db.Begin()
+	id := 0
+	if err == nil {
+		var res sql.Result
+		res, err = tx.Insert(table.Clause, Clause)
+		addId, _ := res.LastInsertId()
+		id = int(addId)
+	}
+	if err == nil {
+		for index, v := range content {
+			v["clause_id"] = id
+			v["order"] = index
+		}
+		_, err = AddClauseContentsTX(*tx, content)
+	}
+	if err == nil {
+		_, err = db_file.UpdateFile(fileId, g.Map{"form_id": id, "form": table.Clause}, tx)
+	}
+	if err == nil {
+		_ = tx.Commit()
+	} else {
+		_ = tx.Rollback()
+	}
+	return int(id), err
+}
+
 func AddClause(Clause g.Map) (int, error) {
 	var lastId int64 = 0
 	db := g.DB()
@@ -78,10 +108,21 @@ func UpdateClause(id int, Clause g.Map) (int, error) {
 
 func DelClause(id int) (int, error) {
 	db := g.DB()
-	var rows int64 = 0
-	r, err := db.Table(table.Clause).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+	rows := 0
+	tx, err := db.Begin()
 	if err == nil {
-		rows, _ = r.RowsAffected()
+		var res sql.Result
+		res, err = tx.Table(table.Clause).Where("id=?", id).Data(g.Map{"delete": 1}).Update()
+		row, _ := res.RowsAffected()
+		rows = int(row)
 	}
-	return int(rows), err
+	if err == nil && rows != 0 {
+		_, err = DelClauseContentByTx(*tx, id)
+	}
+	if err == nil {
+		_ = tx.Commit()
+	} else {
+		_ = tx.Rollback()
+	}
+	return rows, err
 }

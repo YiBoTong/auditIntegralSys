@@ -34,5 +34,6 @@
     "default": "127.0.0.1:6389,0",
     "cache": "127.0.0.1:6389,1"
   },
+  "filePath": "D:/go/src/auditIntegralSys/static/",
   "appPort": 8091
 }

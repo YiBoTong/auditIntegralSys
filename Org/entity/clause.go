@@ -14,6 +14,7 @@ type Clause struct {
 	Title        string `db:"title" json:"title" field:"title"`
 	AuthorId     int    `db:"author_id" json:"authorId" field:"author_id"`
 	AuthorName   string `db:"author_name" json:"authorName" field:"author_name"`
+	Number       string `db:"number" json:"number" field:"number"`
 	UpdateTime   string `db:"update_time" json:"updateTime" field:"update_time"`
 	State        string `db:"state" json:"state" field:"state"`
 }
@@ -22,6 +23,7 @@ type ClauseTitle struct {
 	Id           int    `db:"id" json:"id" field:"id"`
 	DepartmentId int    `db:"department_id" json:"departmentId" field:"department_id"`
 	Title        string `db:"title" json:"title" field:"title"`
+	Number       string `db:"number" json:"number" field:"number"`
 }
 
 type ClauseContent struct {
