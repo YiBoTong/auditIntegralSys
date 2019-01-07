@@ -3,6 +3,114 @@
 	"ignore": "test",
 	"package": [
 		{
+			"checksumSHA1": "SfdY4/AFAbGnUdh8yDLNTUdmCgI=",
+			"path": "baliance.com/gooxml",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "/Sesj2CwZ+indU1Oxqy5f6t24DE=",
+			"path": "baliance.com/gooxml/algo",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "CdR7Yj6FGf5CYtHE2fdC/ehQrdE=",
+			"path": "baliance.com/gooxml/color",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "ertjKvX0Njv5bzhGk0YtwFBGPqo=",
+			"path": "baliance.com/gooxml/common",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "TOxEwFuQAs4F1sQ0iDt4pBVPPdE=",
+			"path": "baliance.com/gooxml/document",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "v53NcG26DPh0Q+NuFotauLruraE=",
+			"path": "baliance.com/gooxml/measurement",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "z0128sENjDRFmtU1FrX8jzgfeNk=",
+			"path": "baliance.com/gooxml/schema/soo/dml",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "8bJxlzqUuHy/u007bEdRruaQV5A=",
+			"path": "baliance.com/gooxml/schema/soo/dml/picture",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "6PGO/mmM752krPgn83WRe4m/hMo=",
+			"path": "baliance.com/gooxml/schema/soo/ofc/docPropsVTypes",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "6e0SRqfzoykIEeNaHQMG5Esgo68=",
+			"path": "baliance.com/gooxml/schema/soo/ofc/extended_properties",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "7amOfrEd4mJ/Gej3fnA3czInUeA=",
+			"path": "baliance.com/gooxml/schema/soo/ofc/math",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "mdrLLmD9uZBFPgtXxVU7b5q6R0o=",
+			"path": "baliance.com/gooxml/schema/soo/ofc/sharedTypes",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "hZ7HsMWv6Q6/Cn7/rx/JMiYPY/k=",
+			"path": "baliance.com/gooxml/schema/soo/pkg/content_types",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "L/Mo96hIIzEcDhv/eSu4SmPsiG4=",
+			"path": "baliance.com/gooxml/schema/soo/pkg/metadata/core_properties",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "zVRvC2plng8EU6zJzAEHUHBSCzM=",
+			"path": "baliance.com/gooxml/schema/soo/pkg/relationships",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "OCBwA8LAAiw4p9MFYUjzhRuaHHA=",
+			"path": "baliance.com/gooxml/schema/soo/schemaLibrary",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "QrimLt/0OPXnI5ohuntFIiqhbjQ=",
+			"path": "baliance.com/gooxml/schema/soo/wml",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
+			"checksumSHA1": "xv8brXWV9I7Ckx8GqtmeITJ5otY=",
+			"path": "baliance.com/gooxml/zippkg",
+			"revision": "a2d0a4b5ce3221a74c5858692c9082f24bcfdc37",
+			"revisionTime": "2018-12-27T06:10:44Z"
+		},
+		{
 			"checksumSHA1": "RXY+koEM4LuwMzfVoiKyJR6RbU4=",
 			"path": "gitee.com/johng/gf",
 			"revision": "0a1e0482681c946aa92711db8b0ee2f4d451f8f4",
