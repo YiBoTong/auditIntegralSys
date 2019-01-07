@@ -2,7 +2,7 @@
   "database": {
     "default": [
       {
-        "host": "127.0.0.1",
+        "host": "172.31.195.98",
         "port": "3310",
         "user": "root",
         "pass": "root",
@@ -11,7 +11,7 @@
         "role": "master"
       },
       {
-        "host": "127.0.0.1",
+        "host": "172.31.195.98",
         "port": "3311",
         "user": "root",
         "pass": "root",
@@ -20,7 +20,7 @@
         "role": "slave"
       },
       {
-        "host": "127.0.0.1",
+        "host": "172.31.195.98",
         "port": "3312",
         "user": "root",
         "pass": "root",
@@ -31,9 +31,9 @@
     ]
   },
   "redis": {
-    "default": "127.0.0.1:6389,0",
-    "cache": "127.0.0.1:6389,1"
+    "default": "172.31.195.98:6379,0,ybt0005",
+    "cache": "172.31.195.98:6379,1,ybt0005"
   },
-  "filePath": "D:/go/src/auditIntegralSys/static/",
+  "filePath": "/app/static/",
   "appPort": 8091
 }

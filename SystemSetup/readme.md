@@ -15,3 +15,7 @@ docker save -o system_setup_1.0.tar system_setup:1.0
 ```docker
 docker load -i system_setup_1.0.tar
 ```
+5.运行
+```docker
+docker run -p 8090:8090 --name ai_system_setup --restart always -v $PWD/sys:/app/run -v $PWD/static:/app/static -d system_setup:1.0
+```

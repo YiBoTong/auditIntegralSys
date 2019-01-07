@@ -1,8 +1,8 @@
 FROM alpine
 RUN mkdir -p app/{static,run}
 COPY config.json /app/run/config.json
-ADD system_setup /app/run/system_setup
+ADD worker /app/run/worker
 
 EXPOSE 8090
 
-ENTRYPOINT ["/app/run/system_setup"]
+ENTRYPOINT ["/app/run/worker"]
