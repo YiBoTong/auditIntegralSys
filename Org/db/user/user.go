@@ -21,6 +21,15 @@ func HasUserCode(userCode string) (bool, entity.User, error) {
 	return hasUserCode, user, err
 }
 
+func HasUserCodes(userCodes g.Slice) (g.List, error) {
+	db := g.DB()
+	sql := db.Table(table.User).Where("`delete`=?", 0)
+	sql.And("user_code IN (?)", userCodes)
+	sql.Limit(0, 1)
+	r, err := sql.All()
+	return r.ToList(), err
+}
+
 func GetUserCount(where g.Map) (int, error) {
 	db := g.DB()
 	sql := db.Table(table.User).Where("`delete`=?", 0)

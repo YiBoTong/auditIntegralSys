@@ -16,6 +16,11 @@ type User struct {
 	UpdateTime     string `db:"update_time" json:"updateTime" field:"update_time"`
 }
 
+type ImportUserRes struct {
+	Id          int    `db:"id" json:"id" field:"id"`
+	HadUserList []User `db:"had_user_list" json:"hadUserList" field:"had_user_list"`
+}
+
 type LoginUserDepartmentItem struct {
 	DepartmentId   int    `db:"department_id" json:"departmentId" field:"department_id"`
 	DepartmentName string `db:"department_name" json:"departmentName" field:"department_name"`

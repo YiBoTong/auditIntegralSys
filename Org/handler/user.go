@@ -4,6 +4,9 @@ import (
 	"auditIntegralSys/Org/check"
 	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/Org/entity"
+	"auditIntegralSys/Org/fun"
+	"auditIntegralSys/Worker/db/file"
+	entity2 "auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
@@ -12,10 +15,51 @@ import (
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
+	"regexp"
 )
 
 type User struct {
 	gmvc.Controller
+}
+
+var xlsxRegexp = regexp.MustCompile(`^xlsx$`)
+
+func (r *User) importCall(departmentId int, xlsxRows [][]string) (g.List, g.Slice) {
+	addUserCode := g.Slice{}
+	addUser := g.List{}
+	sexKeys := g.Map{"男": 2, "女": 1}
+	userKeys := []string{
+		"user_name",
+		"user_code",
+		"class",
+		"sex",
+		"phone",
+		"id_card",
+	}
+	updateTime := util.GetLocalNowTimeStr()
+	for i, row := range xlsxRows {
+		if i == 0 {
+			continue
+		}
+		userItem := g.Map{}
+		for j, colCell := range row {
+			if j == 1 {
+				addUserCode = append(addUserCode, colCell)
+			}
+			userItem[userKeys[j]] = colCell
+		}
+		sex := 0
+		sexVal := sexKeys[gconv.String(userItem["sex"])]
+		if sexVal != "" {
+			userItem["sex"] = sexVal
+		} else {
+			userItem["sex"] = sex
+		}
+		userItem["update_time"] = updateTime
+		userItem["department_id"] = departmentId
+		addUser = append(addUser, userItem)
+	}
+	return addUser, addUserCode
 }
 
 func (r *User) List() {
@@ -119,6 +163,72 @@ func (r *User) Add() {
 		Status: app.Status{
 			Code:  0,
 			Error: err != nil,
+			Msg:   msg,
+		},
+	})
+}
+
+func (r *User) Import() {
+	fileId := r.Request.GetQueryInt("fileId")
+	departmentId := r.Request.GetQueryInt("departmentId")
+	id := 0
+	msg := ""
+	errorCode := 0
+	file := entity2.File{}
+	xlsxRows := [][]string{}
+	HadUserList := []entity.User{}
+	var err error
+	if departmentId == 0 || departmentId == -1 {
+		departmentId = -1
+	} else {
+		// 检测是否部门是否存在
+		hasDepartment := false
+		hasDepartment, msg, err = check.HasDepartment(departmentId)
+		if !hasDepartment {
+			err = errors.New(msg)
+		}
+	}
+	if err == nil {
+		file, err = db_file.Get(fileId)
+	}
+	if err == nil && file.Id != 0 {
+		filePath := g.Config().GetString("filePath") + file.Path + file.FileName + "." + file.Suffix
+		if xlsxRegexp.MatchString(file.Suffix) {
+			xlsxRows, err = fun.ReadSpreadsheets(filePath, "人员导入模版")
+		}
+	}
+	if err == nil {
+		if len(xlsxRows) > 1 {
+			addUsers, addUserCodes := r.importCall(departmentId, xlsxRows)
+			if len(addUsers) > 0 {
+				hasUserList := g.List{}
+				hasUserList, err = db_user.HasUserCodes(addUserCodes)
+				if len(hasUserList) == 0 && err == nil {
+					id, err = db_user.AddUser(addUsers)
+				} else {
+					for _, v := range hasUserList {
+						item := entity.User{}
+						if ok := gconv.Struct(v, &item); ok == nil {
+							HadUserList = append(HadUserList, item)
+						}
+					}
+					errorCode = 2
+				}
+			}
+		}
+	}
+	success := err == nil && id > 0
+	if msg == "" {
+		msg = config.GetTodoResMsg(config.ImportStr, !success)
+	}
+	r.Response.WriteJson(app.Response{
+		Data: entity.ImportUserRes{
+			Id:          id,
+			HadUserList: HadUserList,
+		},
+		Status: app.Status{
+			Code:  errorCode,
+			Error: !success,
 			Msg:   msg,
 		},
 	})
