@@ -37,3 +37,7 @@ docker save -o ai_nginx_1.0.tar ai_nginx:1.0
 ```docker
 docker load -i ai_nginx_1.0.tar
 ```
+静态服务
+```docker
+docker run -p 8094:80 --name ai_static_server --restart always -v $PWD/static:/usr/share/nginx/html -d nginx
+```
