@@ -69,34 +69,34 @@ func (r *Clause) importCall(departmentId int, listArr g.SliceStr) (g.Map, g.List
 func (r *Clause) List() {
 	reqData := r.Request.GetJson()
 	var rspData []entity.Clause
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
-	title := search.GetString("title")
-	authorId := search.GetInt("authorId")
-	state := search.GetString("state")
 
 	searchMap := g.Map{}
+	searchListMap := g.Map{}
 
-	if title != "" {
-		searchMap["title"] = title
+	searchItem := map[string]interface{}{
+		"title":         "string",
+		"state":         "string",
+		"c.type:type":   "type",
+		"department_id": "int",
 	}
 
-	if state != "" {
-		searchMap["code"] = state
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchListMap, *search, k, gconv.String(v))
 	}
 
-	if authorId != 0 {
-		searchMap["author_id"] = authorId
-	}
-
-	count, err := db_clause.GetClauseCount(searchMap)
+	count, err := db_clause.GetClauseCount(thisUserId, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_clause.GetClauses(offset, size, searchMap)
+		listData, err = db_clause.GetClauses(thisUserId, offset, size, searchListMap)
 		for _, v := range listData {
 			item := entity.Clause{}
 			if ok := gconv.Struct(v, &item); ok == nil {
@@ -164,11 +164,8 @@ func (r *Clause) Title() {
 		// 查询标题
 		for _, v := range contentRes {
 			item := entity.ClauseTitle{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}
@@ -185,9 +182,9 @@ func (r *Clause) Title() {
 
 func (r *Clause) Add() {
 	reqData := r.Request.GetJson()
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	departmentId := reqData.GetInt("departmentId")
 	contentList := reqData.GetJson("content")
-	cListLen := len(contentList.ToArray())
 	state := reqData.GetString("state")
 
 	id := 0
@@ -215,32 +212,33 @@ func (r *Clause) Add() {
 	}
 	// 添加办法
 	if hasDepartment && err == nil {
-		id, err = db_clause.AddClause(g.Map{
-			"department_id": departmentId,
-			"title":         reqData.GetString("title"),
-			"number":        reqData.GetString("number"),
-			"author_id":     util.GetUserIdByRequest(r.Cookie),
-			"update_time":   util.GetLocalNowTimeStr(),
-			"state":         state,
-		})
-	}
-	// 添加内容
-	if err == nil && id > 0 && cListLen > 0 {
-		var contentArr []g.Map
-		for i := 0; i < cListLen; i++ {
-			contentArr = append(contentArr, g.Map{
-				"clause_id":   id,
-				"is_title":    contentList.GetBool(gconv.String(i) + ".isTitle"),
-				"title_level": contentList.GetString(gconv.String(i) + ".titleLevel"),
-				"content":     contentList.GetString(gconv.String(i) + ".content"),
-				"order":       contentList.GetInt(gconv.String(i) + ".order"),
-			})
+		addClause := g.Map{
+			"title":  "string",
+			"number": "string",
+			"from":   "string",
+			"type":   "string",
+			"state":  "string",
 		}
-		_, err = db_clause.AddClauseContents(contentArr)
-	}
-	// 添加附件
-	if err == nil && id > 0 {
-		err = db_clause.AddClauseFiles(id, reqData.GetString("fileIds"))
+		addClauseContent := g.Map{
+			"is_title":    "int8",
+			"title_level": "string",
+			"content":     "string",
+			"order":       "int",
+		}
+		clause := g.Map{
+			"department_id": departmentId,
+			"author_id":     thisUserId,
+			"update_time":   util.GetLocalNowTimeStr(),
+		}
+		clauseContent := g.List{}
+
+		util.GetSqlMap(*reqData, addClause, clause)
+
+		util.GetSqlMapItemFun(*contentList, addClauseContent, func(itemMap g.Map) {
+			clauseContent = append(clauseContent, itemMap)
+		})
+
+		id, err = db_clause.AddByTX(clause, clauseContent, reqData.GetString("fileIds"))
 	}
 	if err != nil && id > 0 {
 		_, _ = db_clause.DelClause(id)
@@ -291,7 +289,7 @@ func (r *Clause) Import() {
 		if len(listArr) > 0 {
 			addData, addContents := r.importCall(departmentId, listArr)
 			if len(addContents) > 0 {
-				id, err = db_clause.AddByTX(addData, addContents, fileId)
+				id, err = db_clause.ImportByTX(addData, addContents, fileId)
 			}
 		} else {
 			msg = config.ImportStr + config.ErrorStr
@@ -322,14 +320,10 @@ func (r *Clause) Get() {
 		// 查询内容
 		contentRes, err = db_clause.GetClauseContents(clauseId, 0, 400, g.Map{})
 		for _, v := range contentRes {
-			contentList = append(contentList, entity.ClauseContent{
-				Id:         gconv.Int(v["id"]),
-				ClauseId:   gconv.Int(v["clause_id"]),
-				IsTitle:    gconv.Bool(v["is_title"]),
-				TitleLevel: gconv.String(v["title_level"]),
-				Content:    gconv.String(v["content"]),
-				Order:      gconv.Int(v["order"]),
-			})
+			item := entity.ClauseContent{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				contentList = append(contentList, item)
+			}
 		}
 	}
 
@@ -338,14 +332,10 @@ func (r *Clause) Get() {
 		// 查询附件
 		fileRes, err = db_clause.GetClauseFile(clauseInfo.Id)
 		for _, v := range fileRes {
-			fileList = append(fileList, entity2.File{
-				Id:       gconv.Int(v["id"]),
-				Name:     gconv.String(v["name"]),
-				Suffix:   gconv.String(v["suffix"]),
-				Time:     gconv.String(v["time"]),
-				FileName: gconv.String(v["file_name"]),
-				Path:     gconv.String(v["path"]),
-			})
+			item := entity2.File{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				fileList = append(fileList, item)
+			}
 		}
 	}
 	if err != nil {

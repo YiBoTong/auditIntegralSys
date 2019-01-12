@@ -23,22 +23,18 @@ func (r *Department) List() {
 	var rspData []entity.Department
 
 	search := reqData.GetJson("search")
-	title := search.GetString("title")
 	parentId := search.GetInt("parentId")
-	code := search.GetString("code")
-	level := search.GetString("level")
 
 	searchMap := g.Map{}
-
-	if title != "" {
-		searchMap["title"] = title
+	searchListMap := g.Map{}
+	searchItem := map[string]interface{}{
+		"name": "string",
 	}
 
-	if code != "" {
-		searchMap["code"] = code
-	}
-	if level != "" {
-		searchMap["level"] = level
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchListMap, *search, k, gconv.String(v))
 	}
 
 	if parentId == 0 {
@@ -48,16 +44,11 @@ func (r *Department) List() {
 
 	listData, err := db_department.GetDepartmentsByParentId(parentId, searchMap)
 	for _, v := range listData {
-		rspData = append(rspData, entity.Department{
-			Id:         gconv.Int(v["id"]),
-			Name:       gconv.String(v["name"]),
-			ParentId:   gconv.Int(v["parent_id"]),
-			Code:       gconv.String(v["code"]),
-			Level:      gconv.Int(v["level"]),
-			Address:    gconv.String(v["address"]),
-			Phone:      gconv.String(v["phone"]),
-			UpdateTime: gconv.String(v["update_time"]),
-		})
+		item := entity.Department{}
+		if ok := gconv.Struct(v, &item); ok == nil {
+			rspData = append(rspData, item)
+		}
+
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Department List]: %v", err)
@@ -88,14 +79,10 @@ func (r *Department) Tree() {
 
 	listData, err := db_department.GetDepartmentsByParentId(parentId, g.Map{})
 	for _, v := range listData {
-		rspData = append(rspData, entity.DepartmentTreeInfo{
-			Id:       gconv.Int(v["id"]),
-			Name:     gconv.String(v["name"]),
-			HasChild: gconv.Bool(v["has_child"]),
-			ParentId: gconv.Int(v["parent_id"]),
-			Code:     gconv.String(v["code"]),
-			Level:    gconv.Int(v["level"]),
-		})
+		item := entity.DepartmentTreeInfo{}
+		if ok := gconv.Struct(v, &item); ok == nil {
+			rspData = append(rspData, item)
+		}
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Department Tree]: %v", err)

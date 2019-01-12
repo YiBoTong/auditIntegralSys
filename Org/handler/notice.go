@@ -22,6 +22,7 @@ type Notice struct {
 
 func (r *Notice) List() {
 	reqData := r.Request.GetJson()
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	var rspData []entity.NoticeList
 	// 分页
 	pager := reqData.GetJson("page")
@@ -29,32 +30,30 @@ func (r *Notice) List() {
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
-	title := search.GetString("title")
-	state := search.GetString("state")
 
 	searchMap := g.Map{}
+	searchListMap := g.Map{}
 
-	if title != "" {
-		searchMap["title"] = title
+	searchItem := map[string]interface{}{
+		"title":                   "string",
+		"state":                   "string",
+		"department_id:parent_id": "int",
 	}
 
-	if state != "" {
-		searchMap["state"] = state
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchListMap, *search, k, gconv.String(v))
 	}
-
-	count, err := db_notice.GetNoticeCount(searchMap)
+	count, err := db_notice.GetNoticeCount(thisUserId, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_notice.GetNotices(offset, size, searchMap)
+		listData, err = db_notice.GetNotices(thisUserId, offset, size, searchListMap)
 		for _, v := range listData {
-			rspData = append(rspData, entity.NoticeList{
-				Id:           gconv.Int(v["id"]),
-				DepartmentId: gconv.Int(v["department_id"]),
-				Title:        gconv.String(v["title"]),
-				Time:         gconv.String(v["time"]),
-				Range:        gconv.Int(v["range"]),
-				State:        gconv.String(v["state"]),
-			})
+			item := entity.NoticeList{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				rspData = append(rspData, item)
+			}
 		}
 	}
 	if err != nil {
@@ -77,6 +76,8 @@ func (r *Notice) List() {
 
 func (r *Notice) Add() {
 	reqData := r.Request.GetJson()
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
+
 	departmentId := reqData.GetInt("departmentId")
 	rangeType := reqData.GetInt("range")
 	state := reqData.GetString("state")
@@ -104,6 +105,7 @@ func (r *Notice) Add() {
 			"time":          util.GetLocalNowTimeStr(),
 			"range":         rangeType,
 			"state":         state,
+			"author_id":     thisUserId,
 		})
 	}
 	// 添加指定的通知部门
@@ -142,13 +144,10 @@ func (r *Notice) Get() {
 		// 获取被通知的部门列表
 		dep, err = db_notice.GetNoticeInform(noticeId)
 		for _, v := range dep {
-			informs = append(informs, entity.DepartmentTreeInfo{
-				Id:       gconv.Int(v["id"]),
-				Name:     gconv.String(v["name"]),
-				ParentId: gconv.Int(v["parent_id"]),
-				Code:     gconv.String(v["code"]),
-				Level:    gconv.Int(v["level"]),
-			})
+			item := entity.DepartmentTreeInfo{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				informs = append(informs, item)
+			}
 		}
 	}
 	if noticeInfo.Id > 0 && err == nil {
@@ -156,14 +155,10 @@ func (r *Notice) Get() {
 		// 查询附件
 		fileRes, err = db_notice.GetNoticeFile(noticeId)
 		for _, v := range fileRes {
-			fileList = append(fileList, entity2.File{
-				Id:       gconv.Int(v["id"]),
-				Name:     gconv.String(v["name"]),
-				Suffix:   gconv.String(v["suffix"]),
-				Time:     gconv.String(v["time"]),
-				FileName: gconv.String(v["file_name"]),
-				Path:     gconv.String(v["path"]),
-			})
+			item := entity2.File{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				fileList = append(fileList, item)
+			}
 		}
 	}
 	if err != nil {

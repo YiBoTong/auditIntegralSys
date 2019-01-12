@@ -4,7 +4,25 @@ import (
 	"auditIntegralSys/Org/entity"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 )
+
+func getListSql(db gdb.DB, where g.Map) *gdb.Model {
+	sql := db.Table(table.User + " u")
+	sql.LeftJoin(table.Department+" d", "u.department_id=d.id")
+	sql.Where("u.delete=?", 0)
+	// 项目名称模糊查询
+	if where["user_name"] != nil && where["user_name"] != "" {
+		sql.And("u.user_name like ?", strings.Replace("%?%", "?", gconv.String(where["user_name"]), 1))
+		delete(where, "user_name")
+	}
+	if len(where) > 0 {
+		sql.And(where)
+	}
+	return sql
+}
 
 func HasUserCode(userCode string) (bool, entity.User, error) {
 	db := g.DB()
@@ -32,23 +50,14 @@ func HasUserCodes(userCodes g.Slice) (g.List, error) {
 
 func GetUserCount(where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(table.User).Where("`delete`=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
-	r, err := sql.Count()
+	r, err := getListSql(db, where).Count()
 	return r, err
 }
 
 func GetUsers(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(table.User + " u")
-	sql.LeftJoin(table.Department+" d", "u.department_id=d.id")
+	sql := getListSql(db, where)
 	sql.Fields("u.*,d.name as department_name")
-	sql.Where("u.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
 	r, err := sql.Limit(offset, limit).OrderBy("u.user_id desc").Select()
 	return r.ToList(), err
 }

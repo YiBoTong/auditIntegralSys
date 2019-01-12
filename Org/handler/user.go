@@ -76,17 +76,17 @@ func (r *User) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"user_name":     "string",
-		"user_code":     "int",
-		"department_id": "int",
-		"sex":           "int",
+		"user_name":                     "string",
+		"u.user_code:user_code":         "int",
+		"u.department_id:department_id": "int",
+		"u.sex:sex":                     "int",
 	}
 
 	for k, v := range searchItem {
 		// title String
 		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "u."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
 	count, err := db_user.GetUserCount(searchMap)

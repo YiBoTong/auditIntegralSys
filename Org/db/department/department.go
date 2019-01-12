@@ -4,12 +4,18 @@ import (
 	"auditIntegralSys/Org/entity"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 )
 
 func GetDepartmentsByParentId(parentId int, search g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
 	sql := db.Table(table.Department).Where("`delete`=?", 0)
 	sql.And("parent_id=?", parentId)
+	if search["name"] != nil && search["name"] != "" {
+		sql.And("name like ?", strings.Replace("%?%", "?", gconv.String(search["name"]), 1))
+		delete(search, "name")
+	}
 	if len(search) > 0 {
 		sql.And(search)
 	}
