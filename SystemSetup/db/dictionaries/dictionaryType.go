@@ -4,24 +4,37 @@ import (
 	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 )
 
-func GetDictionaryTypeCount(where g.Map) (int, error) {
-	db := g.DB()
-	sql := db.Table(table.DictionaryType).Where("`delete`=?", 0)
+func getListSql(db gdb.DB, where g.Map) *gdb.Model {
+	sql := db.Table(table.DictionaryType + " d")
+	sql.LeftJoin(table.User+" u", "d.user_id=u.user_id")
+	sql.Where("d.delete=?", 0)
+	// 项目名称模糊查询
+	if where["title"] != nil && where["title"] != "" {
+		sql.And("d.title like ?", strings.Replace("%?%", "?", gconv.String(where["title"]), 1))
+		delete(where, "title")
+	}
 	if len(where) > 0 {
 		sql.And(where)
 	}
+	return sql
+}
+
+func GetDictionaryTypeCount(where g.Map) (int, error) {
+	db := g.DB()
+	sql := getListSql(db, where)
 	r, err := sql.Count()
 	return r, err
 }
 
 func GetDictionaryTypes(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(table.DictionaryType + " d").LeftJoin(table.User+" u", "d.user_id=u.user_id").Fields("d.*,u.user_name").Where("d.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
+	sql := getListSql(db, where)
+	sql.Fields("d.*,u.user_name")
 	r, err := sql.Limit(offset, limit).OrderBy("d.id desc").Select()
 	return r.ToList(), err
 }

@@ -19,49 +19,45 @@ type Login struct {
 
 func (l *Login) List() {
 	reqData := l.Request.GetJson()
-	var rspData []*entity.User
+	rspData := []entity.User{}
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
-	userName := search.GetString("userName")
-	key := search.GetString("key")
-	departmentId := search.GetInt("departmentId")
 
 	searchMap := g.Map{}
+	listSearchMap := g.Map{}
 
-	if userName != "" {
-		searchMap["user_name"] = userName
+	searchItem := map[string]interface{}{
+		"user_name":             "string",
+		"u.user_code:user_code": "string",
 	}
 
-	if key != "" {
-		searchMap["'key'"] = key
-	}
-
-	if departmentId != 0 {
-		searchMap["department_id"] = departmentId
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		// d.title:title String
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
 	count, err := db_login.GetUserCount(searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_login.GetLoginList(offset, size, searchMap)
+		listData, err = db_login.GetLoginList(offset, size, listSearchMap)
 		for _, v := range listData {
-			rspData = append(rspData, &entity.User{
-				UserId:     gconv.Int(v["user_id"]),
-				UserName:   gconv.String(v["user_name"]),
-				AuthorName: gconv.String(v["author_name"]),
-				LoginInfo: entity.LoginInfo{
-					UserCode:     gconv.String(v["user_code"]),
-					IsUse:        gconv.Bool(v["is_use"]),
-					LoginTime:    gconv.String(v["login_time"]),
-					LoginNum:     gconv.Int(v["login_num"]),
-					ChangePdTime: gconv.String(v["change_pd_time"]),
-					AuthorId:     gconv.Int(v["author_id"]),
-				},
-			})
+			LoginUser := entity.LoginUser{}
+			LoginInfo := entity.LoginInfo{}
+			o := gconv.Struct(v, &LoginUser)
+			k := gconv.Struct(v, &LoginInfo)
+			if o == nil && k == nil {
+				item := entity.User{
+					LoginUser: LoginUser,
+					LoginInfo: LoginInfo,
+				}
+				rspData = append(rspData, item)
+			}
 		}
 	}
 	if err != nil {
@@ -139,7 +135,7 @@ func (l *Login) Add() {
 func (l *Login) Edit() {
 	reqData := l.Request.GetJson()
 	userCode := reqData.GetString("userCode")
-	isUse :=  reqData.GetBool("isUse")
+	isUse := reqData.GetBool("isUse")
 	rows, err := db_login.UpdateLogin(g.Map{"is_use": gconv.Int(isUse)}, userCode, 0)
 	if err != nil {
 		log.Instance().Errorfln("[Login Edit]: %v", err)

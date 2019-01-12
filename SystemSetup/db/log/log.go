@@ -3,26 +3,36 @@ package db_log
 import (
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 )
 
-func GetLogCount(where g.Map) (int, error) {
-	db := g.DB()
-	sql := db.Table(table.Log).Where("`delete`=?", 0)
+func getListSql(db gdb.DB, authorId int, where g.Map) *gdb.Model {
+	sql := db.Table(table.Log + " l")
+	sql.LeftJoin(table.User+" u", "l.user_id=u.user_id")
+	sql.Where("l.user_id=? AND l.delete=?", authorId, 0)
+	// 项目名称模糊查询
+	if where["msg"] != nil && where["msg"] != "" {
+		sql.And("l.msg like ?", strings.Replace("%?%", "?", gconv.String(where["msg"]), 1))
+		delete(where, "msg")
+	}
 	if len(where) > 0 {
 		sql.And(where)
 	}
-	r, err := sql.Count()
+	return sql
+}
+
+func GetLogCount(authorId int, where g.Map) (int, error) {
+	db := g.DB()
+	r, err := getListSql(db, authorId, where).Count()
 	return r, err
 }
 
-func GetLogs(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
+func GetLogs(authorId, offset, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
-	sql := db.Table(table.Log + " l").LeftJoin(table.User+" u", "l.user_id=u.user_id")
+	sql := getListSql(db, authorId, where)
 	sql.Fields("l.*,u.user_name")
-	sql.Where("l.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
 	r, err := sql.Limit(offset, limit).OrderBy("l.id desc").Select()
 	return r.ToList(), err
 }

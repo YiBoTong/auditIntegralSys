@@ -4,32 +4,39 @@ import (
 	"auditIntegralSys/SystemSetup/entity"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
+	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 )
+
+func getListSql(db gdb.DB, where g.Map) *gdb.Model {
+	sql := db.Table(table.Login + " l").InnerJoin(table.User+" u", "l.user_code=u.user_code")
+	sql.LeftJoin(table.User+" a", "l.author_id=a.user_id")
+	sql.Where("l.delete=?", 0)
+	sql.And("u.delete=?", 0)
+	// 项目名称模糊查询
+	if where["user_name"] != nil && where["user_name"] != "" {
+		sql.And("u.user_name like ?", strings.Replace("%?%", "?", gconv.String(where["user_name"]), 1))
+		delete(where, "user_name")
+	}
+	if len(where) > 0 {
+		sql.And(where)
+	}
+	return sql
+}
 
 func GetUserCount(where g.Map) (int, error) {
 	db := g.DB()
 	// SELECT COUNT(1) FROM login l INNER JOIN users u ON (l.user_code=u.user_code) WHERE l.delete=0 AND u.delete=0
-	sql := db.Table(table.Login + " l").InnerJoin(table.User+" u", "l.user_code=u.user_code")
-	sql.Where("l.delete=?", 0)
-	sql.And("u.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
-	r, err := sql.Count()
+	r, err := getListSql(db, where).Count()
 	return r, err
 }
 
 func GetLoginList(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
 	db := g.DB()
 	// SELECT l.is_use,l.change_pd_time,l.login_time,l.author_id,u.*,a.user_name as author_name FROM login l INNER JOIN users u ON (l.user_code=u.user_code) LEFT JOIN users a ON (l.author_id=u.user_id) WHERE l.delete=0 AND u.delete=0 ORDER BY u.user_id desc LIMIT 0, 20
-	sql := db.Table(table.Login + " l").InnerJoin(table.User+" u", "l.user_code=u.user_code")
-	sql.LeftJoin(table.User+" a", "l.author_id=a.user_id")
+	sql := getListSql(db, where)
 	sql.Fields("l.is_use,l.change_pd_time,l.login_time,l.author_id,l.login_num,u.*,a.user_name as author_name")
-	sql.Where("l.delete=?", 0)
-	sql.And("u.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
 	r, err := sql.Limit(offset, limit).OrderBy("u.user_id desc").Select()
 	return r.ToList(), err
 }

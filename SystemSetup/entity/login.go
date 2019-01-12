@@ -1,10 +1,14 @@
 package entity
 
 type User struct {
+	LoginUser
+	LoginInfo
+}
+
+type LoginUser struct {
 	UserId     int    `db:"user_id" json:"userId" field:"user_id"`
 	UserName   string `db:"user_name" json:"userName" field:"user_name"`
 	AuthorName string `db:"author_name" json:"authorName" field:"author_name"`
-	LoginInfo
 }
 
 type LoginInfo struct {

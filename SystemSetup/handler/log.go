@@ -6,6 +6,7 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -17,41 +18,38 @@ type Log struct {
 
 func (l *Log) List() {
 	reqData := l.Request.GetJson()
-	var rspData []entity.Log
+	rspData := []entity.Log{}
+	thisUserId := util.GetUserIdByRequest(l.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
-	key := search.GetString("key")
-	userId := search.GetInt("userId")
 
 	searchMap := g.Map{}
+	listSearchMap := g.Map{}
 
-	if key != "" {
-		searchMap["`key`"] = key
+	searchItem := map[string]interface{}{
+		"msg": "string",
 	}
 
-	if userId != 0 {
-		searchMap["user_id"] = userId
+	for k, v := range searchItem {
+		// title String
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
+		// d.title:title String
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_log.GetLogCount(searchMap)
+	count, err := db_log.GetLogCount(thisUserId, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_log.GetLogs(offset, size, searchMap)
+		listData, err = db_log.GetLogs(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
-			rspData = append(rspData, entity.Log{
-				Id:       gconv.Int(v["id"]),
-				Url:      gconv.String(v["url"]),
-				Server:   gconv.String(v["server"]),
-				UserId:   gconv.Int(v["user_id"]),
-				UserName: gconv.String(v["user_name"]),
-				Method:   gconv.String(v["method"]),
-				Msg:      gconv.String(v["msg"]),
-				Time:     gconv.String(v["time"]),
-			})
+			item := entity.Log{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				rspData = append(rspData, item)
+			}
 		}
 	}
 	if err != nil {

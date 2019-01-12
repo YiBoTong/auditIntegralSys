@@ -30,16 +30,16 @@ func (c *Dictionaries) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"title":   "string",
-		"key":     "string",
-		"user_id": "int",
+		"title":             "string",
+		"d.key:key":         "string",
+		"u.user_id:user_id": "int",
 	}
 
 	for k, v := range searchItem {
 		// title String
 		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// d.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
 	count, err := db_dictionaries.GetDictionaryTypeCount(searchMap)
@@ -47,12 +47,9 @@ func (c *Dictionaries) List() {
 		var listData []map[string]interface{}
 		listData, err = db_dictionaries.GetDictionaryTypes(offset, size, listSearchMap)
 		for _, v := range listData {
-			item:=entity.DictionaryType{}
-			err = gconv.Struct(v,&item)
-			if err == nil {
-				rspData = append(rspData,item)
-			}else {
-				break
+			item := entity.DictionaryType{}
+			if ok := gconv.Struct(v, &item); ok == nil {
+				rspData = append(rspData, item)
 			}
 		}
 	}
