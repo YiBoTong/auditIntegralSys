@@ -34,6 +34,7 @@ const (
 	DraftQueryUser             = "draft_query_user"             // 工作底稿检查人索引表
 	DraftReviewUser            = "draft_review_user"            // 工作底稿负责人索引表
 	DraftFile                  = "draft_file"                   // 工作底稿附件索引表
+	Introduction               = "introduction"                 // 查看介绍信
 	Confirmation               = "confirmation"                 // 确认书表
 	ConfirmationBasis          = "confirmation_basis"           // 确认书依据表
 	ConfirmationReceipt        = "confirmation_receipt"         // 确认书回执表

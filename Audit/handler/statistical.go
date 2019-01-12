@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"auditIntegralSys/Audit/db/AuditReport"
+	"auditIntegralSys/Audit/db/auditReport"
 	"auditIntegralSys/Audit/db/programme"
 	"auditIntegralSys/Audit/db/statistical"
 	"auditIntegralSys/Audit/entity"

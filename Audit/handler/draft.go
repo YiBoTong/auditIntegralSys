@@ -187,6 +187,7 @@ func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
 func (r *Draft) List() {
 	reqData := r.Request.GetJson()
 	var rspData []entity.DraftItem
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -199,7 +200,7 @@ func (r *Draft) List() {
 
 	searchItem := map[string]interface{}{
 		"project_name": "string",
-		"state": "string",
+		"state":        "string",
 	}
 
 	for k, v := range searchItem {
@@ -209,10 +210,10 @@ func (r *Draft) List() {
 		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
 	}
 
-	count, err := db_draft.Count(searchMap)
+	count, err := db_draft.Count(thisUserId, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_draft.List(offset, size, listSearchMap)
+		listData, err = db_draft.List(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.DraftItem{}
 			err = gconv.Struct(v, &item)

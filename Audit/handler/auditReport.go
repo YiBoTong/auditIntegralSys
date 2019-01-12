@@ -2,7 +2,7 @@ package handler
 
 import (
 	"auditIntegralSys/Audit/check"
-	"auditIntegralSys/Audit/db/AuditReport"
+	"auditIntegralSys/Audit/db/auditReport"
 	"auditIntegralSys/Audit/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"

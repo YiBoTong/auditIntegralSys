@@ -25,6 +25,8 @@ func main() {
 	_ = s.BindController(apiPath+"/programme", new(handler.Programme))
 	// 工作底稿
 	_ = s.BindController(apiPath+"/draft", new(handler.Draft))
+	// 介绍信
+	_ = s.BindController(apiPath+"/introduction", new(handler.Introduction))
 	// 事实确认书
 	_ = s.BindController(apiPath+"/confirmation", new(handler.Confirmation))
 	// 惩罚通知书

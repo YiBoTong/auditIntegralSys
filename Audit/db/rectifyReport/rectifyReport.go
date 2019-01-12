@@ -1,7 +1,7 @@
 package db_rectifyReport
 
 import (
-	"auditIntegralSys/Audit/db/AuditReport"
+	"auditIntegralSys/Audit/db/auditReport"
 	"auditIntegralSys/Audit/db/draft"
 	"auditIntegralSys/Audit/db/rectify"
 	"auditIntegralSys/Audit/entity"

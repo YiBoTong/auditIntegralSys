@@ -11,6 +11,7 @@ type DraftItem struct {
 	QueryDepartmentName string `db:"query_department_name" json:"queryDepartmentName" field:"query_department_name"`
 	DepartmentId        int    `db:"department_id" json:"departmentId" field:"department_id"`
 	DepartmentName      string `db:"department_name" json:"departmentName" field:"department_name"`
+	IntroductionId      int    `db:"introduction_id" json:"introductionId" field:"introduction_id"`
 	Number              string `db:"number" json:"number" field:"number"`
 	ProjectName         string `db:"project_name" json:"projectName" field:"project_name"`
 	Public              uint8  `db:"public" json:"public" field:"public"`

@@ -27,6 +27,7 @@ func initUrlMsgStr() {
 	var temp = make(map[string]string)
 	temp["list"] = "获取$列表"
 	temp["add"] = "添加"
+	temp["create"] = "生成"
 	temp["edit"] = "编辑"
 	temp["get"] = "获取"
 	temp["delete"] = "删除"
@@ -63,6 +64,7 @@ func initUrlMsgStr() {
 	temp["org/clause"] = "管理办法"
 	temp["audit/programme"] = "审核方案"
 	temp["audit/draft"] = "工作底稿"
+	temp["audit/introduction"] = "介绍信"
 	temp["audit/confirmation"] = "事实确认书"
 	temp["audit/punishNotice"] = "惩罚通知书"
 	temp["audit/rectify"] = "整改通知"

@@ -9,6 +9,7 @@ import (
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
 	"strings"
 )
 
@@ -31,26 +32,53 @@ func edit(tx *gdb.TX, id int, data g.Map, where ...g.Map) (int64, error) {
 	return row, err
 }
 
-func Count(where g.Map) (int, error) {
-	db := g.DB()
-	sql := db.Table(table.Draft).Where("`delete`=?", 0)
+func getListSql(db gdb.DB, authorId int, where g.Map) *gdb.Model {
+	sql := db.Table(table.Draft + " d")
+	sql.LeftJoin(table.Programme+" p", "d.programme_id=p.id")
+	sql.LeftJoin(table.Department+" dd", "d.department_id=dd.id")
+	sql.LeftJoin(table.Department+" qdd", "d.query_department_id=qdd.id")
+	sql.LeftJoin(table.Introduction+" i", "d.id=i.draft_id")
+	sql.Where("d.delete=?", 0)
+
+	// 部门数据（包含全部范围数据）
+	//if where["department_id"] != nil && where["department_id"] != 0 {
+	//	sql.And("(d.department_id=? OR d.department_id=?)", where["department_id"], -1)
+	//	delete(where, "department_id")
+	//} else {
+	//	sql.And("d.department_id=?", -1)
+	//}
+	// 项目名称模糊查询
+	if where["project_name"] != nil && where["project_name"] != "" {
+		sql.And("c.project_name like ?", strings.Replace("%?%", "?", gconv.String(where["project_name"]), 1))
+		delete(where, "project_name")
+	}
+	// 查询自己和别人已发布的数据
+	//sql.And("(c.author_id=? OR (c.author_id!=? AND c.state=?))", authorId, authorId, state.Publish)
 	if len(where) > 0 {
 		sql.And(where)
 	}
+	return sql
+}
+
+func Count(authorId int, where g.Map) (int, error) {
+	db := g.DB()
+	sql := getListSql(db, authorId, where)
 	r, err := sql.Count()
 	return r, err
 }
 
-func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
+func List(authorId, offset, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(table.Draft + " d")
-	sql.LeftJoin(table.Programme+" p", "d.department_id=p.id")
-	sql.LeftJoin(table.Programme+" pq", "d.query_department_id=pq.id")
-	sql.Fields("d.*,p.title as department_name,pq.title as query_department_name")
-	sql.Where("d.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
+	sql := getListSql(db, authorId, where)
+	fields := []string{
+		"d.*",
+		"i.id as introduction_id",
+		"p.title as programme_title",
+		"dd.name as department_name",
+		"qdd.name as query_department_name",
+		"i.id as introduction_id",
 	}
+	sql.Fields(strings.Join(fields, ","))
 	r, err := sql.Limit(offset, limit).OrderBy("d.id desc").Select()
 	return r.ToList(), err
 }
