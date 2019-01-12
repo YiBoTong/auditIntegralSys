@@ -579,20 +579,20 @@
 					"response": []
 				},
 				{
-					"name": "添加菜单",
+					"name": "添加菜单(内部使用)",
 					"request": {
 						"method": "POST",
 						"header": [
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
-								"value": "application/json",
-								"type": "text"
+								"type": "text",
+								"value": "application/json"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": ""
+							"raw": "{\n    \"path\": \"auditReport\",\n    \"name\": \"auditReport\",\n    \"title\": \"auditReport\",\n    \"icon\": \"\",\n    \"noCache\": 1,\n    \"parentId\": 12,\n    \"order\": 4\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8092/api/worker/menu/add",

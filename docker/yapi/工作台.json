@@ -87,6 +87,42 @@
 					"response": []
 				},
 				{
+					"name": "修改当前登录员工的信息",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\": \"1234\",\n    \"portraitId\": 420\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8092/api/worker/user/edit",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8092",
+							"path": [
+								"api",
+								"worker",
+								"user",
+								"edit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "退出登录",
 					"request": {
 						"method": "PUT",

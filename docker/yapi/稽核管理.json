@@ -618,6 +618,135 @@
 			]
 		},
 		{
+			"name": "介绍信",
+			"item": [
+				{
+					"name": "列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/introduction/list?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"introduction",
+								"list"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/introduction/get?id=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"introduction",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "生成",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"draftId\": 99\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/introduction/create",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"introduction",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "事实确认书",
 			"item": [
 				{
@@ -1452,7 +1581,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"changeScoreId\": 5,\n    \"state\": \"ss\",\n    \"suggestion\": \"sss\"\n}"
+							"raw": "{\n    \"changeScoreId\": 16,\n    \"state\": \"adopt\",\n    \"suggestion\": \"可以通过\"\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/integral/edit_author",

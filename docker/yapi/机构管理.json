@@ -463,6 +463,52 @@
 						"description": "获取字典列表"
 					},
 					"response": []
+				},
+				{
+					"name": "导入人员",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/user/import?fileId=534&departmentId=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"user",
+								"import"
+							],
+							"query": [
+								{
+									"key": "fileId",
+									"value": "534"
+								},
+								{
+									"key": "departmentId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -754,6 +800,52 @@
 					"response": []
 				},
 				{
+					"name": "导入管理办法",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8091/api/org/clause/import?fileId=534&departmentId=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8091",
+							"path": [
+								"api",
+								"org",
+								"clause",
+								"import"
+							],
+							"query": [
+								{
+									"key": "fileId",
+									"value": "534"
+								},
+								{
+									"key": "departmentId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "管理办法列表",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -770,7 +862,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20\n    },\n    \"search\": {\n        \"title\": \"\",\n        \"state\": \"\",\n        \"userId\": \"\"\n    }\n}"
+							"raw": "{\n    \"page\": {\n        \"page\": 1,\n        \"size\": 20\n    },\n    \"search\": {\n        \"title\": \"\",\n        \"state\": \"\",\n        \"type\": \"\",\n        \"departmentId\": \"\"\n    }\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8091/api/org/clause/list?rnd=1",
@@ -812,7 +904,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"fileIds\": \"5,6,7,8\",\n    \"state\": \"draft\",\n    \"content\": [\n        {\n            \"isTitle\": true,\n            \"titleLevel\": \"h1\",\n            \"content\": \"标题测试1\",\n            \"order\": 1\n        },\n         {\n            \"isTitle\": false,\n            \"titleLevel\": \"\",\n            \"content\": \"标题测试2\",\n            \"order\": 2\n        }\n    ]\n}"
+							"raw": "{\n    \"departmentId\": 1,\n    \"title\": \"公告1\",\n    \"from\":\"来源1\",\n    \"type\":\"\",\n    \"fileIds\": \"5,6,7,8\",\n    \"state\": \"draft\",\n    \"content\": [\n        {\n            \"isTitle\": 1,\n            \"titleLevel\": \"h1\",\n            \"content\": \"标题测试1\",\n            \"order\": 1\n        },\n         {\n            \"isTitle\": 0,\n            \"titleLevel\": \"\",\n            \"content\": \"标题测试2\",\n            \"order\": 2\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8091/api/org/clause/add",
