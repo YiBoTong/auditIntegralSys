@@ -579,7 +579,7 @@
 					"response": []
 				},
 				{
-					"name": "添加菜单(内部使用)",
+					"name": "审计通知",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -592,7 +592,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"path\": \"auditReport\",\n    \"name\": \"auditReport\",\n    \"title\": \"auditReport\",\n    \"icon\": \"\",\n    \"noCache\": 1,\n    \"parentId\": 12,\n    \"order\": 4\n}"
+							"raw": "{\n    \"path\": \"auditNotice\",\n    \"name\": \"auditNotice\",\n    \"title\": \"auditNotice\",\n    \"icon\": \"\",\n    \"noCache\": 1,\n    \"parentId\": 12,\n    \"order\": 5\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8092/api/worker/menu/add",
