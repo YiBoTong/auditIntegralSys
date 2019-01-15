@@ -23,7 +23,7 @@ func AddFile(fileInfo g.Map) (int, error) {
 func UpdateFileByIds(tbName, fileIds string, tbId int, tx ...*gdb.TX) (int, error) {
 	var rows int = 0
 	var row int = 0
-	var err error = nil
+	err := error(nil)
 	fileIdArr := strings.Split(fileIds, ",")
 	if len(fileIds) > 0 && len(fileIds) > 0 {
 		for _, v := range fileIdArr {
@@ -40,7 +40,7 @@ func UpdateFileByIds(tbName, fileIds string, tbId int, tx ...*gdb.TX) (int, erro
 func UpdateFile(fileId int, update g.Map, tx ...*gdb.TX) (int, error) {
 	var rows int64 = 0
 	var r sql.Result
-	var err error = nil
+	err := error(nil)
 	if len(tx) > 0 {
 		r, err = tx[0].Table(table.File).Where("id=?", fileId).Data(update).Update()
 	} else {

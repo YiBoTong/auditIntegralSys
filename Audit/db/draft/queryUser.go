@@ -8,13 +8,17 @@ import (
 	"strings"
 )
 
-func addQueryUser(tx *gdb.TX, draftId int, userIds string) (int, error) {
+func addQueryUser(tx *gdb.TX, draftId int, userIds string, leaderId int) (int, error) {
 	userIdArr := strings.Split(userIds, ",")
 	list := []g.Map{}
 	for _, v := range userIdArr {
 		userId := gconv.Int(v)
+		isLeader := false
+		if userId == leaderId {
+			isLeader = true
+		}
 		if userId != 0 {
-			list = append(list, g.Map{"draft_id": draftId, "user_id": userId})
+			list = append(list, g.Map{"draft_id": draftId, "user_id": userId, "is_leader": isLeader})
 		}
 	}
 	if len(list) == 0 {

@@ -32,7 +32,7 @@ func AddNoticeFile(add []g.Map) (int, error) {
 
 func AddNoticeFiles(noticeId int, fileIds string) error {
 	addIds := strings.Split(fileIds, ",")
-	var err error = nil
+	err := error(nil)
 	if len(addIds) > 0 && addIds[0] != "" {
 		var add []g.Map
 		for _, id := range addIds {

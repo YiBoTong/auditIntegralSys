@@ -8,9 +8,10 @@ import (
 	"gitee.com/johng/gf/g/database/gdb"
 )
 
-func addScore(tx *gdb.TX, punishNoticeId, cognizanceUserId, score int) (int, error) {
+func addScore(tx *gdb.TX, punishNoticeId, cognizanceUserId, score, money int) (int, error) {
 	res, err := tx.Table(table.PunishNoticeScore).Data(g.Map{
 		"score":              score,
+		"money":              money,
 		"punish_notice_id":   punishNoticeId,
 		"cognizance_user_id": cognizanceUserId,
 		"update_time":        util.GetLocalNowTimeStr(),
@@ -19,7 +20,7 @@ func addScore(tx *gdb.TX, punishNoticeId, cognizanceUserId, score int) (int, err
 	return int(id), err
 }
 
-func EditScore(punishNoticeId, todoUserId, score int) (int, error) {
+func EditScore(punishNoticeId, todoUserId, score, money int) (int, error) {
 	row := 0
 	rows := 0
 	db := g.DB()
@@ -29,7 +30,7 @@ func EditScore(punishNoticeId, todoUserId, score int) (int, error) {
 		rows += row
 	}
 	if err == nil {
-		row, err = addScore(tx, punishNoticeId, todoUserId, score)
+		row, err = addScore(tx, punishNoticeId, todoUserId, score, money)
 		rows += row
 	}
 	if err == nil {

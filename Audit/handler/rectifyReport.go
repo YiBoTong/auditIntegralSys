@@ -56,6 +56,8 @@ func (r *RectifyReport) addCall(rectifyId, todoUserId int, stateStr string, json
 	contentListItem := g.Map{
 		"draft_content_id": "int",
 		"content":          "string",
+		"time":             "string",
+		"userIds":          "string",
 	}
 	util.GetSqlMapItemFun(*contentList, contentListItem, func(itemMap g.Map) {
 		ContentList = append(ContentList, itemMap)
@@ -75,6 +77,8 @@ func (r *RectifyReport) editCall(id, todoUserId int, stateStr string, json gjson
 	contentListItem := g.Map{
 		"draft_content_id": "int",
 		"content":          "string",
+		"time":             "string",
+		"userIds":          "string",
 	}
 	util.GetSqlMapItemFun(*contentList, contentListItem, func(itemMap g.Map) {
 		ContentList = append(ContentList, itemMap)
@@ -84,7 +88,7 @@ func (r *RectifyReport) editCall(id, todoUserId int, stateStr string, json gjson
 }
 
 func (r *RectifyReport) Get() {
-	var err error = nil
+	err := error(nil)
 	id := r.Request.GetQueryInt("id")
 	rectifyId := r.Request.GetQueryInt("rectifyId")
 	ContentList := []entity.RectifyReportContentItem{}
@@ -103,10 +107,19 @@ func (r *RectifyReport) Get() {
 
 	if RectifyReportItem.Id != 0 {
 		contentList, _ := db_rectifyReport.GetContents(RectifyReportItem.Id)
-		fileList, _ := db_file.GetFilesByFrom(RectifyReportItem.Id,table.RectifyReport)
+		fileList, _ := db_file.GetFilesByFrom(RectifyReportItem.Id, table.RectifyReport)
 		for _, bv := range contentList {
 			item := entity.RectifyReportContentItem{}
 			if ok := gconv.Struct(bv, &item); ok == nil {
+				UserList := []entity.RectifyReportContentUserItem{}
+				userList, _ := db_rectifyReport.GetContentUsers(item.Id)
+				for _, uv := range userList {
+					userItem := entity.RectifyReportContentUserItem{}
+					if uok := gconv.Struct(uv, &userItem); uok == nil {
+						UserList = append(UserList, userItem)
+					}
+				}
+				item.UserList = UserList
 				ContentList = append(ContentList, item)
 			}
 		}
@@ -118,7 +131,7 @@ func (r *RectifyReport) Get() {
 		}
 	}
 
-	success := err == nil && RectifyReportItem.Id != 0
+	success := err == nil
 	r.Response.WriteJson(app.Response{
 		Data: entity.RectifyReport{
 			RectifyReportItem: RectifyReportItem,
@@ -135,7 +148,7 @@ func (r *RectifyReport) Get() {
 
 func (r *RectifyReport) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	//id := reqData.GetInt("id")
 	rectifyId := reqData.GetInt("rectifyId")

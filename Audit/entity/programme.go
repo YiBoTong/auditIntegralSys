@@ -46,6 +46,9 @@ type ProgrammeItem struct {
 	EndTime             string `db:"end_time" json:"endTime" field:"end_time"`
 	PlanStartTime       string `db:"plan_start_time" json:"planStartTime" field:"plan_start_time"`
 	PlanEndTime         string `db:"plan_end_time" json:"planEndTime" field:"plan_end_time"`
+	Year                int    `db:"year" json:"year" field:"year"`
+	Number              int    `db:"number" json:"number" field:"number"`
+	AuthorId            int    `db:"author_id" json:"authorId" field:"author_id"`
 	State               string `db:"state" json:"state" field:"state"`
 }
 

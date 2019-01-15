@@ -14,7 +14,7 @@ func Get(key string, menuParentId int) ([]map[string]interface{}, error) {
 	sql.Where("m.delete=?", 0)
 	sql.And("m.is_use=?", 1)
 	sql.And("m.parent_id=?", menuParentId)
-	res, err := sql.All()
+	res, err := sql.OrderBy("m.order asc").All()
 	return res.ToList(), err
 }
 

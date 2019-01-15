@@ -23,8 +23,8 @@ func (r *Rbac) Edit() {
 	rbacLen := len(rbac.ToArray())
 	msg := ""
 	rows := 0
-	var rbcas []g.Map
-	var err error = nil
+	rbcas :=[]g.Map{}
+	err := error(nil)
 	if rbacLen > 0 {
 		for i := 0; i < rbacLen; i++ {
 			rbcas = append(rbcas, g.Map{

@@ -2,18 +2,26 @@ package db_draft
 
 import (
 	"auditIntegralSys/Audit/check"
+	"auditIntegralSys/Audit/db/auditNotice"
 	"auditIntegralSys/Audit/db/confirmation"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Audit/fun"
+	entity2 "auditIntegralSys/Org/entity"
 	"auditIntegralSys/Worker/db/file"
 	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
-	"gitee.com/johng/gf/g/util/gconv"
 	"strings"
+	"time"
 )
 
 func add(tx *gdb.TX, data g.Map) (int, error) {
+	draft, _ := GetLastOne()
+	year := time.Now().Year()
+	number := fun.CreateNumber(draft.Year, draft.Number)
+	data["year"] = year
+	data["number"] = number
 	res, err := tx.Table(table.Draft).Data(data).Insert()
 	id, _ := res.LastInsertId()
 	return int(id), err
@@ -32,44 +40,34 @@ func edit(tx *gdb.TX, id int, data g.Map, where ...g.Map) (int64, error) {
 	return row, err
 }
 
-func getListSql(db gdb.DB, authorId int, where g.Map) *gdb.Model {
+func getListSql(db gdb.DB, authorInfo entity2.User, where g.Map) *gdb.Model {
 	sql := db.Table(table.Draft + " d")
 	sql.LeftJoin(table.Programme+" p", "d.programme_id=p.id")
 	sql.LeftJoin(table.Department+" dd", "d.department_id=dd.id")
 	sql.LeftJoin(table.Department+" qdd", "d.query_department_id=qdd.id")
 	sql.LeftJoin(table.Introduction+" i", "d.id=i.draft_id")
-	sql.Where("d.delete=?", 0)
 
-	// 部门数据（包含全部范围数据）
-	//if where["department_id"] != nil && where["department_id"] != 0 {
-	//	sql.And("(d.department_id=? OR d.department_id=?)", where["department_id"], -1)
-	//	delete(where, "department_id")
-	//} else {
-	//	sql.And("d.department_id=?", -1)
-	//}
-	// 项目名称模糊查询
-	if where["project_name"] != nil && where["project_name"] != "" {
-		sql.And("c.project_name like ?", strings.Replace("%?%", "?", gconv.String(where["project_name"]), 1))
-		delete(where, "project_name")
-	}
-	// 查询自己和别人已发布的数据
-	//sql.And("(c.author_id=? OR (c.author_id!=? AND c.state=?))", authorId, authorId, state.Publish)
+	sql.Where("d.delete=?", 0)
+	sql.GroupBy("d.id")
+
+	sql = fun.CheckIsMyData(*sql, authorInfo, where)
+
 	if len(where) > 0 {
 		sql.And(where)
 	}
 	return sql
 }
 
-func Count(authorId int, where g.Map) (int, error) {
+func Count(authorInfo entity2.User, where g.Map) (int, error) {
 	db := g.DB()
-	sql := getListSql(db, authorId, where)
+	sql := getListSql(db, authorInfo, where)
 	r, err := sql.Count()
 	return r, err
 }
 
-func List(authorId, offset, limit int, where g.Map) (g.List, error) {
+func List(authorInfo entity2.User, offset, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
-	sql := getListSql(db, authorId, where)
+	sql := getListSql(db, authorInfo, where)
 	fields := []string{
 		"d.*",
 		"i.id as introduction_id",
@@ -83,8 +81,9 @@ func List(authorId, offset, limit int, where g.Map) (g.List, error) {
 	return r.ToList(), err
 }
 
-func Add(draft g.Map, content []g.Map, queryUsers, adminUsers, inspectUsers, fileIds string) (int, error) {
+func Add(draft g.Map, content []g.Map, queryUserLeader int, queryUsers, adminUsers, fileIds string) (int, error) {
 	id := 0
+	thisYear := time.Now().Year()
 	db := g.DB()
 	tx, err := db.Begin()
 	if err == nil {
@@ -98,10 +97,7 @@ func Add(draft g.Map, content []g.Map, queryUsers, adminUsers, inspectUsers, fil
 			_, err = addAdminUser(tx, id, adminUsers)
 		}
 		if err == nil {
-			_, err = addInspectUser(tx, id, inspectUsers)
-		}
-		if err == nil {
-			_, err = addQueryUser(tx, id, queryUsers)
+			_, err = addQueryUser(tx, id, queryUsers, queryUserLeader)
 		}
 		if err == nil {
 			_, err = db_file.UpdateFileByIds(table.Draft, fileIds, id, tx)
@@ -109,6 +105,15 @@ func Add(draft g.Map, content []g.Map, queryUsers, adminUsers, inspectUsers, fil
 		if err == nil && draft["state"] == state.Publish {
 			// 生成事实确认书
 			_, err = db_confirmation.Add(*tx, id)
+			if err == nil {
+				// 生成审计通知书
+				auditNoticeItem, _ := db_auditNotice.GetLastOne()
+				_, err = db_auditNotice.Add(tx, g.Map{
+					"draft_id": id,
+					"year":     thisYear,
+					"number":   fun.CreateNumber(auditNoticeItem.Year, auditNoticeItem.Number),
+				})
+			}
 		}
 	}
 	if err == nil {
@@ -120,9 +125,10 @@ func Add(draft g.Map, content []g.Map, queryUsers, adminUsers, inspectUsers, fil
 	return id, err
 }
 
-func Edit(id int, draft g.Map, content [2][]g.Map, queryUsers, adminUsers, inspectUsers, fileIds string, where ...g.Map) (int, error) {
+func Edit(id int, draft g.Map, content [2][]g.Map, queryUserLeader int, queryUsers, adminUsers, fileIds string, where ...g.Map) (int, error) {
 	row := 0
 	rows := 0
+	thisYear := time.Now().Year()
 	db := g.DB()
 	tx, err := db.Begin()
 	if err == nil {
@@ -142,13 +148,8 @@ func Edit(id int, draft g.Map, content [2][]g.Map, queryUsers, adminUsers, inspe
 			rows += row
 		}
 		if err == nil {
-			_, _ = delInspectUser(tx, id)
-			row, err = addInspectUser(tx, id, inspectUsers)
-			rows += row
-		}
-		if err == nil {
 			_, _ = delQueryUser(tx, id)
-			row, err = addQueryUser(tx, id, queryUsers)
+			row, err = addQueryUser(tx, id, queryUsers, queryUserLeader)
 			rows += row
 		}
 		if err == nil {
@@ -159,6 +160,15 @@ func Edit(id int, draft g.Map, content [2][]g.Map, queryUsers, adminUsers, inspe
 		if err == nil && draft["state"] == state.Publish {
 			// 生成事实确认书
 			_, err = db_confirmation.Add(*tx, id)
+			if err == nil {
+				// 生成审计通知书
+				auditNoticeItem, _ := db_auditNotice.GetLastOne()
+				_, err = db_auditNotice.Add(tx, g.Map{
+					"draft_id": id,
+					"year":     thisYear,
+					"number":   fun.CreateNumber(auditNoticeItem.Year, auditNoticeItem.Number),
+				})
+			}
 		}
 	}
 	if err == nil {
@@ -254,4 +264,14 @@ func Del(id int) (int, error) {
 		_ = tx.Rollback()
 	}
 	return int(rows), err
+}
+
+func GetLastOne() (entity.DraftItem, error) {
+	db := g.DB()
+	confirmation := entity.DraftItem{}
+	sql := db.Table(table.Draft).Where("`delete`=?", 0)
+	sql.OrderBy("id desc")
+	r, err := sql.One()
+	_ = r.ToStruct(&confirmation)
+	return confirmation, err
 }

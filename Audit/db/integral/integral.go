@@ -2,14 +2,37 @@ package db_integral
 
 import (
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Audit/fun"
+	entity2 "auditIntegralSys/Org/entity"
 	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 	"gitee.com/johng/gf/g/util/gconv"
+	"strings"
 	"time"
 )
+
+func getListSql(db gdb.DB, authorInfo entity2.User, where g.Map) *gdb.Model {
+	sql := db.Table(table.Integral + " i")
+	sql.LeftJoin(table.Draft+" d", "i.draft_id=d.id")
+	sql.LeftJoin(table.Department+" dd", "d.department_id=dd.id")
+	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
+	sql.LeftJoin(table.User+" u", "i.user_id=u.user_id")
+	sql.LeftJoin(table.User+" uc", "i.cognizance_user_id=uc.user_id")
+	sql.LeftJoin(table.IntegralEdit+" ie", "ie.integral_id=i.id AND ie.delete=0")
+
+	sql.Where("d.delete=?", 0)
+	sql.GroupBy("i.id")
+
+	sql = fun.CheckIsMyData(*sql, authorInfo, where)
+
+	if len(where) > 0 {
+		sql.And(where)
+	}
+	return sql
+}
 
 func GetSumScore(punishNoticeId, userId int) (int, error) {
 	db := g.DB()
@@ -31,38 +54,48 @@ func GetSumScore(punishNoticeId, userId int) (int, error) {
 	return 0, err
 }
 
+func GetBetweenTimeScore(userId int, startDay, endDay string) (int, error) {
+	db := g.DB()
+	sumScore := 0
+	sql := db.Table(table.Integral).Where("user_id=? AND `delete`=?", userId, 0)
+	sql.And("time BETWEEN ? AND ?", startDay, endDay)
+	sql.Fields("SUM(score) AS sum_score")
+	res, err := sql.All()
+	if len(res) > 0 {
+		for _, v := range res {
+			sumScore += v["sum_score"].Int()
+		}
+	}
+	return sumScore, err
+}
+
 func AddScore(tx gdb.TX, data g.Map) (int, error) {
 	r, err := tx.Table(table.Integral).Data(data).Insert()
 	row, _ := r.RowsAffected()
 	return int(row), err
 }
 
-func Count(where g.Map) (int, error) {
+func Count(authorInfo entity2.User, where g.Map) (int, error) {
 	db := g.DB()
-	sql := db.Table(table.Integral + " i")
-	sql.LeftJoin(table.Draft+" d", "i.draft_id=d.id")
-	sql.Where("i.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
-	r, err := sql.Count()
+	r, err := getListSql(db, authorInfo, where).Count()
 	return r, err
 }
 
-func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
+func List(authorInfo entity2.User, offset, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(table.Integral + " i")
-	sql.LeftJoin(table.Draft+" d", "i.draft_id=d.id")
-	sql.LeftJoin(table.Department+" dd", "d.department_id=dd.id")
-	sql.LeftJoin(table.Department+" dq", "d.query_department_id=dq.id")
-	sql.LeftJoin(table.User+" u", "i.user_id=u.user_id")
-	sql.LeftJoin(table.User+" uc", "i.cognizance_user_id=uc.user_id")
-	sql.LeftJoin(table.IntegralEdit + " ie","ie.integral_id=i.id AND ie.delete=0")
-	sql.Fields("d.*,i.*,ie.state,ie.id as integral_edit_id,u.user_name,uc.user_name as cognizance_user_name,dd.name as department_name,dq.name as query_department_name")
-	sql.Where("d.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
+	sql := getListSql(db, authorInfo, where)
+
+	fields := []string{
+		"d.*",
+		"i.*",
+		"ie.state",
+		"ie.id as integral_edit_id",
+		"u.user_name",
+		"uc.user_name as cognizance_user_name",
+		"dd.name as department_name",
+		"dq.name as query_department_name",
 	}
+	sql.Fields(strings.Join(fields, ","))
 	r, err := sql.Limit(offset, limit).OrderBy("d.id desc").Select()
 	return r.ToList(), err
 }
@@ -132,4 +165,32 @@ func AdoptChangeScore(changeScoreId int, stateStr, suggestion string) (int, erro
 		_ = tx.Rollback()
 	}
 	return row, err
+}
+
+// 统计一个整改通知违规人员的违规数量
+func GetScoreTotalUserByDraft(draftId int) (g.List, error) {
+	db := g.DB()
+	fields := []string{
+		"i.id",
+		"u.user_id",
+		"u.user_name",
+		"SUM(i.score) AS `score`",
+		"SUM(i.money) AS `money`",
+	}
+	sql := db.Table(table.Integral + " i")
+	sql.LeftJoin(table.User+" u", "i.user_id=u.user_id")
+	sql.Where("i.draft_id=?", draftId)
+	sql.Fields(strings.Join(fields, ","))
+	sql.GroupBy("i.id")
+	r, err := sql.All()
+	return r.ToList(), err
+}
+
+func CountMonthScore(startDay, endDay string) (int, error) {
+	db := g.DB()
+	sql := db.Table(table.Integral).Where("`delete`=?", 0)
+	sql.And("time BETWEEN ? AND ?", startDay, endDay)
+	sql.Fields("SUM(score) AS sum_score")
+	res, err := sql.One()
+	return res["sum_score"].Int(), err
 }

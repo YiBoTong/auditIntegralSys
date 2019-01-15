@@ -23,7 +23,7 @@ type Notice struct {
 func (r *Notice) List() {
 	reqData := r.Request.GetJson()
 	thisUserId := util.GetUserIdByRequest(r.Cookie)
-	var rspData []entity.NoticeList
+	rspData := []entity.NoticeList{}
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -243,7 +243,7 @@ func (r *Notice) State() {
 	id := reqData.GetInt("id")
 	state := reqData.GetString("state")
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	// 检测状态是否合法
 	hasState, msg := check.NoticeState(state).HasState()
 	if hasState {
@@ -284,7 +284,7 @@ func (r *Notice) Delete() {
 
 func addNoticeInform(noticeId int, informIds string) (string, error) {
 	msg := ""
-	var err error = nil
+	err := error(nil)
 	ids := strings.Split(informIds, ",")
 	if len(ids) > 0 && ids[0] != "" {
 		var add []g.Map

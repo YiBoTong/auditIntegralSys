@@ -20,7 +20,7 @@ type Department struct {
 
 func (r *Department) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.Department
+	rspData := []entity.Department{}
 
 	search := reqData.GetJson("search")
 	parentId := search.GetInt("parentId")
@@ -70,7 +70,7 @@ func (r *Department) List() {
 }
 
 func (r *Department) Tree() {
-	var rspData []entity.DepartmentTreeInfo
+	rspData := []entity.DepartmentTreeInfo{}
 	parentId := r.Request.GetQueryInt("parentId")
 	if parentId == 0 {
 		// 默认根节点

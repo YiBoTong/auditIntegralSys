@@ -34,7 +34,7 @@ func (r *Introduction) addCall(draftId int) (int, error) {
 	err := error(nil)
 	draft, _ := db_draft.Get(draftId)
 	if draft.Id != 0 && draft.State == state.Publish {
-		pre, _ := db_introduction.GetByDraftId(draft.Id)
+		pre, _ := db_introduction.GetLast()
 		year := time.Now().Year()
 		number := fun.CreateNumber(pre.Year, pre.Number)
 		introduction := g.Map{
@@ -105,7 +105,7 @@ func (r *Introduction) List() {
 
 func (r *Introduction) Create() {
 	id := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	draftId := reqData.GetInt("draftId")
 	checkRes, msg := r.checkId(draftId)

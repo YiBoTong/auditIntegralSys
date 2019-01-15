@@ -2,21 +2,31 @@ package db_rectifyReport
 
 import (
 	"auditIntegralSys/_public/table"
-	"fmt"
+	"database/sql"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
 )
 
 func addContent(tx gdb.TX, rectifyReportId int, data g.List) (int, error) {
+	var id int64 = 0
+	var r sql.Result
+	err := error(nil)
 	for _, v := range data {
 		v["rectify_report_id"] = rectifyReportId
 	}
-	fmt.Println(data)
 	if len(data) == 0 {
 		return 0, nil
 	}
-	r, err := tx.BatchInsert(table.RectifyReportContent, data, 5)
-	id, _ := r.LastInsertId()
+	for _, v := range data {
+		userIds := v["userIds"]
+		delete(v, "userIds")
+		r, err = tx.Table(table.RectifyReportContent).Data(v).Insert()
+		id, _ = r.LastInsertId()
+		if err == nil {
+			_, err = addContentUser(tx, rectifyReportId, int(id), gconv.String(userIds))
+		}
+	}
 	return int(id), err
 }
 

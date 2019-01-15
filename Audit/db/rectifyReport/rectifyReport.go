@@ -67,6 +67,7 @@ func Add(rectifyId int, fileIds string, data g.Map, content g.List) (int, error)
 		id, err = add(*tx, data)
 	}
 	if err == nil {
+		_, _ = delContentUser(*tx, id)
 		_, err = addContent(*tx, id, content)
 	}
 	if err == nil {
@@ -109,6 +110,7 @@ func Edit(id int, fileIds string, data g.Map, content g.List) (int, error) {
 		_, err = delContent(*tx, id)
 	}
 	if err == nil {
+		_, _ = delContentUser(*tx, id)
 		row, err = addContent(*tx, id, content)
 	}
 	if err == nil {

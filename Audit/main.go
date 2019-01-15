@@ -27,6 +27,8 @@ func main() {
 	_ = s.BindController(apiPath+"/draft", new(handler.Draft))
 	// 介绍信
 	_ = s.BindController(apiPath+"/introduction", new(handler.Introduction))
+	// 审计通知
+	_ = s.BindController(apiPath+"/auditNotice", new(handler.AuditNotice))
 	// 事实确认书
 	_ = s.BindController(apiPath+"/confirmation", new(handler.Confirmation))
 	// 惩罚通知书
@@ -39,6 +41,8 @@ func main() {
 	_ = s.BindController(apiPath+"/integral", new(handler.Integral))
 	// 审计报告
 	_ = s.BindController(apiPath+"/auditReport", new(handler.AuditReport))
+	// 后续检查
+	_ = s.BindController(apiPath+"/track", new(handler.Track))
 	// 统计分析
 	_ = s.BindController(apiPath+"/statistical", new(handler.Statistical))
 	_ = s.BindHandler("/*", router.Index)

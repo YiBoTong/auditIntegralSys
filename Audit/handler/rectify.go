@@ -2,10 +2,12 @@ package handler
 
 import (
 	"auditIntegralSys/Audit/check"
+	"auditIntegralSys/Audit/db/confirmation"
 	"auditIntegralSys/Audit/db/draft"
 	"auditIntegralSys/Audit/db/programme"
 	"auditIntegralSys/Audit/db/rectify"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
@@ -45,14 +47,16 @@ func (r *Rectify) checkIdAndState(id int, state string) (bool, string) {
 }
 
 func (r *Rectify) editCall(id, todoUserId int, stateStr string, json gjson.Json) (int, error) {
+	demand := json.GetString("demand")
 	suggest := json.GetString("suggest")
+	lastTime := json.GetString("lastTime")
 	data := g.Map{
-		"suggest":     suggest,
+		"last_time":   lastTime,
 		"user_id":     todoUserId,
 		"update_time": util.GetLocalNowTimeStr(),
 	}
 	// 只有草稿状态的才能填写违规行为
-	row, err := db_rectify.Update(id, data, g.Map{"state": state.Draft})
+	row, err := db_rectify.UpdateTX(id, data, demand, suggest, g.Map{"state": state.Draft})
 	// 如果提交状态是发布则更新状态为稽核草稿
 	if row != 0 && stateStr == state.Publish && err == nil {
 		_, err = db_rectify.Update(id, g.Map{"state": state.Publish})
@@ -62,7 +66,8 @@ func (r *Rectify) editCall(id, todoUserId int, stateStr string, json gjson.Json)
 
 func (r *Rectify) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.RectifyListItem
+	rspData := []entity.RectifyListItem{}
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -74,20 +79,22 @@ func (r *Rectify) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"project_name": "string",
+		"project_name":        "string",
+		"query_department_id": "int",
 	}
 
 	for k, v := range searchItem {
 		// title String
-		util.GetSearchMapByReqJson(searchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_rectify.Count(searchMap)
+	thisUserInfo, _ := db_user.GetUser(thisUserId)
+	count, err := db_rectify.Count(thisUserInfo, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_rectify.List(offset, size, listSearchMap)
+		listData, err = db_rectify.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.RectifyListItem{}
 			err = gconv.Struct(v, &item)
@@ -119,9 +126,11 @@ func (r *Rectify) List() {
 func (r *Rectify) Get() {
 	id := r.Request.GetQueryInt("id")
 	DraftItem := entity.DraftItem{}
-	DraftContent := []entity.DraftContent{}
+	ConfirmationContent := []entity.ConfirmationContent{}
 	Programme := entity.ProgrammeItem{}
 	ProgrammeBusiness := []entity.ProgrammeBusiness{}
+	Demand := entity.RectifyContent{}
+	Suggest := entity.RectifyContent{}
 
 	RectifyItem, err := db_rectify.Get(id)
 
@@ -132,12 +141,14 @@ func (r *Rectify) Get() {
 	if RectifyItem.Id != 0 {
 		DraftItem, _ = db_draft.Get(RectifyItem.DraftId)
 		Programme, _ = db_programme.Get(RectifyItem.ProgrammeId)
-		contentList, _ := db_draft.GetContent(RectifyItem.DraftId)
+		contentList, _ := db_confirmation.GetContent(RectifyItem.ConfirmationId)
 		programmeBusinessList, _ := db_programme.GetBusiness(RectifyItem.ProgrammeId)
+		Demand, _ = db_rectify.GetDemand(RectifyItem.Id)
+		Suggest, _ = db_rectify.GetSuggest(RectifyItem.Id)
 		for _, bv := range contentList {
-			item := entity.DraftContent{}
+			item := entity.ConfirmationContent{}
 			if ok := gconv.Struct(bv, &item); ok == nil {
-				DraftContent = append(DraftContent, item)
+				ConfirmationContent = append(ConfirmationContent, item)
 			}
 		}
 		for _, bv := range programmeBusinessList {
@@ -151,11 +162,13 @@ func (r *Rectify) Get() {
 	success := err == nil && RectifyItem.Id != 0
 	r.Response.WriteJson(app.Response{
 		Data: entity.Rectify{
-			RectifyItem:       RectifyItem,
-			Programme:         Programme,
-			Draft:             DraftItem,
-			DraftContent:      DraftContent,
-			ProgrammeBusiness: ProgrammeBusiness,
+			RectifyItem:         RectifyItem,
+			Demand:              Demand.Content,
+			Suggest:             Suggest.Content,
+			Programme:           Programme,
+			Draft:               DraftItem,
+			ConfirmationContent: ConfirmationContent,
+			ProgrammeBusiness:   ProgrammeBusiness,
 		},
 		Status: app.Status{
 			Code:  0,
@@ -167,7 +180,7 @@ func (r *Rectify) Get() {
 
 func (r *Rectify) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	stateStr := reqData.GetString("state")

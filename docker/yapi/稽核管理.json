@@ -114,7 +114,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"测试审计方案五️\",\n    \"key\": \"方案类型2\",\n    \"queryDepartmentId\": 1,\n    \"queryDepartmentName\": \"\",\n    \"userId\": 2,\n    \"queryPointId\": 3,\n    \"queryPointName\": \"\",\n    \"purpose\": \"测试审计方案一目的\",\n    \"type\": \"审计方式2\",\n    \"startTime\": \"2018-10-10 10:10:10\",\n    \"endTime\": \"2018-10-10 11:10:10\",\n    \"planStartTime\": \"2018-10-12 10:10:10\",\n    \"planEndTime\": \"2018-10-13 10:10:10\",\n    \"state\": \"draft\",\n    \"basis\": [\n        {\n            \"programmeId\": 78,\n            \"clauseId\": 1,\n            \"content\": \"这是依据内容，自己填写的\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"clauseId\": 2,\n            \"content\": \"安顺市信用合作联社员工 违规行为积分管理实施细则\",\n            \"order\": 2\n        },\n        {\n            \"programmeId\": 78,\n            \"clauseId\": 0,\n            \"content\": \"普定县农村信用合作联社员工 违规行为积分管理实施细则\",\n            \"order\": 3\n        }\n    ],\n    \"content\": [\n        {\n            \"programmeId\": 78,\n            \"content\": \"这是方案主要内容1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"content\": \"这是方案主要内容2\",\n            \"order\": 2\n        }\n    ],\n    \"step\": [\n        {\n            \"programmeId\": 78,\n            \"type\": \"title\",\n            \"content\": \"这是方案实施步骤标题1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容1\",\n            \"order\": 2\n        },\n        {\n            \"programmeId\": 78,\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容2\",\n            \"order\": 3\n        }\n    ],\n    \"business\": [\n        {\n            \"programmeId\": 78,\n            \"type\": \"\",\n            \"content\": \"方案业务范围1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"type\": \"\",\n            \"content\": \"方案业务范围2\",\n            \"order\": 2\n        }\n    ],\n    \"emphases\": [\n        {\n            \"programmeId\": 78,\n            \"content\": \"方案重点1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"content\": \"方案重点2\",\n            \"order\": 2\n        }\n    ],\n    \"userList\": [\n        {\n            \"programmeId\": 78,\n            \"userId\": 1,\n            \"job\": \"人员职务1\",\n            \"jobName\": \"\",\n            \"title\": \"人员技术职称1\",\n            \"task\": \"员工分工1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"userId\": 2,\n            \"job\": \"人员职务2\",\n            \"jobName\": \"\",\n            \"title\": \"人员技术职称2\",\n            \"task\": \"员工分工2\",\n            \"order\": 2\n        }\n    ],\n    \"depExamines\": [],\n    \"adminExamine\": []\n}"
+							"raw": "{\n    \"title\": \"测试审计方案五️\",\n    \"key\": \"方案类型2\",\n    \"queryDepartmentId\": 1,\n    \"queryDepartmentName\": \"\",\n    \"userId\": 2,\n    \"queryPointId\": 3,\n    \"queryPointName\": \"\",\n    \"purpose\": \"测试审计方案一目的\",\n    \"type\": \"审计方式2\",\n    \"startTime\": \"2018-10-10\",\n    \"endTime\": \"2018-10-10\",\n    \"planStartTime\": \"2018-10-12\",\n    \"planEndTime\": \"2018-10-13\",\n    \"state\": \"draft\",\n    \"basis\": [\n        {\n            \"programmeId\": 78,\n            \"clauseId\": 1,\n            \"content\": \"这是依据内容，自己填写的\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"clauseId\": 2,\n            \"content\": \"安顺市信用合作联社员工 违规行为积分管理实施细则\",\n            \"order\": 2\n        },\n        {\n            \"programmeId\": 78,\n            \"clauseId\": 0,\n            \"content\": \"普定县农村信用合作联社员工 违规行为积分管理实施细则\",\n            \"order\": 3\n        }\n    ],\n    \"content\": [\n        {\n            \"programmeId\": 78,\n            \"content\": \"这是方案主要内容1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"content\": \"这是方案主要内容2\",\n            \"order\": 2\n        }\n    ],\n    \"step\": [\n        {\n            \"programmeId\": 78,\n            \"type\": \"title\",\n            \"content\": \"这是方案实施步骤标题1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容1\",\n            \"order\": 2\n        },\n        {\n            \"programmeId\": 78,\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容2\",\n            \"order\": 3\n        }\n    ],\n    \"business\": [\n        {\n            \"programmeId\": 78,\n            \"type\": \"\",\n            \"content\": \"方案业务范围1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"type\": \"\",\n            \"content\": \"方案业务范围2\",\n            \"order\": 2\n        }\n    ],\n    \"emphases\": [\n        {\n            \"programmeId\": 78,\n            \"content\": \"方案重点1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"content\": \"方案重点2\",\n            \"order\": 2\n        }\n    ],\n    \"userList\": [\n        {\n            \"programmeId\": 78,\n            \"userId\": 1,\n            \"job\": \"人员职务1\",\n            \"jobName\": \"\",\n            \"title\": \"人员技术职称1\",\n            \"task\": \"员工分工1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 78,\n            \"userId\": 2,\n            \"job\": \"人员职务2\",\n            \"jobName\": \"\",\n            \"title\": \"人员技术职称2\",\n            \"task\": \"员工分工2\",\n            \"order\": 2\n        }\n    ],\n    \"depExamines\": [],\n    \"adminExamine\": []\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/add",
@@ -151,7 +151,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n        \"id\": 73,\n        \"title\": \"方案19-改动-73--\",\n        \"key\": \"system\",\n        \"queryDepartmentId\": 1,\n        \"userId\": 2,\n        \"queryPointId\": 3,\n        \"purpose\": \"方案目的\",\n        \"type\": \"type\",\n        \"startTime\": \"2018-10-10 10:10:10\",\n        \"endTime\": \"2018-10-10 11:10:10\",\n        \"planStartTime\": \"2018-10-12 10:10:10\",\n        \"planEndTime\": \"2018-10-13 10:10:10\",\n        \"state\": \"draft\",\n        \"basis\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"clauseId\": 1,\n                \"content\": \"这是依据内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"clauseId\": 2,\n                \"content\": \"这是依据内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"content\": [\n            {\n                \"id\": 25,\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容1\",\n                \"order\": 1\n            },\n            {\n                \"programmeId\": 13,\n                \"content\": \"这是方案主要内容2+\",\n                \"order\": 2\n            }\n        ],\n        \"step\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"title\",\n                \"content\": \"这是方案实施步骤标题1+\",\n                \"order\": 1\n            },\n            {\n                \"id\": 27,\n                \"programmeId\": 13,\n                \"type\": \"content\",\n                \"content\": \"这是方案实施步骤内容1\",\n                \"order\": 2\n            }\n        ],\n        \"business\": [\n            {\n                \"programmeId\": 13,\n                \"type\": \"\",\n                \"content\": \"这\",\n                \"order\": 1\n            }\n        ],\n        \"emphases\": [\n            {\n                \"id\": 13,\n                \"programmeId\": 13,\n                \"content\": \"这1111\",\n                \"order\": 1\n            }\n        ],\n        \"userList\": [\n            {\n                \"userId\": 1,\n                \"job\": \"techer\",\n                \"jobName\": \"\",\n                \"title\": \"标题\",\n                \"task\": \"任务\",\n                \"order\": 1\n            },\n            {\n                \"userId\": 3,\n                \"job\": \"student\",\n                \"jobName\": \"\",\n                \"title\": \"标题2\",\n                \"task\": \"任务2\",\n                \"order\": 2\n            }\n        ]\n    }"
+							"raw": "{\n    \"id\": 73,\n    \"title\": \"方案19-改动-73--\",\n    \"key\": \"system\",\n    \"queryDepartmentId\": 1,\n    \"userId\": 2,\n    \"queryPointId\": 3,\n    \"purpose\": \"方案目的\",\n    \"type\": \"type\",\n    \"startTime\": \"2018-10-10\",\n    \"endTime\": \"2018-10-10\",\n    \"planStartTime\": \"2018-10-12\",\n    \"planEndTime\": \"2018-10-13\",\n    \"state\": \"draft\",\n    \"basis\": [\n        {\n            \"id\": 25,\n            \"programmeId\": 13,\n            \"clauseId\": 1,\n            \"content\": \"这是依据内容1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 13,\n            \"clauseId\": 2,\n            \"content\": \"这是依据内容2+\",\n            \"order\": 2\n        }\n    ],\n    \"content\": [\n        {\n            \"id\": 25,\n            \"programmeId\": 13,\n            \"content\": \"这是方案主要内容1\",\n            \"order\": 1\n        },\n        {\n            \"programmeId\": 13,\n            \"content\": \"这是方案主要内容2+\",\n            \"order\": 2\n        }\n    ],\n    \"step\": [\n        {\n            \"programmeId\": 13,\n            \"type\": \"title\",\n            \"content\": \"这是方案实施步骤标题1+\",\n            \"order\": 1\n        },\n        {\n            \"id\": 27,\n            \"programmeId\": 13,\n            \"type\": \"content\",\n            \"content\": \"这是方案实施步骤内容1\",\n            \"order\": 2\n        }\n    ],\n    \"business\": [\n        {\n            \"programmeId\": 13,\n            \"type\": \"\",\n            \"content\": \"这\",\n            \"order\": 1\n        }\n    ],\n    \"emphases\": [\n        {\n            \"id\": 13,\n            \"programmeId\": 13,\n            \"content\": \"这1111\",\n            \"order\": 1\n        }\n    ],\n    \"userList\": [\n        {\n            \"userId\": 1,\n            \"job\": \"techer\",\n            \"jobName\": \"\",\n            \"title\": \"标题\",\n            \"task\": \"任务\",\n            \"order\": 1\n        },\n        {\n            \"userId\": 3,\n            \"job\": \"student\",\n            \"jobName\": \"\",\n            \"title\": \"标题2\",\n            \"task\": \"任务2\",\n            \"order\": 2\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/programme/edit",
@@ -434,7 +434,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"projectName\": \"工作底稿2\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"contentList\": [\n        {\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
+							"raw": "{\n    \"projectName\": \"工作底稿2\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"queryStartTime\": \"2018-10-10\",\n    \"queryEndTime\": \"2018-10-10\",\n    \"state\": \"draft\",\n    \"adminUsers\": \"\",\n    \"queryUsers\": \"16,17\",\n    \"queryUserLeader\":\"16\",\n    \"fileIds\": \"30,400\",\n    \"contentList\": [\n        {\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/draft/add",
@@ -471,7 +471,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 23,\n    \"projectName\": \"工作底稿23-1\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"time\": \"2018-10-10 10:10:10\",\n    \"state\": \"draft\",\n    \"queryUsers\": \"12,13\",\n    \"adminUsers\": \"\",\n    \"inspectUsers\": \"16,17\",\n    \"fileIds\": \"30,400\",\n    \"contentList\": [\n        {\n            \"order\": 1,\n            \"type\": \"title\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是分类标题\"\n        },\n        {\n            \"id\": 37,\n            \"order\": 2,\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容-37\"\n        },\n        {\n            \"order\": 3,\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容-38\"\n        }\n    ]\n}"
+							"raw": "{\n    \"id\": 23,\n    \"projectName\": \"工作底稿23-1\",\n    \"programmeId\": 10,\n    \"queryDepartmentId\": 1,\n    \"departmentId\": 2,\n    \"number\": \"123\",\n    \"public\": 1,\n    \"queryStartTime\": \"2018-10-10\",\n    \"queryEndTime\": \"2018-10-10\",\n    \"state\": \"draft\",\n    \"adminUsers\": \"\",\n    \"queryUsers\": \"16,17\",\n    \"queryUserLeader\":\"16\",\n    \"fileIds\": \"30,400\",\n    \"contentList\": [\n        {\n            \"order\": 1,\n            \"type\": \"title\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是分类标题\"\n        },\n        {\n            \"id\": 37,\n            \"order\": 2,\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容-37\"\n        },\n        {\n            \"order\": 3,\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容-38\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/draft/edit",
@@ -553,7 +553,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/draft/get?id=23",
+							"raw": "http://192.168.1.20:8093/api/audit/draft/get?id=124",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -571,7 +571,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "23"
+									"value": "124"
 								}
 							]
 						}
@@ -640,7 +640,7 @@
 							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/introduction/list?rnd=1",
+							"raw": "http://192.168.1.20:8093/api/audit/introduction/list?rnd=10",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -658,7 +658,7 @@
 							"query": [
 								{
 									"key": "rnd",
-									"value": "1"
+									"value": "10"
 								}
 							]
 						},
@@ -747,6 +747,99 @@
 			]
 		},
 		{
+			"name": "审计通知",
+			"item": [
+				{
+					"name": "列表",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/auditNotice/list?rnd=10",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"auditNotice",
+								"list"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "10"
+								}
+							]
+						},
+						"description": "获取字典列表"
+					},
+					"response": []
+				},
+				{
+					"name": "获取",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/auditNotice/get?id=5",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"auditNotice",
+								"get"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "事实确认书",
 			"item": [
 				{
@@ -812,7 +905,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/confirmation/get?id=2",
+							"raw": "http://192.168.1.20:8093/api/audit/confirmation/get?id=25",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -830,7 +923,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "2"
+									"value": "25"
 								}
 							]
 						}
@@ -874,7 +967,7 @@
 					"response": []
 				},
 				{
-					"name": "设置依据",
+					"name": "编辑",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -887,7 +980,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 2,\n    \"basisIds\": \"129,130\"\n}"
+							"raw": "{\n    \"id\": 25,\n    \"basisIds\": \"146,147\",\n    \"users\": \"12,13\",\n    \"fileIds\": \"500\",\n    \"state\": \"draft\",\n    \"contentList\": [\n        {\n            \"type\": \"behavior\",\n            \"behaviorId\": 1,\n            \"behaviorContent\": \"这是选择的违规内容\"\n        },\n        {\n            \"type\": \"other\",\n            \"behaviorId\": 0,\n            \"behaviorContent\": \"这是自己填写的违规内容\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/confirmation/edit",
@@ -1096,7 +1189,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 11,\n    \"state\": \"publish\",\n    \"behaviorList\": [\n        {\n            \"id\": 3,\n            \"behaviorId\": 0,\n            \"content\": \"违规行为1-0\"\n        },\n        {\n            \"behaviorId\": 0,\n            \"content\": \"违规行为2\"\n        }\n    ]\n}"
+							"raw": "{\n    \"id\": 11,\n    \"basisClauseId\": \"1\",\n    \"state\": \"publish\",\n    \"behaviorList\": [\n        {\n            \"id\": 3,\n            \"behaviorId\": 0,\n            \"content\": \"违规行为1-0\"\n        },\n        {\n            \"behaviorId\": 0,\n            \"content\": \"违规行为2\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/edit",
@@ -1132,7 +1225,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 11,\n    \"score\": 1000,\n    \"state\": \"publish\"\n}"
+							"raw": "{\n    \"id\": 11,\n    \"score\": 1000,\n    \"money\": 1100,\n    \"state\": \"publish\"\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/punishNotice/edit_score",
@@ -1333,7 +1426,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 5,\n    \"state\": \"publish\",\n    \"suggest\":\"这是建议或者意见的内容1\"\n}"
+							"raw": "{\n    \"id\": 5,\n    \"lastTime\":\"2019-01-10\",\n    \"state\": \"publish\",\n    \"suggest\":\"这是建议或者意见的内容1\",\n    \"demand\":\"这是整改要求\"\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/rectify/edit",
@@ -1377,7 +1470,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://192.168.1.20:8093/api/audit/rectifyReport/get?rectifyId=5",
+							"raw": "http://192.168.1.20:8093/api/audit/rectifyReport/get?rectifyId=50",
 							"protocol": "http",
 							"host": [
 								"192",
@@ -1395,7 +1488,7 @@
 							"query": [
 								{
 									"key": "rectifyId",
-									"value": "5"
+									"value": "50"
 								}
 							]
 						}
@@ -1416,7 +1509,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"rectifyId\": 5,\n    \"state\": \"draft\",\n    \"fileIds\": \"473,472\",\n    \"contentList\": [\n        {\n            \"draftContentId\": 130,\n            \"content\": \"整改内容1\"\n        },\n        {\n            \"draftContentId\": 131,\n            \"content\": \"整改内容2\"\n        }\n    ]\n}"
+							"raw": "{\n    \"rectifyId\": 5,\n    \"state\": \"draft\",\n    \"fileIds\": \"473,472\",\n    \"contentList\": [\n        {\n            \"userIds\": \"1,2,3\",\n            \"time\": \"2018-10-01\",\n            \"draftContentId\": 130,\n            \"content\": \"整改内容1\"\n        },\n        {\n            \"userIds\": \"1,2,3\",\n            \"time\": \"2018-10-01\",\n            \"draftContentId\": 131,\n            \"content\": \"整改内容2\"\n        }\n    ]\n}"
 						},
 						"url": {
 							"raw": "http://192.168.1.20:8093/api/audit/rectifyReport/edit",
@@ -1818,6 +1911,396 @@
 							"query": [
 								{
 									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的年度积分",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_my_score_by_year?id=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_my_score_by_year"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的年度违规行为",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_my_behavior_by_year?id=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_my_behavior_by_year"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的年度事实确认书",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_my_confirmation_by_year?id=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_my_confirmation_by_year"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取我的年度惩罚通知书",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_my_punish_notice_by_year?id=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_my_punish_notice_by_year"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取年度违规行为与部门",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_violation_top_department?id=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_violation_top_department"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取明细",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/detailed?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"detailed"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取明细统计",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/detailed_total?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"detailed_total"
+							],
+							"query": [
+								{
+									"key": "rnd",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取单个工作底稿的人员扣分罚款统计",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_one_statistical_user?draftId=95",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_one_statistical_user"
+							],
+							"query": [
+								{
+									"key": "draftId",
+									"value": "95"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取前五个部门和违规行为",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"page\": {\n        \"page\":1,\n        \"size\":20\n    },\n    \"search\":{\n    \t\"projectName\":\"\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://192.168.1.20:8093/api/audit/statistical/get_top_department?rnd=1",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"1",
+								"20"
+							],
+							"port": "8093",
+							"path": [
+								"api",
+								"audit",
+								"statistical",
+								"get_top_department"
+							],
+							"query": [
+								{
+									"key": "rnd",
 									"value": "1"
 								}
 							]

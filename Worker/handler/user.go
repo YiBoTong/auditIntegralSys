@@ -41,7 +41,7 @@ func (u *User) Login() {
 	Departments := []entity.LoginUserDepartmentItem{}
 	RbacList := []entity2.RbacListItem{}
 
-	var err error = nil
+	err := error(nil)
 	if password == "" {
 		msg = "密码不能为空"
 	} else if userCode == "" {
@@ -211,7 +211,7 @@ func (u *User) Password() {
 	rows := 0
 	userId := util.GetUserIdByRequest(u.Cookie)
 
-	var err error = nil
+	err := error(nil)
 	var userInfo ss_entity.LoginInfo
 
 	if !check.PasswordLen(newPd) {

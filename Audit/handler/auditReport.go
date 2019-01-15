@@ -4,6 +4,7 @@ import (
 	"auditIntegralSys/Audit/check"
 	"auditIntegralSys/Audit/db/auditReport"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
@@ -56,13 +57,14 @@ func (r *AuditReport) editCall(id, todoUserId int, stateStr string, json gjson.J
 
 func (r *AuditReport) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.AuditReportListItem
+	rspData :=  []entity.AuditReportListItem{}
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
 	size := pager.GetInt("size")
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 
 	searchMap := g.Map{}
 	listSearchMap := g.Map{}
@@ -76,13 +78,14 @@ func (r *AuditReport) List() {
 		// title String
 		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_auditReport.Count(searchMap)
+	thisUserInfo, _ := db_user.GetUser(thisUserId)
+	count, err := db_auditReport.Count(thisUserInfo, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_auditReport.List(offset, size, listSearchMap)
+		listData, err = db_auditReport.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.AuditReportListItem{}
 			err = gconv.Struct(v, &item)
@@ -147,7 +150,7 @@ func (r *AuditReport) Get() {
 
 func (r *AuditReport) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	stateStr := reqData.GetString("state")

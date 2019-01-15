@@ -6,6 +6,7 @@ import (
 	"auditIntegralSys/Audit/db/integral"
 	"auditIntegralSys/Audit/db/punishNotice"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
@@ -46,6 +47,7 @@ func (r *PunishNotice) checkIdAndState(id int, state string) (bool, string) {
 
 func (r *PunishNotice) editCall(id, todoUserId int, stateStr string, json gjson.Json) (int, error) {
 	row := 0
+	basisClauseId := json.GetInt("basisClauseId")
 	behaviorList := json.GetJson("behaviorList")
 	BehaviorList := [2][]g.Map{}
 	editBehavior := map[string]interface{}{
@@ -69,7 +71,7 @@ func (r *PunishNotice) editCall(id, todoUserId int, stateStr string, json gjson.
 			itemMap["punish_notice_id"] = id
 			BehaviorList[index] = append(BehaviorList[index], itemMap)
 		})
-		row, err = db_punishNotice.EditBehavior(id, BehaviorList)
+		row, err = db_punishNotice.EditBehavior(id, basisClauseId, BehaviorList)
 	}
 	// 如果提交状态是发布则更新状态为稽核草稿
 	if punishNotice.Id != 0 && stateStr == state.Publish && err == nil {
@@ -81,10 +83,11 @@ func (r *PunishNotice) editCall(id, todoUserId int, stateStr string, json gjson.
 func (r *PunishNotice) editScoreCall(id, todoUserId int, stateStr string, json gjson.Json) (int, error) {
 	row := 0
 	score := json.GetInt("score")
+	money := json.GetInt("money")
 	// 只有稽核草稿状态的才能编辑分数
 	punishNotice, err := db_punishNotice.Get(id, g.Map{"pn.state": "jh_" + state.Draft})
 	if punishNotice.Id != 0 {
-		row, err = db_punishNotice.EditScore(id, todoUserId, score)
+		row, err = db_punishNotice.EditScore(id, todoUserId, score, money)
 	}
 	// 如果提交状态是发布则更新状态为领导待签署状态（稽核发布）
 	if punishNotice.Id != 0 && stateStr == state.Publish && err == nil {
@@ -106,7 +109,7 @@ func (r *PunishNotice) editAuthorCall(id int, stateStr string) (int, error) {
 
 func (r *PunishNotice) editNumberCall(id int, stateStr string, json gjson.Json) (int, error) {
 	row := 0
-	var err error = nil
+	err := error(nil)
 	number := json.GetString("number")
 	where := g.Map{"state": "bgs_" + state.Draft}
 	// 如果提交状态是发布则更新状态为发布状态
@@ -121,7 +124,8 @@ func (r *PunishNotice) editNumberCall(id int, stateStr string, json gjson.Json) 
 
 func (r *PunishNotice) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.PunishNoticeItem
+	rspData := []entity.PunishNoticeItem{}
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -133,20 +137,22 @@ func (r *PunishNotice) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"project_name": "string",
+		"project_name":        "string",
+		"query_department_id": "int",
 	}
 
 	for k, v := range searchItem {
 		// title String
-		util.GetSearchMapByReqJson(searchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_punishNotice.Count(searchMap)
+	thisUserInfo, _ := db_user.GetUser(thisUserId)
+	count, err := db_punishNotice.Count(thisUserInfo, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_punishNotice.List(offset, size, listSearchMap)
+		listData, err = db_punishNotice.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.PunishNoticeItem{}
 			err = gconv.Struct(v, &item)
@@ -271,7 +277,7 @@ func (r *PunishNotice) Get() {
 // 填写违规行为
 func (r *PunishNotice) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	stateStr := reqData.GetString("state")
@@ -300,7 +306,7 @@ func (r *PunishNotice) Edit() {
 // 稽核编辑分数
 func (r *PunishNotice) Edit_score() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	stateStr := reqData.GetString("state")
@@ -329,7 +335,7 @@ func (r *PunishNotice) Edit_score() {
 // 领导发布
 func (r *PunishNotice) Edit_author() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	stateStr := reqData.GetString("state")
@@ -358,7 +364,7 @@ func (r *PunishNotice) Edit_author() {
 // 办公室填写文件号后发布
 func (r *PunishNotice) Edit_number() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	stateStr := reqData.GetString("state")

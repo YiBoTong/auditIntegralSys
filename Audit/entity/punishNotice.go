@@ -19,7 +19,12 @@ type PunishNoticeItem struct {
 	PlanStartTime       string `db:"plan_start_time" json:"planStartTime" field:"plan_start_time"`
 	PlanEndTime         string `db:"plan_end_time" json:"planEndTime" field:"plan_end_time"`
 	UpdateTime          string `db:"update_time" json:"updateTime" field:"update_time"`
-	Time                string `db:"time" json:"time" field:"time"`
+	QueryStartTime      string `db:"query_start_time" json:"queryStartTime" field:"query_start_time"`
+	QueryEndTime        string `db:"query_end_time" json:"queryEndTime" field:"query_end_time"`
+	BasisClauseId       int    `db:"basis_clause_id" json:"basisClauseId" field:"basis_clause_id"`
+	BasisClauseTitle    string `db:"basis_clause_title" json:"basisClauseTitle" field:"basis_clause_title"`
+	BasisClauseNumber   string `db:"basis_clause_number" json:"basisClauseNumber" field:"basis_clause_number"`
+	AuthorId            int    `db:"author_id" json:"authorId" field:"author_id"`
 	State               string `db:"state" json:"state" field:"state"`
 }
 
@@ -41,6 +46,7 @@ type PunishNoticeBasisBehaviorItem struct {
 
 type PunishNoticeScore struct {
 	Score int `db:"score" json:"score" field:"score"` // 本次扣分
+	Money int `db:"money" json:"money" field:"money"` // 本次罚款金额
 }
 
 type PunishNoticeWidthScore struct {
@@ -51,6 +57,7 @@ type PunishNoticeWidthScore struct {
 	CognizanceUserId int    `db:"cognizance_user_id" json:"cognizanceUserId" field:"cognizance_user_id"` // 处罚人员ID
 	UpdateTime       string `db:"update_time" json:"updateTime" field:"update_time"`                     // 处罚时间
 	Score            int    `db:"score" json:"score" field:"score"`                                      // 本次扣分
+	Money            int    `db:"money" json:"money" field:"money"`
 }
 
 type PunishNotice struct {
@@ -70,6 +77,7 @@ type PunishNoticeAccountabilityUserItem struct {
 	Time           string `db:"time" json:"time" field:"time"`
 	UpdateTime     string `db:"update_time" json:"updateTime" field:"update_time"`
 	Score          int    `db:"score" json:"score" field:"score"`
+	Money          int    `db:"money" json:"money" field:"money"`
 }
 
 type PunishNoticeAccountabilityUserBehaviorItem struct {

@@ -5,6 +5,7 @@ import (
 	"auditIntegralSys/Audit/db/integral"
 	"auditIntegralSys/Audit/db/punishNotice"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
@@ -91,7 +92,8 @@ func (r *Integral) editAuthorCall(changeScoreId int, json gjson.Json) (int, erro
 
 func (r *Integral) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.IntegralListItem
+	rspData := []entity.IntegralListItem{}
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -103,21 +105,22 @@ func (r *Integral) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"project_name": "string",
-		"state":        "string",
+		"project_name":        "string",
+		"query_department_id": "string",
 	}
 
 	for k, v := range searchItem {
 		// title String
-		util.GetSearchMapByReqJson(searchMap, *search, "i."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "i."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_integral.Count(searchMap)
+	thisUserInfo, _ := db_user.GetUser(thisUserId)
+	count, err := db_integral.Count(thisUserInfo, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_integral.List(offset, size, listSearchMap)
+		listData, err = db_integral.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.IntegralListItem{}
 			err = gconv.Struct(v, &item)
@@ -189,7 +192,7 @@ func (r *Integral) Get() {
 
 func (r *Integral) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeEdit(id, *reqData)
@@ -215,7 +218,7 @@ func (r *Integral) Edit() {
 
 func (r *Integral) Edit_author() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	changeScoreId := reqData.GetInt("changeScoreId")
 	checkRes, msg := r.beforeEditAuthor(changeScoreId, *reqData)

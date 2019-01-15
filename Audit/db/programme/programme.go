@@ -2,15 +2,23 @@ package db_programme
 
 import (
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Audit/fun"
 	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"fmt"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
+	"gitee.com/johng/gf/g/util/gconv"
 	"strings"
+	"time"
 )
 
 func add(tx *gdb.TX, data g.Map) (int, error) {
+	programme, _ := GetLastOne()
+	year := time.Now().Year()
+	number := fun.CreateNumber(programme.Year, programme.Number)
+	data["year"] = year
+	data["number"] = number
 	res, err := tx.Table(table.Programme).Data(data).Insert()
 	id, _ := res.LastInsertId()
 	return int(id), err
@@ -29,23 +37,54 @@ func edit(tx *gdb.TX, id int, data g.Map, where ...g.Map) (int64, error) {
 	return row, err
 }
 
-func Count(where g.Map) (int, error) {
-	db := g.DB()
-	sql := db.Table(table.Programme).Where("`delete`=?", 0)
+func getListSql(db gdb.DB, authorId int, where g.Map) *gdb.Model {
+	sql := db.Table(table.Programme + " p")
+	sql.Where("p.delete=?", 0)
+	// 查询自己和别人已发布的数据
+	stateStr := state.Publish
+	if where["state"] != nil && where["state"] != "" {
+		stateStr = gconv.String(where["state"])
+		sql.And("(p.author_id=? OR (p.author_id!=? AND (p.state=? OR p.state=?)))", authorId, authorId, stateStr, state.Publish)
+		delete(where, "state")
+	} else {
+		sql.And("(p.author_id=? OR (p.author_id!=? AND p.state=?))", authorId, authorId, state.Publish)
+	}
+	// 标题模糊查询
+	if where["title"] != nil && where["title"] != "" {
+		// 查询自己和别人已发布的数据
+		likeVal := strings.Replace("%?%", "?", gconv.String(where["title"]), 1)
+		sql.And("p.title like ?", likeVal)
+		delete(where, "title")
+	}
+	// 时间区间
+	if where["start_time"] != nil && where["start_time"] != "" {
+		// 今天开始
+		sql.And("(p.start_time < ? OR p.start_time = ?)", where["start_time"], where["start_time"])
+		delete(where, "start_time")
+	}
+	// 时间区间
+	if where["end_time"] != nil && where["end_time"] != "" {
+		// 今天结束
+		sql.And("(p.end_time > ? OR p.end_time = ?)", where["end_time"], where["end_time"])
+		delete(where, "end_time")
+	}
+	sql.GroupBy("p.id")
 	if len(where) > 0 {
 		sql.And(where)
 	}
+	return sql
+}
+
+func Count(authorId int, where g.Map) (int, error) {
+	db := g.DB()
+	sql := getListSql(db, authorId, where)
 	r, err := sql.Count()
 	return r, err
 }
 
-func List(offset int, limit int, where g.Map) ([]map[string]interface{}, error) {
+func List(authorId, offset, limit int, where g.Map) (g.List, error) {
 	db := g.DB()
-	sql := db.Table(table.Programme + " p")
-	sql.Where("p.delete=?", 0)
-	if len(where) > 0 {
-		sql.And(where)
-	}
+	sql := getListSql(db, authorId, where)
 	r, err := sql.Limit(offset, limit).OrderBy("p.id desc").Select()
 	return r.ToList(), err
 }
@@ -203,4 +242,14 @@ func Del(id int) (int, error) {
 		_ = tx.Rollback()
 	}
 	return int(rows), err
+}
+
+func GetLastOne() (entity.ProgrammeItem, error) {
+	db := g.DB()
+	confirmation := entity.ProgrammeItem{}
+	sql := db.Table(table.Programme).Where("`delete`=?", 0)
+	sql.OrderBy("id desc")
+	r, err := sql.One()
+	_ = r.ToStruct(&confirmation)
+	return confirmation, err
 }

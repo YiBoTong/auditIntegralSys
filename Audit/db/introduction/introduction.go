@@ -37,6 +37,7 @@ func GetList(authorId, offset, limit int, where g.Map) (g.List, error) {
 	fields := []string{
 		"d.*,i.id",
 		"i.number",
+		"i.year",
 		"p.title as programme_title",
 		"dd.name as department_name",
 		"qdd.name as query_department_name",
@@ -57,6 +58,14 @@ func Add(data g.Map) (int, error) {
 func GetByDraftId(draftId int) (entity.IntroductionItem, error) {
 	db := g.DB()
 	res, err := db.Table(table.Introduction).Where("draft_id=? AND `delete`=?", draftId, 0).One()
+	introductionItem := entity.IntroductionItem{}
+	_ = res.ToStruct(&introductionItem)
+	return introductionItem, err
+}
+
+func GetLast() (entity.IntroductionItem, error) {
+	db := g.DB()
+	res, err := db.Table(table.Introduction).Where("`delete`=?", 0).OrderBy("id desc").One()
 	introductionItem := entity.IntroductionItem{}
 	_ = res.ToStruct(&introductionItem)
 	return introductionItem, err

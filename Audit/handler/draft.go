@@ -4,11 +4,13 @@ import (
 	"auditIntegralSys/Audit/check"
 	"auditIntegralSys/Audit/db/draft"
 	"auditIntegralSys/Audit/entity"
+	"auditIntegralSys/Org/db/user"
 	"auditIntegralSys/Worker/db/file"
 	entity2 "auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/table"
 	"auditIntegralSys/_public/util"
 	"fmt"
@@ -52,10 +54,11 @@ func (r *Draft) beforeAdd(json gjson.Json) (bool, string) {
 }
 
 func (r *Draft) addCall(json gjson.Json) (int, error) {
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	reqContent := json.GetJson("contentList")
 	queryUsers := json.GetString("queryUsers")
+	queryUserLeader := json.GetInt("queryUserLeader")
 	adminUsers := json.GetString("adminUsers")
-	inspectUsers := json.GetString("inspectUsers")
 	fileIds := json.GetString("fileIds")
 
 	add := map[string]interface{}{
@@ -65,7 +68,8 @@ func (r *Draft) addCall(json gjson.Json) (int, error) {
 		"department_id":       "int",
 		"number":              "string",
 		"public":              "uint8",
-		"time":                "string",
+		"query_start_time":    "string",
+		"query_end_time":      "string",
 		"state":               "string",
 		"update_time":         "nowTime", // 当前时间
 	}
@@ -77,7 +81,9 @@ func (r *Draft) addCall(json gjson.Json) (int, error) {
 		"behavior_content": "string",
 	}
 
-	draft := g.Map{}
+	draft := g.Map{
+		"author_id": thisUserId,
+	}
 	contentList := []g.Map{}
 
 	util.GetSqlMap(json, add, draft)
@@ -90,9 +96,8 @@ func (r *Draft) addCall(json gjson.Json) (int, error) {
 	fmt.Println(contentList)
 	fmt.Println(adminUsers)
 	fmt.Println(queryUsers)
-	fmt.Println(inspectUsers)
 
-	id, err := db_draft.Add(draft, contentList, queryUsers, adminUsers, inspectUsers, fileIds)
+	id, err := db_draft.Add(draft, contentList, queryUserLeader, queryUsers, adminUsers, fileIds)
 	return id, err
 }
 
@@ -108,7 +113,7 @@ func (r *Draft) stateCall(id int, json gjson.Json) (int, error) {
 	stateMap := g.Map{}
 	util.GetSqlMap(json, state, stateMap)
 	row := 0
-	var err error = nil
+	err := error(nil)
 	// 只有草稿的数据才能上报
 	if stateMap["state"] == check.D_publish { // 发布
 		row, err = db_draft.Publish(id)
@@ -131,8 +136,8 @@ func (r *Draft) beforeEdit(id int, json gjson.Json) (bool, string) {
 func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
 	reqContent := json.GetJson("contentList")
 	queryUsers := json.GetString("queryUsers")
+	queryUserLeader := json.GetInt("queryUserLeader")
 	adminUsers := json.GetString("adminUsers")
-	inspectUsers := json.GetString("inspectUsers")
 	fileIds := json.GetString("fileIds")
 
 	add := map[string]interface{}{
@@ -142,7 +147,8 @@ func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
 		"department_id":       "int",
 		"number":              "string",
 		"public":              "uint8",
-		"time":                "string",
+		"query_start_time":    "string",
+		"query_end_time":      "string",
 		"state":               "string",
 		"update_time":         "nowTime", // 当前时间
 	}
@@ -157,7 +163,7 @@ func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
 
 	where := g.Map{
 		// 只有草稿状态可以被修改
-		"state IN (?)": g.Slice{check.P_draft},
+		"state IN (?)": g.Slice{state.Draft},
 	}
 
 	draft := g.Map{}
@@ -177,16 +183,15 @@ func (r *Draft) editCall(id int, json gjson.Json) (int, error) {
 	fmt.Println(contentList)
 	fmt.Println(adminUsers)
 	fmt.Println(queryUsers)
-	fmt.Println(inspectUsers)
 
-	rows, err := db_draft.Edit(id, draft, contentList, queryUsers, adminUsers, inspectUsers, fileIds, where)
+	rows, err := db_draft.Edit(id, draft, contentList, queryUserLeader, queryUsers, adminUsers, fileIds, where)
 
 	return rows, err
 }
 
 func (r *Draft) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.DraftItem
+	rspData := []entity.DraftItem{}
 	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
@@ -199,21 +204,23 @@ func (r *Draft) List() {
 	listSearchMap := g.Map{}
 
 	searchItem := map[string]interface{}{
-		"project_name": "string",
-		"state":        "string",
+		"project_name":        "string",
+		"state":               "string",
+		"query_department_id": "int",
 	}
 
 	for k, v := range searchItem {
 		// title String
 		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "d."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_draft.Count(thisUserId, searchMap)
+	thisUserInfo, _ := db_user.GetUser(thisUserId)
+	count, err := db_draft.Count(thisUserInfo, searchMap)
 	if err == nil && offset <= count {
-		var listData []map[string]interface{}
-		listData, err = db_draft.List(thisUserId, offset, size, listSearchMap)
+		listData := g.List{}
+		listData, err = db_draft.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.DraftItem{}
 			err = gconv.Struct(v, &item)
@@ -244,7 +251,7 @@ func (r *Draft) List() {
 
 func (r *Draft) Add() {
 	id := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	checkRes, msg := r.beforeAdd(*reqData)
 	if checkRes {
@@ -270,7 +277,6 @@ func (r *Draft) Get() {
 	id := r.Request.GetQueryInt("id")
 	ContentList := []entity.DraftContent{}
 	AdminUserList := []entity.DraftAdminUser{}
-	InspectUserList := []entity.DraftInspectUser{}
 	QueryUserList := []entity.DraftQueryUser{}
 	ReviewUserList := []entity.DraftReviewUser{}
 	FileList := []entity2.File{}
@@ -284,7 +290,6 @@ func (r *Draft) Get() {
 	if draft.Id != 0 {
 		contentList, _ := db_draft.GetContent(id)
 		adminUserList, _ := db_draft.GetAdminUser(id)
-		inspectUserList, _ := db_draft.GetInspectUser(id)
 		queryUserList, _ := db_draft.GetQueryUser(id)
 		reviewUserList, _ := db_draft.GetReviewUser(id)
 		fileList, _ := db_file.GetFilesByFrom(id, table.Draft)
@@ -300,13 +305,6 @@ func (r *Draft) Get() {
 			item := entity.DraftAdminUser{}
 			if ok := gconv.Struct(av, &item); ok == nil {
 				AdminUserList = append(AdminUserList, item)
-			}
-		}
-
-		for _, iv := range inspectUserList {
-			item := entity.DraftInspectUser{}
-			if ok := gconv.Struct(iv, &item); ok == nil {
-				InspectUserList = append(InspectUserList, item)
 			}
 		}
 
@@ -335,13 +333,12 @@ func (r *Draft) Get() {
 	success := err == nil && draft.Id != 0
 	r.Response.WriteJson(app.Response{
 		Data: entity.Draft{
-			DraftItem:       draft,
-			ContentList:     ContentList,
-			AdminUserList:   AdminUserList,
-			InspectUserList: InspectUserList,
-			QueryUserList:   QueryUserList,
-			ReviewUserList:  ReviewUserList,
-			FileList:        FileList,
+			DraftItem:      draft,
+			ContentList:    ContentList,
+			AdminUserList:  AdminUserList,
+			QueryUserList:  QueryUserList,
+			ReviewUserList: ReviewUserList,
+			FileList:       FileList,
 		},
 		Status: app.Status{
 			Code:  0,
@@ -354,7 +351,7 @@ func (r *Draft) Get() {
 // 创建者改变状态
 func (r *Draft) State() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeState(id, *reqData)
@@ -377,7 +374,7 @@ func (r *Draft) State() {
 
 func (r *Draft) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeEdit(id, *reqData)

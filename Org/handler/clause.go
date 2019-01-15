@@ -33,6 +33,7 @@ func (r *Clause) importCall(departmentId int, listArr g.SliceStr) (g.Map, g.List
 		"department_id": departmentId,
 		"title":         "",
 		"number":        "",
+		"from":          "",
 		"author_id":     util.GetUserIdByRequest(r.Cookie),
 		"update_time":   util.GetLocalNowTimeStr(),
 		"state":         state.Draft,
@@ -48,6 +49,10 @@ func (r *Clause) importCall(departmentId int, listArr g.SliceStr) (g.Map, g.List
 		}
 		if i == 1 {
 			add["number"] = v
+			continue
+		}
+		if i == 2 {
+			add["from"] = v
 			continue
 		}
 		titleLevel := ""
@@ -68,7 +73,7 @@ func (r *Clause) importCall(departmentId int, listArr g.SliceStr) (g.Map, g.List
 
 func (r *Clause) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.Clause
+	rspData := []entity.Clause{}
 	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
@@ -123,7 +128,7 @@ func (r *Clause) List() {
 }
 
 func (r *Clause) Search() {
-	var err error = nil
+	err := error(nil)
 	content := r.Request.GetString("content")
 	rspData := []entity.ClauseContent{}
 
@@ -153,7 +158,7 @@ func (r *Clause) Search() {
 }
 
 func (r *Clause) Title() {
-	var err error = nil
+	err := error(nil)
 	title := r.Request.GetString("title")
 	departmentId := r.Request.GetInt("departmentId")
 	rspData := []entity.ClauseTitle{}
@@ -191,7 +196,7 @@ func (r *Clause) Add() {
 	msg := ""
 	hasState := false
 	hasDepartment := false
-	var err error = nil
+	err := error(nil)
 	if departmentId > 0 {
 		// 检测是否部门是否存在
 		hasDepartment, msg, err = check.HasDepartment(departmentId)
@@ -361,7 +366,7 @@ func (r *Clause) State() {
 	id := reqData.GetInt("id")
 	state := reqData.GetString("state")
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	// 检测状态是否合法
 	hasState, msg := check.ClauseState(state).HasState()
 	if hasState {
@@ -395,7 +400,7 @@ func (r *Clause) Edit() {
 	rows := 0
 	hasState := false
 	hasDepartment := false
-	var err error = nil
+	err := error(nil)
 	if departmentId > 0 {
 		// 检测是否部门是否存在
 		hasDepartment, msg, err = check.HasDepartment(departmentId)

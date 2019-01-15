@@ -1,6 +1,6 @@
 package entity
 
-type IntroductionListItem struct {
+type AuditNoticeListItem struct {
 	Id                  int    `db:"id" json:"id" field:"id"`
 	ProgrammeId         int    `db:"programme_id" json:"programmeId" field:"programme_id"`
 	ProgrammeTitle      string `db:"programme_title" json:"programmeTitle" field:"programme_title"`
@@ -10,23 +10,26 @@ type IntroductionListItem struct {
 	DepartmentName      string `db:"department_name" json:"departmentName" field:"department_name"`
 	IntroductionId      int    `db:"introduction_id" json:"introductionId" field:"introduction_id"`
 	Year                int    `db:"year" json:"year" field:"year"`
-	Number              string `db:"number" json:"number" field:"number"`
+	Number              int    `db:"number" json:"number" field:"number"`
 	ProjectName         string `db:"project_name" json:"projectName" field:"project_name"`
 	Public              uint8  `db:"public" json:"public" field:"public"`
 	QueryStartTime      string `db:"query_start_time" json:"queryStartTime" field:"query_start_time"`
 	QueryEndTime        string `db:"query_end_time" json:"queryEndTime" field:"query_end_time"`
 	UpdateTime          string `db:"update_time" json:"updateTime" field:"update_time"`
+	AuthorId            int    `db:"author_id" json:"authorId" field:"author_id"`
+	State               string `db:"state" json:"state" field:"state"`
 }
 
-type IntroductionItem struct {
+type AuditNoticeItem struct {
 	Id      int `db:"id" json:"id" field:"id"`
 	DraftId int `db:"draft_id" json:"draftId" field:"draft_id"`
-	Number  int `db:"number" json:"number" field:"number"`
 	Year    int `db:"year" json:"year" field:"year"`
+	Number  int `db:"number" json:"number" field:"number"`
 }
 
-type Introduction struct {
-	IntroductionItem
-	UserList []DraftQueryUser `db:"user_list" json:"userList" field:"user_list"`
-	Draft    DraftItem        `db:"draft" json:"draft" field:"draft"`
+type AuditNotice struct {
+	AuditNoticeItem
+	Draft    DraftItem           `db:"draft" json:"draft" field:"draft"`
+	UserList []DraftQueryUser    `db:"user_list" json:"userList" field:"user_list"`
+	Business []ProgrammeBusiness `db:"business" json:"business" field:"business"`
 }

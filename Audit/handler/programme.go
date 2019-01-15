@@ -7,11 +7,13 @@ import (
 	"auditIntegralSys/_public/app"
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
+	"auditIntegralSys/_public/state"
 	"auditIntegralSys/_public/util"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/encoding/gjson"
 	"gitee.com/johng/gf/g/frame/gmvc"
 	"gitee.com/johng/gf/g/util/gconv"
+	"time"
 )
 
 type Programme struct {
@@ -48,6 +50,7 @@ func (r *Programme) beforeAdd(json gjson.Json) (bool, string) {
 }
 
 func (r *Programme) addCall(json gjson.Json) (int, error) {
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	reqBasis := json.GetJson("basis")
 	reqContent := json.GetJson("content")
 	reqStep := json.GetJson("step")
@@ -100,7 +103,9 @@ func (r *Programme) addCall(json gjson.Json) (int, error) {
 		"order":   "int",
 	}
 
-	programme := g.Map{}
+	programme := g.Map{
+		"author_id": thisUserId,
+	}
 	basis := []g.Map{}
 	content := []g.Map{}
 	step := []g.Map{}
@@ -219,7 +224,7 @@ func (r *Programme) editCall(id int, json gjson.Json) (int, error) {
 	userList := [2][]g.Map{}
 
 	rows := 0
-	var err error = nil
+	err := error(nil)
 
 	util.GetSqlMap(json, editProgramme, programme)
 
@@ -304,12 +309,15 @@ func (r *Programme) beforeDepExamine(id int, json gjson.Json) (bool, string) {
 }
 
 func (r *Programme) depExamineCall(id int, json gjson.Json) (int, error) {
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	state := map[string]interface{}{
 		"state":           "string",
 		"content":         "string",
 		"programme_id:id": "int",
 	}
-	stateMap := g.Map{}
+	stateMap := g.Map{
+		"user_id": thisUserId,
+	}
 	util.GetSqlMap(json, state, stateMap)
 	programmeState := stateMap["state"]
 	if programmeState == check.P_adopt {
@@ -334,12 +342,15 @@ func (r *Programme) beforeAdminExamine(id int, json gjson.Json) (bool, string) {
 }
 
 func (r *Programme) adminExamineCall(id int, json gjson.Json) (int, error) {
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	state := map[string]interface{}{
 		"state":           "string",
 		"content":         "string",
 		"programme_id:id": "int",
 	}
-	stateMap := g.Map{}
+	stateMap := g.Map{
+		"user_id": thisUserId,
+	}
 	util.GetSqlMap(json, state, stateMap)
 	programmeState := stateMap["state"]
 	if programmeState == check.P_adopt {
@@ -360,7 +371,8 @@ func (r *Programme) adminExamineCall(id int, json gjson.Json) (int, error) {
 
 func (r *Programme) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.ProgrammeItem
+	rspData := []entity.ProgrammeItem{}
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -380,13 +392,13 @@ func (r *Programme) List() {
 		// title String
 		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "p."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_programme.Count(searchMap)
+	count, err := db_programme.Count(thisUserId, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_programme.List(offset, size, listSearchMap)
+		listData, err = db_programme.List(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
 			programmeItem := entity.ProgrammeItem{}
 			err = gconv.Struct(v, &programmeItem)
@@ -417,7 +429,8 @@ func (r *Programme) List() {
 
 func (r *Programme) Select() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.ProgrammeSelectItem
+	rspData := []entity.ProgrammeSelectItem{}
+	thisUserId := util.GetUserIdByRequest(r.Cookie)
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -425,25 +438,34 @@ func (r *Programme) Select() {
 	offset := (page - 1) * size
 	search := reqData.GetJson("search")
 
-	searchMap := g.Map{}
-	listSearchMap := g.Map{}
+	today := time.Now().Format("2006-01-02")
+
+	searchMap := g.Map{
+		"state":      state.Publish,
+		"start_time": today,
+		"end_time":   today,
+	}
+	listSearchMap := g.Map{
+		"state":      state.Publish,
+		"start_time": today,
+		"end_time":   today,
+	}
 
 	searchItem := map[string]interface{}{
 		"title": "string",
-		"state": "string",
 	}
 
 	for k, v := range searchItem {
 		// title String
 		util.GetSearchMapByReqJson(searchMap, *search, k, gconv.String(v))
 		// p.title:title String
-		util.GetSearchMapByReqJson(listSearchMap, *search, "p."+k+":"+k, gconv.String(v))
+		util.GetSearchMapByReqJson(listSearchMap, *search, k, gconv.String(v))
 	}
 
-	count, err := db_programme.Count(searchMap)
+	count, err := db_programme.Count(thisUserId, searchMap)
 	if err == nil && offset <= count {
 		var listData []map[string]interface{}
-		listData, err = db_programme.List(offset, size, listSearchMap)
+		listData, err = db_programme.List(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
 			programmeItem := entity.ProgrammeSelectItem{}
 			err = gconv.Struct(v, &programmeItem)
@@ -474,7 +496,7 @@ func (r *Programme) Select() {
 
 func (r *Programme) Add() {
 	id := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	checkRes, msg := r.beforeAdd(*reqData)
 	if checkRes {
@@ -603,7 +625,7 @@ func (r *Programme) Get() {
 
 func (r *Programme) Edit() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeEdit(id, *reqData)
@@ -630,7 +652,7 @@ func (r *Programme) Edit() {
 // 创建者改变状态
 func (r *Programme) State() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeState(id, *reqData)
@@ -654,7 +676,7 @@ func (r *Programme) State() {
 // 部门负责人审核
 func (r *Programme) Dep_examine() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeDepExamine(id, *reqData)
@@ -678,7 +700,7 @@ func (r *Programme) Dep_examine() {
 // 分管领导审核
 func (r *Programme) Admin_examine() {
 	rows := 0
-	var err error = nil
+	err := error(nil)
 	reqData := r.Request.GetJson()
 	id := reqData.GetInt("id")
 	checkRes, msg := r.beforeAdminExamine(id, *reqData)

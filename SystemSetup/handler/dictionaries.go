@@ -18,7 +18,7 @@ type Dictionaries struct {
 
 func (c *Dictionaries) List() {
 	reqData := c.Request.GetJson()
-	var rspData []entity.DictionaryType
+	rspData := []entity.DictionaryType{}
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")

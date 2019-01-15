@@ -6,13 +6,16 @@ type AuditReportListItem struct {
 	ProgrammeTitle  string `db:"programme_title" json:"programmeTitle" field:"programme_title"`
 	StartTime       string `db:"start_time" json:"startTime" field:"start_time"`
 	EndTime         string `db:"end_time" json:"endTime" field:"end_time"`
-	Time            string `db:"time" json:"time" field:"time"`
+	QueryStartTime  string `db:"query_start_time" json:"queryStartTime" field:"query_start_time"`
+	QueryEndTime    string `db:"query_end_time" json:"queryEndTime" field:"query_end_time"`
 	UpdateTime      string `db:"update_time" json:"updateTime" field:"update_time"`
 	DraftId         int    `db:"draft_id" json:"draftId" field:"draft_id"`
 	ProjectName     string `db:"project_name" json:"projectName" field:"project_name"`
-	Number          string `db:"number" json:"number" field:"number"`
+	Year            int    `db:"year" json:"year" field:"year"`
+	Number          int    `db:"number" json:"number" field:"number"`
 	ConfirmationId  int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
 	RectifyReportId int    `db:"rectify_report_id" json:"rectifyReportId" field:"rectify_report_id"`
+	AuthorId        int    `db:"author_id" json:"authorId" field:"author_id"`
 	State           string `db:"state" json:"state" field:"state"`
 }
 
@@ -22,6 +25,8 @@ type AuditReportItem struct {
 	DraftId         int    `db:"draft_id" json:"draftId" field:"draft_id"`
 	ConfirmationId  int    `db:"confirmation_id" json:"confirmationId" field:"confirmation_id"`
 	RectifyReportId int    `db:"rectify_report_id" json:"rectifyReportId" field:"rectify_report_id"`
+	Year            int    `db:"year" json:"year" field:"year"`
+	Number          int    `db:"number" json:"number" field:"number"`
 	State           string `db:"state" json:"state" field:"state"`
 }
 

@@ -35,7 +35,7 @@ func GetAllMenu(parentId int, queryIsUse bool) ([]entity.Menus, error) {
 					Time:     gconv.String(cv["time"]),
 					IsUse:    gconv.Bool(cv["is_use"]),
 					Meta: entity.Meta{
-						Id:       gconv.Int(cv["id"]),
+						Id:      gconv.Int(cv["id"]),
 						Title:   gconv.String(cv["title"]),
 						Icon:    gconv.String(cv["icon"]),
 						NoCache: gconv.Bool(cv["no_cache"]),
@@ -56,7 +56,7 @@ func GetAllMenu(parentId int, queryIsUse bool) ([]entity.Menus, error) {
 				Time:     gconv.String(v["time"]),
 				IsUse:    gconv.Bool(v["is_use"]),
 				Meta: entity.Meta{
-					Id:       gconv.Int(v["id"]),
+					Id:      gconv.Int(v["id"]),
 					Title:   gconv.String(v["title"]),
 					Icon:    gconv.String(v["icon"]),
 					NoCache: gconv.Bool(v["no_cache"]),
@@ -74,38 +74,29 @@ func GetAllMenuRbac(parentId int, key string) ([]rbacEntity.Rbacs, error) {
 
 	menuList, err := db_rbac.Get(key, parentId)
 	for _, v := range menuList {
-		var childMenu []rbacEntity.Rbac
-		var childList []map[string]interface{}
+		childMenu := []rbacEntity.Rbac{}
+		childList := []map[string]interface{}{}
 		menuId := gconv.Int(v["id"])
 		if gconv.Bool(v["has_child"]) {
 			childList, err = db_rbac.Get(key, menuId)
 			for _, cv := range childList {
-				childMenu = append(childMenu, rbacEntity.Rbac{
-					Id:       gconv.Int(cv["rid"]),
-					Key:      gconv.String(cv["key"]),
-					Title:    gconv.String(cv["title"]),
-					MenuId:   gconv.Int(cv["id"]),
-					HasChild: gconv.Bool(cv["has_child"]),
-					IsRead:   gconv.Bool(cv["is_read"]),
-					IsWrite:  gconv.Bool(cv["is_write"]),
-				})
+				item := rbacEntity.Rbac{}
+				if ok := gconv.Struct(cv, &item); ok == nil {
+					childMenu = append(childMenu, item)
+				}
 			}
 		}
 		if err != nil {
 			break
 		}
-		allMenu = append(allMenu, rbacEntity.Rbacs{
-			Rbac: rbacEntity.Rbac{
-				Id:       gconv.Int(v["rid"]),
-				Key:      gconv.String(v["key"]),
-				Title:    gconv.String(v["title"]),
-				MenuId:   menuId,
-				HasChild: gconv.Bool(v["has_child"]),
-				IsRead:   gconv.Bool(v["is_read"]),
-				IsWrite:  gconv.Bool(v["is_write"]),
-			},
-			Children: childMenu,
-		})
+		item := rbacEntity.Rbac{}
+		if ok := gconv.Struct(v, &item); ok == nil {
+			menuItem := rbacEntity.Rbacs{
+				Rbac:     item,
+				Children: childMenu,
+			}
+			allMenu = append(allMenu, menuItem)
+		}
 	}
 	return allMenu, err
 }
@@ -132,7 +123,7 @@ func GetRbacMenu(parentId int, key g.Slice) ([]entity.RbacMenus, error) {
 						Time:     gconv.String(cv["time"]),
 						IsUse:    gconv.Bool(cv["is_use"]),
 						Meta: entity.Meta{
-							Id:       gconv.Int(cv["id"]),
+							Id:      gconv.Int(cv["id"]),
 							Title:   gconv.String(cv["title"]),
 							Icon:    gconv.String(cv["icon"]),
 							NoCache: gconv.Bool(cv["no_cache"]),
@@ -159,7 +150,7 @@ func GetRbacMenu(parentId int, key g.Slice) ([]entity.RbacMenus, error) {
 					Time:     gconv.String(v["time"]),
 					IsUse:    gconv.Bool(v["is_use"]),
 					Meta: entity.Meta{
-						Id:       gconv.Int(v["id"]),
+						Id:      gconv.Int(v["id"]),
 						Title:   gconv.String(v["title"]),
 						Icon:    gconv.String(v["icon"]),
 						NoCache: gconv.Bool(v["no_cache"]),

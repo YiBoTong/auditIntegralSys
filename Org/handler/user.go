@@ -64,7 +64,7 @@ func (r *User) importCall(departmentId int, xlsxRows [][]string) (g.List, g.Slic
 
 func (r *User) List() {
 	reqData := r.Request.GetJson()
-	var rspData []entity.User
+	rspData := []entity.User{}
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
