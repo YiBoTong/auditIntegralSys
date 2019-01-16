@@ -73,6 +73,7 @@ func (c *Dictionaries) List() {
 
 func (c *Dictionaries) Add() {
 	reqData := c.Request.GetJson()
+	thisUserId := util.GetUserIdByRequest(c.Cookie)
 	reqDictionaries := reqData.GetJson("dictionaries")
 
 	var dictionaries []g.Map
@@ -81,7 +82,7 @@ func (c *Dictionaries) Add() {
 		"key":         reqData.GetString("key"),
 		"title":       reqData.GetString("title"),
 		"is_use":      gconv.Int(reqData.GetBool("isUse")),
-		"user_id":     reqData.GetInt("userId"),
+		"user_id":     thisUserId,
 		"update_time": util.GetLocalNowTimeStr(),
 		"describe":    reqData.GetString("describe"),
 	}
@@ -154,6 +155,7 @@ func (c *Dictionaries) Get() {
 func (c *Dictionaries) Edit() {
 	reqData := c.Request.GetJson()
 	typeId := reqData.GetInt("id")
+	thisUserId := util.GetUserIdByRequest(c.Cookie)
 	reqDictionaries := reqData.GetJson("dictionaries")
 
 	var addDictionaries []g.Map
@@ -164,7 +166,7 @@ func (c *Dictionaries) Edit() {
 		"key":         reqData.GetString("key"),
 		"title":       reqData.GetString("title"),
 		"is_use":      gconv.Int(reqData.GetBool("isUse")),
-		"user_id":     reqData.GetInt("userId"),
+		"user_id":     thisUserId,
 		"update_time": util.GetLocalNowTimeStr(),
 		"describe":    reqData.GetString("describe"),
 	}

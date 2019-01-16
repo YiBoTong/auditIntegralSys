@@ -96,7 +96,7 @@ func AddByTX(Clause g.Map, content g.List, fileIds string) (int, error) {
 		}
 		_, err = AddClauseContentsTX(*tx, content)
 	}
-	if err == nil && len(fileIds) > 0 {
+	if err == nil {
 		_, err = db_file.UpdateFileByIds(table.Clause, fileIds, id, tx)
 	}
 	if err == nil {

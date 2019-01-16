@@ -50,7 +50,7 @@ func (r *User) importCall(departmentId int, xlsxRows [][]string) (g.List, g.Slic
 		}
 		sex := 0
 		sexVal := sexKeys[gconv.String(userItem["sex"])]
-		if sexVal != "" {
+		if sexVal != 0 && sexVal != nil {
 			userItem["sex"] = sexVal
 		} else {
 			userItem["sex"] = sex
@@ -172,48 +172,38 @@ func (r *User) Import() {
 	fileId := r.Request.GetQueryInt("fileId")
 	departmentId := r.Request.GetQueryInt("departmentId")
 	id := 0
-	msg := ""
 	errorCode := 0
 	file := entity2.File{}
 	xlsxRows := [][]string{}
 	HadUserList := []entity.User{}
-	var err error
-	if departmentId == 0 || departmentId == -1 {
-		departmentId = -1
-	} else {
-		// 检测是否部门是否存在
-		hasDepartment := false
-		hasDepartment, msg, err = check.HasDepartment(departmentId)
-		if !hasDepartment {
-			err = errors.New(msg)
+	hasDepartment, msg, err := check.HasDepartment(departmentId)
+	if hasDepartment {
+		if err == nil {
+			file, err = db_file.Get(fileId)
+		}
+		if err == nil && file.Id != 0 {
+			filePath := g.Config().GetString("filePath") + file.Path + file.FileName + "." + file.Suffix
+			if xlsxRegexp.MatchString(file.Suffix) {
+				xlsxRows, err = fun.ReadSpreadsheets(filePath, "人员导入模版")
+			}
 		}
 	}
-	if err == nil {
-		file, err = db_file.Get(fileId)
-	}
-	if err == nil && file.Id != 0 {
-		filePath := g.Config().GetString("filePath") + file.Path + file.FileName + "." + file.Suffix
-		if xlsxRegexp.MatchString(file.Suffix) {
-			xlsxRows, err = fun.ReadSpreadsheets(filePath, "人员导入模版")
-		}
-	}
-	if err == nil {
-		if len(xlsxRows) > 1 {
-			addUsers, addUserCodes := r.importCall(departmentId, xlsxRows)
-			if len(addUsers) > 0 {
-				hasUserList := g.List{}
-				hasUserList, err = db_user.HasUserCodes(addUserCodes)
-				if len(hasUserList) == 0 && err == nil {
-					id, err = db_user.AddUser(addUsers)
-				} else {
-					for _, v := range hasUserList {
-						item := entity.User{}
-						if ok := gconv.Struct(v, &item); ok == nil {
-							HadUserList = append(HadUserList, item)
-						}
+
+	if err == nil && len(xlsxRows) > 0 {
+		addUsers, addUserCodes := r.importCall(departmentId, xlsxRows)
+		if len(addUsers) > 0 {
+			hasUserList := g.List{}
+			hasUserList, err = db_user.HasUserCodes(addUserCodes)
+			if len(hasUserList) == 0 && err == nil {
+				id, err = db_user.AddUser(addUsers)
+			} else {
+				for _, v := range hasUserList {
+					item := entity.User{}
+					if ok := gconv.Struct(v, &item); ok == nil {
+						HadUserList = append(HadUserList, item)
 					}
-					errorCode = 2
 				}
+				errorCode = 2
 			}
 		}
 	}

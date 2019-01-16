@@ -58,7 +58,7 @@ func GetUsers(offset int, limit int, where g.Map) ([]map[string]interface{}, err
 	db := g.DB()
 	sql := getListSql(db, where)
 	sql.Fields("u.*,d.name as department_name")
-	r, err := sql.Limit(offset, limit).OrderBy("u.user_id desc").Select()
+	r, err := sql.Limit(offset, limit).OrderBy("u.user_id asc").Select()
 	return r.ToList(), err
 }
 

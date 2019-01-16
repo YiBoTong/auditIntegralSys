@@ -26,7 +26,7 @@ func GetDepartmentUser(departmentId int) ([]map[string]interface{}, error) {
 	sql.Where("du.department_id=?", departmentId)
 	sql.And("u.delete=?", 0)
 	sql.And("du.delete=?", 0)
-	r, err := sql.OrderBy("du.id desc").All()
+	r, err := sql.OrderBy("du.id asc").All()
 	return r.ToList(), err
 }
 

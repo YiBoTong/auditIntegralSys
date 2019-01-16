@@ -11,6 +11,7 @@ import (
 	"auditIntegralSys/_public/config"
 	"auditIntegralSys/_public/log"
 	"auditIntegralSys/_public/state"
+	"auditIntegralSys/_public/table"
 	"auditIntegralSys/_public/util"
 	"errors"
 	"gitee.com/johng/gf/g"
@@ -39,20 +40,23 @@ func (r *Clause) importCall(departmentId int, listArr g.SliceStr) (g.Map, g.List
 		"state":         state.Draft,
 	}
 	addContent := g.List{}
-	for i, v := range listArr {
-		if v == "" {
+	for _, v := range listArr {
+		if v == "" && add["from"] == "" {
 			continue
 		}
-		if i == 0 {
-			add["title"] = v
+		if add["from"] == "" {
+			add["from"] = v
 			continue
 		}
-		if i == 1 {
+		if add["number"] == "" {
 			add["number"] = v
 			continue
 		}
-		if i == 2 {
-			add["from"] = v
+		if v == "" && add["title"] == "" {
+			continue
+		}
+		if add["title"] == "" {
+			add["title"] = v
 			continue
 		}
 		titleLevel := ""
@@ -335,7 +339,7 @@ func (r *Clause) Get() {
 	if clauseInfo.Id > 0 && err == nil {
 		var fileRes []map[string]interface{}
 		// 查询附件
-		fileRes, err = db_clause.GetClauseFile(clauseInfo.Id)
+		fileRes, err = db_file.GetFilesByFrom(clauseInfo.Id, table.Clause)
 		for _, v := range fileRes {
 			item := entity2.File{}
 			if ok := gconv.Struct(v, &item); ok == nil {
@@ -421,6 +425,7 @@ func (r *Clause) Edit() {
 		rows, err = db_clause.UpdateClause(clauseId, g.Map{
 			"department_id": departmentId,
 			"title":         reqData.GetString("title"),
+			"from":          reqData.GetString("from"),
 			"number":        reqData.GetString("number"),
 			"author_id":     util.GetUserIdByRequest(r.Cookie),
 			"update_time":   util.GetLocalNowTimeStr(),
@@ -463,8 +468,10 @@ func (r *Clause) Edit() {
 	}
 	// 添加附件
 	if err == nil && clauseId > 0 {
-		_, _ = db_clause.DelClauseFile(clauseId)
-		err = db_clause.AddClauseFiles(clauseId, reqData.GetString("fileIds"))
+		//_, _ = db_clause.DelClauseFile(clauseId)
+		//err = db_clause.AddClauseFiles(clauseId, reqData.GetString("fileIds"))
+		_, _ = db_file.DelFilesByFrom(clauseId, table.Clause)
+		_, err = db_file.UpdateFileByIds(table.Clause, reqData.GetString("fileIds"), clauseId)
 	}
 	if err != nil {
 		log.Instance().Errorfln("[Clause Edit]: %v", err)

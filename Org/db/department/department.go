@@ -19,7 +19,7 @@ func GetDepartmentsByParentId(parentId int, search g.Map) ([]map[string]interfac
 	if len(search) > 0 {
 		sql.And(search)
 	}
-	sql.OrderBy("id desc")
+	sql.OrderBy("id asc")
 	r, err := sql.All()
 	return r.ToList(), err
 }
