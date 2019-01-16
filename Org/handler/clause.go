@@ -298,6 +298,7 @@ func (r *Clause) Import() {
 		if len(listArr) > 0 {
 			addData, addContents := r.importCall(departmentId, listArr)
 			if len(addContents) > 0 {
+				addData["type"] = "other"
 				id, err = db_clause.ImportByTX(addData, addContents, fileId)
 			}
 		} else {
@@ -426,6 +427,7 @@ func (r *Clause) Edit() {
 			"department_id": departmentId,
 			"title":         reqData.GetString("title"),
 			"from":          reqData.GetString("from"),
+			"type":          reqData.GetString("type"),
 			"number":        reqData.GetString("number"),
 			"author_id":     util.GetUserIdByRequest(r.Cookie),
 			"update_time":   util.GetLocalNowTimeStr(),

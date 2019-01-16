@@ -125,7 +125,7 @@ func ImportByTX(Clause g.Map, content g.List, fileId int) (int, error) {
 		_, err = AddClauseContentsTX(*tx, content)
 	}
 	if err == nil {
-		_, err = db_file.UpdateFile(fileId, g.Map{"form_id": id, "form": table.Clause}, tx)
+		_, err = db_file.UpdateFileTX(fileId, g.Map{"form_id": id, "form": table.Clause}, tx)
 	}
 	if err == nil {
 		_ = tx.Commit()

@@ -3,7 +3,6 @@ package db_file
 import (
 	"auditIntegralSys/Worker/entity"
 	"auditIntegralSys/_public/table"
-	"database/sql"
 	"gitee.com/johng/gf/g"
 	"gitee.com/johng/gf/g/database/gdb"
 	"gitee.com/johng/gf/g/util/gconv"
@@ -29,24 +28,30 @@ func UpdateFileByIds(tbName, fileIds string, tbId int, tx ...*gdb.TX) (int, erro
 		for _, v := range fileIdArr {
 			fId := gconv.Int(v)
 			if fId != 0 {
-				row, _ = UpdateFile(fId, g.Map{"form": tbName, "form_id": tbId, "delete": 0}, tx...)
-				rows += row
+				if len(tx) > 0 {
+					row, _ = UpdateFileTX(fId, g.Map{"form": tbName, "form_id": tbId, "delete": 0}, tx[0])
+					rows += row
+				} else {
+					row, _ = UpdateFile(fId, g.Map{"form": tbName, "form_id": tbId, "delete": 0})
+					rows += row
+				}
 			}
 		}
 	}
 	return rows, err
 }
 
-func UpdateFile(fileId int, update g.Map, tx ...*gdb.TX) (int, error) {
+func UpdateFileTX(fileId int, update g.Map, tx ...*gdb.TX) (int, error) {
 	var rows int64 = 0
-	var r sql.Result
-	err := error(nil)
-	if len(tx) > 0 {
-		r, err = tx[0].Table(table.File).Where("id=?", fileId).Data(update).Update()
-	} else {
-		db := g.DB()
-		r, err = db.Table(table.File).Where("id=?", fileId).Data(update).Update()
-	}
+	r, err := tx[0].Table(table.File).Where("id=?", fileId).Data(update).Update()
+	rows, _ = r.RowsAffected()
+	return int(rows), err
+}
+
+func UpdateFile(fileId int, update g.Map) (int, error) {
+	var rows int64 = 0
+	db := g.DB()
+	r, err := db.Table(table.File).Where("id=?", fileId).Data(update).Update()
 	rows, _ = r.RowsAffected()
 	return int(rows), err
 }
