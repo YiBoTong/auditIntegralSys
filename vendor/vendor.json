@@ -511,6 +511,18 @@
 			"path": "gitee.com/johng/gf/third/gopkg.in/yaml.v2",
 			"revision": "0a1e0482681c946aa92711db8b0ee2f4d451f8f4",
 			"revisionTime": "2018-12-18T02:10:14Z"
+		},
+		{
+			"checksumSHA1": "tbI8u9lSyYD/KApZG0vpgsC4Tu0=",
+			"path": "github.com/360EntSecGroup-Skylar/excelize",
+			"revision": "055d3fadf289f98a1f3cae3fe5177ccc5ea3509d",
+			"revisionTime": "2019-01-06T16:04:03Z"
+		},
+		{
+			"checksumSHA1": "AcCbXEcukCAflj7OImys364ImXY=",
+			"path": "github.com/mohae/deepcopy",
+			"revision": "c48cc78d482608239f6c4c92a4abd87eb8761c90",
+			"revisionTime": "2017-09-29T03:49:55Z"
 		}
 	],
 	"rootPath": "auditIntegralSys"
