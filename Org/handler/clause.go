@@ -142,11 +142,8 @@ func (r *Clause) Search() {
 		// 查询内容
 		for _, v := range contentRes {
 			item := entity.ClauseContent{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

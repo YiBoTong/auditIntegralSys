@@ -123,11 +123,8 @@ func (r *Integral) List() {
 		listData, err = db_integral.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.IntegralListItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

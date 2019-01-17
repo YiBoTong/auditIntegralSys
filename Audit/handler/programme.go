@@ -401,11 +401,8 @@ func (r *Programme) List() {
 		listData, err = db_programme.List(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
 			programmeItem := entity.ProgrammeItem{}
-			err = gconv.Struct(v, &programmeItem)
-			if err == nil {
+			if ok := gconv.Struct(v, &programmeItem); ok == nil {
 				rspData = append(rspData, programmeItem)
-			} else {
-				break
 			}
 		}
 	}
@@ -468,11 +465,8 @@ func (r *Programme) Select() {
 		listData, err = db_programme.List(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
 			programmeItem := entity.ProgrammeSelectItem{}
-			err = gconv.Struct(v, &programmeItem)
-			if err == nil {
+			if ok := gconv.Struct(v, &programmeItem); ok == nil {
 				rspData = append(rspData, programmeItem)
-			} else {
-				break
 			}
 		}
 	}

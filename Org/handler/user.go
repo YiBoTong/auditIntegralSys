@@ -95,11 +95,8 @@ func (r *User) List() {
 		listData, err = db_user.GetUsers(offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.User{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

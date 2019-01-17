@@ -223,11 +223,8 @@ func (r *Draft) List() {
 		listData, err = db_draft.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.DraftItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

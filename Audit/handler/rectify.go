@@ -97,11 +97,8 @@ func (r *Rectify) List() {
 		listData, err = db_rectify.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.RectifyListItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

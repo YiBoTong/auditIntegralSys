@@ -79,8 +79,7 @@ func (r *Introduction) List() {
 		listData, err = db_introduction.GetList(thisUserId, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.IntroductionListItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
 			}
 		}

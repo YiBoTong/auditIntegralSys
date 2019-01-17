@@ -107,7 +107,7 @@ func (r *Confirmation) editCall(id int, json gjson.Json) (int, error) {
 	fmt.Println(contentList)
 	fmt.Println(users)
 
-	id, err := db_confirmation.Edit(id,thisUserId, state, contentList, users, basisIds, fileIds)
+	id, err := db_confirmation.Edit(id, thisUserId, state, contentList, users, basisIds, fileIds)
 	return id, err
 }
 
@@ -144,11 +144,8 @@ func (r *Confirmation) List() {
 		listData, err = db_confirmation.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.ConfirmationListItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

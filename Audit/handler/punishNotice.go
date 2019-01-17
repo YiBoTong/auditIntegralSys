@@ -155,11 +155,8 @@ func (r *PunishNotice) List() {
 		listData, err = db_punishNotice.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.PunishNoticeItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

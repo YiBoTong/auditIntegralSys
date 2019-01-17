@@ -56,11 +56,8 @@ func (r *Statistical) List() {
 		listData, err = db_auditReport.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.StatisticalListItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}
@@ -114,11 +111,8 @@ func (r *Statistical) Detailed() {
 		listData, err = db_statistical.DetailedList(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.StatisticalDetailedItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}

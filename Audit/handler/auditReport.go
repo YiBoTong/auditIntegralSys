@@ -57,7 +57,7 @@ func (r *AuditReport) editCall(id, todoUserId int, stateStr string, json gjson.J
 
 func (r *AuditReport) List() {
 	reqData := r.Request.GetJson()
-	rspData :=  []entity.AuditReportListItem{}
+	rspData := []entity.AuditReportListItem{}
 	// 分页
 	pager := reqData.GetJson("page")
 	page := pager.GetInt("page")
@@ -88,11 +88,8 @@ func (r *AuditReport) List() {
 		listData, err = db_auditReport.List(thisUserInfo, offset, size, listSearchMap)
 		for _, v := range listData {
 			item := entity.AuditReportListItem{}
-			err = gconv.Struct(v, &item)
-			if err == nil {
+			if ok := gconv.Struct(v, &item); ok == nil {
 				rspData = append(rspData, item)
-			} else {
-				break
 			}
 		}
 	}
