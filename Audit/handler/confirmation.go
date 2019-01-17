@@ -97,7 +97,7 @@ func (r *Confirmation) editCall(id int, json gjson.Json) (int, error) {
 
 	util.GetSqlMapItemFun(*reqContent, addContentList, func(itemMap g.Map) {
 		index := 1
-		if itemMap["id"] == nil {
+		if itemMap["id"] == nil  || itemMap["id"] == 0 {
 			index = 0
 		}
 		contentList[index] = append(contentList[index], itemMap)

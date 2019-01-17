@@ -158,14 +158,16 @@ func Edit(id, thisUserId int, stateStr string, content [2][]g.Map, users, basisI
 			userList := strings.Split(users, ",")
 			for _, v := range userList {
 				userId := gconv.Int(v)
-				if userId == 0 {
-					continue
+				if userId != 0 {
+					// 对每一个被检查人创建一个惩罚通知书
+					userIdArr = append(userIdArr, userId)
 				}
-				// 对每一个被检查人创建一个惩罚通知书
-				userIdArr = append(userIdArr, userId)
 			}
-			_, err = db_punishNotice.Add(*tx, confirmation.Id, confirmation.DraftId, userIdArr)
-			rows += 1
+			if len(userIdArr) > 0 {
+				_, err = db_punishNotice.Add(*tx, confirmation.Id, confirmation.DraftId, userIdArr)
+				rows += 1
+			}
+
 		}
 		if err == nil {
 			_, err = UpdateTX(tx, id, g.Map{"state": stateStr})

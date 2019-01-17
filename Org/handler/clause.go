@@ -189,6 +189,7 @@ func (r *Clause) Title() {
 func (r *Clause) Add() {
 	reqData := r.Request.GetJson()
 	thisUserId := util.GetUserIdByRequest(r.Cookie)
+	informType := reqData.GetInt("informType")
 	departmentId := reqData.GetInt("departmentId")
 	contentList := reqData.GetJson("content")
 	state := reqData.GetString("state")
@@ -198,7 +199,7 @@ func (r *Clause) Add() {
 	hasState := false
 	hasDepartment := false
 	err := error(nil)
-	if departmentId > 0 {
+	if departmentId > 0 && informType != 0 {
 		// 检测是否部门是否存在
 		hasDepartment, msg, err = check.HasDepartment(departmentId)
 	} else {
@@ -393,6 +394,7 @@ func (r *Clause) State() {
 func (r *Clause) Edit() {
 	reqData := r.Request.GetJson()
 	clauseId := reqData.GetInt("id")
+	informType := reqData.GetInt("informType")
 	departmentId := reqData.GetInt("departmentId")
 	contentList := reqData.GetJson("content")
 	cListLen := len(contentList.ToArray())
@@ -403,7 +405,7 @@ func (r *Clause) Edit() {
 	hasState := false
 	hasDepartment := false
 	err := error(nil)
-	if departmentId > 0 {
+	if departmentId > 0 && informType != 0 {
 		// 检测是否部门是否存在
 		hasDepartment, msg, err = check.HasDepartment(departmentId)
 	} else {
