@@ -1,5 +1,5 @@
 package config
 
 const (
-	LogPath = "F:/log"
+	LogPath = "D:/logs"
 )

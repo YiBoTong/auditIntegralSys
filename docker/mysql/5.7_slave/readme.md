@@ -24,13 +24,13 @@ MySQL Slave
 # 停止slave服务
 stop slave;
 # 主从配置
-change master to master_host='192.168.10.107', master_port=3310, master_user='slave', master_password='slavemima', master_log_file='mysql-bin.000005', master_log_pos=30511;
+change master to master_host='192.168.10.107', master_port=3310, master_user='slave', master_password='slave123', master_log_file='mysql-bin.000005', master_log_pos=30511;
 # 启动服务
 start slave;
 # 查看slave状态信息
 show slave status;
 # 创建开发者账号
-CREATE USER 'dev'@'%' IDENTIFIED BY 'ybt0005';
+CREATE USER 'dev'@'%' IDENTIFIED BY 'root123';
 # 设置开发者账号对所有数据库只读权限
 GRANT SELECT ON *.* TO 'dev'@'%';
 # 刷新权限
